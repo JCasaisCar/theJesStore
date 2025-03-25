@@ -1,0 +1,858 @@
+:root {
+    /* Definición de variables de color */
+    --rojo-brillante: #d7182b;  /* Rojo fuerte para botones y acciones */
+    --dorado: #ffd700;         /* Dorado para detalles premium */
+    --blanco-roto: #f7f7f7;    /* Blanco roto para los fondos */
+    --gris-oscuro: #333333;    /* Gris oscuro para textos y detalles */
+    --negro: #000000;          /* Negro para bordes y textos secundarios */
+    --azul-oscuro: #12477F;    /* Azul oscuro para la navbar y footer */
+    --azul-claro: #51C3F0;     /* Azul claro para hover en enlaces */
+    --naranja: #ff6f3c;        /* Naranja para hover en redes sociales */
+    --gris-claro: #F1F1F1;     /* Gris claro para el fondo */
+    --marron: #3E3636;         /* Marrón para el texto */
+    --verde: #27ae60;          /* Verde para botones de éxito */
+    --verde-oscuro: #1e8449;   /* Verde oscuro para hover en botones de éxito */
+    --naranja-oscuro: #d68910; /* Naranja oscuro para hover en botones de advertencia */
+    --rojo-oscuro: #b81526;    /* Rojo oscuro para hover en botones */
+    --rojo-peligro: #e74c3c;   /* Rojo para botones de eliminación */
+    --rojo-peligro-oscuro: #c0392b; /* Rojo oscuro para hover en botones de eliminación */
+    --gris-elegante: #6c757d;  /* Gris elegante para botones secundarios */
+    --gris-elegante-oscuro: #545b62; /* Gris oscuro para hover en botones secundarios */
+    --gris-borde: #ccc;        /* Gris para bordes */
+    --blanco-transparente: rgba(255, 255, 255, 0.3); /* Blanco transparente */
+    --blanco-transparente-hover: rgba(255, 255, 255, 0.1); /* Blanco transparente para hover */
+    --blanco-transparente-borde: rgba(255, 255, 255, 0.5); /* Blanco transparente para bordes */
+    --blanco-transparente-hover-borde: rgba(255, 255, 255, 0.7); /* Blanco transparente para hover en bordes */
+    --negro-transparente: rgba(0, 0, 0, 0.2); /* Negro transparente */
+    --negro-transparente-hover: rgba(0, 0, 0, 0.3); /* Negro transparente para hover */
+}
+
+/* Ajustes generales */
+html, body {
+    height: 100%; /* Altura completa */
+    display: flex; /* Usar flexbox */
+    flex-direction: column; /* Dirección de los elementos en columna */
+    margin: 0; /* Sin margen */
+    padding: 0; /* Sin padding */
+    font-family: 'Montserrat', sans-serif; /* Fuente Montserrat */
+    background-color: var(--gris-claro); /* Fondo gris claro */
+    color: var(--marron); /* Texto marrón */
+}
+
+/* Ajuste del contenedor principal para empujar el footer hacia abajo */
+.container {
+    flex: 1; /* Flexibilidad para ocupar el espacio disponible */
+}
+
+/* 🌟 NAVBAR */
+.navbar {
+    background-color: var(--azul-oscuro); /* Fondo azul oscuro */
+    padding: 10px 0; /* Padding vertical */
+}
+.navbar-brand {
+    font-family: 'Poppins', sans-serif; /* Fuente Poppins */
+    font-size: 22px; /* Tamaño de fuente */
+    font-weight: bold; /* Negrita */
+    color: var(--blanco-roto) !important; /* Color blanco roto */
+}
+.navbar-nav .nav-link {
+    color: var(--blanco-roto) !important; /* Color blanco roto */
+    font-size: 15px; /* Tamaño de fuente */
+    transition: color 0.3s; /* Transición de color */
+}
+.navbar-nav .nav-link:hover {
+    color: var(--rojo-brillante) !important; /* Color rojo brillante al pasar el cursor */
+}
+
+/* Botón de sesión */
+.navbar .btn {
+    font-size: 14px; /* Tamaño de fuente */
+    padding: 8px 12px; /* Padding */
+    transition: all 0.3s; /* Transición */
+    margin: 0 5px; /* Margen lateral */
+    height: 38px; /* Altura uniforme */
+}
+.navbar .btn:hover {
+    transform: scale(1.05); /* Escalar al pasar el cursor */
+    color: var(--rojo-brillante); /* Color rojo brillante al pasar el cursor */
+}
+
+/* 🌟 FOOTER MÁS COMPACTO Y ESTÉTICO */
+.footer-main {
+    background-color: var(--azul-oscuro); /* Fondo azul oscuro */
+    color: var(--blanco-roto); /* Texto blanco roto */
+    padding: 25px 0; /* Padding vertical */
+    text-align: center; /* Texto centrado */
+    width: 100%; /* Ancho completo */
+    margin-top: auto; /* Margen superior automático */
+}
+
+/* Ajustar títulos del footer */
+.footer-main h4 {
+    font-size: 1.2rem; /* Tamaño de fuente */
+    margin-bottom: 0.8rem; /* Margen inferior */
+    font-weight: bold; /* Negrita */
+}
+
+/* Información */
+.footer-info p {
+    font-size: 0.9rem; /* Tamaño de fuente */
+    opacity: 0.8; /* Opacidad */
+}
+
+/* Contacto */
+.footer-contact {
+    text-align: center; /* Texto centrado */
+}
+.footer-contact ul {
+    list-style: none; /* Sin estilo de lista */
+    padding: 0; /* Sin padding */
+    margin: 0; /* Sin margen */
+}
+.footer-contact li {
+    font-size: 0.9rem; /* Tamaño de fuente */
+    margin-bottom: 5px; /* Margen inferior */
+}
+
+/* Redes sociales */
+.social-links {
+    display: flex; /* Usar flexbox */
+    justify-content: center; /* Centrar horizontalmente */
+    gap: 10px; /* Espacio entre elementos */
+    margin-bottom: 10px; /* Margen inferior */
+}
+.social-links a {
+    display: inline-flex; /* Usar flexbox en línea */
+    align-items: center; /* Alinear verticalmente */
+    justify-content: center; /* Centrar horizontalmente */
+    width: 35px; /* Ancho */
+    height: 35px; /* Altura */
+    border-radius: 50%; /* Bordes redondeados */
+    background: var(--blanco-roto); /* Fondo blanco roto */
+    color: var(--azul-oscuro); /* Color azul oscuro */
+    font-size: 1rem; /* Tamaño de fuente */
+    transition: all 0.3s ease-in-out; /* Transición */
+}
+.social-links a:hover {
+    background: var(--rojo-brillante); /* Fondo rojo brillante al pasar el cursor */
+    color: var(--blanco-roto); /* Color blanco roto al pasar el cursor */
+}
+
+/* Mapa del sitio */
+.footer-social .btn-link {
+    color: var(--blanco-roto); /* Color blanco roto */
+    font-size: 0.9rem; /* Tamaño de fuente */
+    margin-top: 5px; /* Margen superior */
+    text-decoration: none; /* Sin subrayado */
+}
+
+.btn-link:hover {
+    color: var(--rojo-brillante); /* Color rojo brillante al pasar el cursor */
+    text-decoration: none; /* Sin subrayado */
+}
+
+.btn-link {
+    text-decoration: none; /* Sin subrayado */
+}
+
+/* Línea divisoria */
+.footer-divider {
+    width: 100%; /* Ancho completo */
+    height: 1px; /* Altura */
+    background: var(--blanco-transparente); /* Fondo blanco transparente */
+    margin: 10px 0; /* Margen vertical */
+}
+
+/* Derechos de autor */
+.footer-bottom {
+    font-size: 0.8rem; /* Tamaño de fuente */
+    opacity: 0.7; /* Opacidad */
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+    .footer-main {
+        padding: 20px 0; /* Padding vertical */
+    }
+    .footer-main h4 {
+        font-size: 1rem; /* Tamaño de fuente */
+    }
+    .footer-contact li,
+    .footer-info p {
+        font-size: 0.8rem; /* Tamaño de fuente */
+    }
+}
+
+/* Mapa del Sitio */
+.sitemap-list {
+    list-style: none; /* Sin estilo de lista */
+    padding: 0; /* Sin padding */
+    margin: 10px 0; /* Margen vertical */
+    text-align: center; /* Texto centrado */
+}
+
+.sitemap-list li {
+    margin-bottom: 5px; /* Margen inferior */
+}
+
+.sitemap-list a {
+    color: var(--blanco-roto); /* Color blanco roto */
+    text-decoration: none; /* Sin subrayado */
+    font-size: 1rem; /* Tamaño de fuente */
+    transition: color 0.3s ease-in-out, transform 0.2s; /* Transición */
+}
+
+.sitemap-list a:hover {
+    color: var(--rojo-brillante); /* Color rojo brillante al pasar el cursor */
+    transform: scale(1.05); /* Escalar al pasar el cursor */
+}
+
+/* Título "Mapa del Sitio" como texto normal */
+.footer-social .sitemap-title {
+    color: var(--blanco-roto); /* Color blanco roto */
+    font-size: 1rem; /* Tamaño de fuente */
+    font-weight: bold; /* Negrita */
+    margin-top: 10px; /* Margen superior */
+    cursor: pointer; /* Cursor de puntero */
+    display: inline-block; /* Mostrar en línea */
+    transition: color 0.3s ease-in-out; /* Transición */
+}
+
+.sitemap-title:hover {
+    color: var(--rojo-brillante); /* Color rojo brillante al pasar el cursor */
+}
+
+/* 🔹 Eliminar cualquier línea o borde en los iconos de redes sociales */
+.social-links a {
+    display: inline-flex; /* Usar flexbox en línea */
+    align-items: center; /* Alinear verticalmente */
+    justify-content: center; /* Centrar horizontalmente */
+    width: 40px; /* Ancho */
+    height: 40px; /* Altura */
+    border-radius: 50%; /* Bordes redondeados */
+    background: var(--blanco-roto); /* Fondo blanco roto */
+    color: var(--azul-oscuro); /* Color azul oscuro */
+    font-size: 1.4rem; /* Tamaño de fuente */
+    transition: all 0.3s ease-in-out; /* Transición */
+    text-decoration: none; /* Sin subrayado */
+    outline: none; /* Sin contorno */
+    border: none; /* Sin borde */
+}
+
+.social-links a:focus,
+.social-links a:active {
+    outline: none; /* Sin contorno al hacer clic */
+    border: none; /* Sin borde */
+    box-shadow: none; /* Sin sombra */
+}
+
+.social-links i {
+    margin: 0; /* Sin margen */
+    padding: 0; /* Sin padding */
+    line-height: 1; /* Altura de línea */
+}
+
+/* 🟢 Estilos para los modales */
+.modal-content {
+    border-radius: 10px; /* Bordes redondeados */
+    box-shadow: 0 4px 10px var(--negro-transparente); /* Sombra */
+}
+
+/* Estilos para los formularios en los modales */
+.modal-body form .form-control {
+    border-radius: 5px; /* Bordes redondeados */
+    padding: 10px; /* Padding */
+}
+
+/* 🟢 Botones de acción en los modales */
+.modal-footer .btn {
+    border-radius: 5px; /* Bordes redondeados */
+    padding: 10px 15px; /* Padding */
+}
+
+/* Estilos para la tabla de productos */
+.table {
+    background: var(--blanco-roto); /* Fondo blanco roto */
+    border-radius: 10px; /* Bordes redondeados */
+    overflow: hidden; /* Ocultar desbordamiento */
+}
+
+.table th {
+    background: var(--azul-oscuro); /* Fondo azul oscuro */
+    color: var(--blanco-roto); /* Color blanco roto */
+    font-weight: bold; /* Negrita */
+}
+
+.table td {
+    vertical-align: middle; /* Alinear verticalmente */
+}
+
+/* 🟢 Asegurar que los modales sean responsivos */
+@media (max-width: 576px) {
+    .modal-dialog {
+        max-width: 90%; /* Ancho máximo */
+    }
+}
+
+/* Asegurar que todas las tarjetas tengan la misma altura */
+.row {
+    display: flex; /* Usar flexbox */
+    flex-wrap: wrap; /* Permitir que los elementos se envuelvan */
+    align-items: stretch; /* Alinear verticalmente */
+}
+
+/* Establece la altura uniforme en todas las tarjetas */
+.card {
+    display: flex; /* Usar flexbox */
+    flex-direction: column; /* Dirección de los elementos en columna */
+    height: 100%; /* Altura completa */
+}
+
+/* Asegurar que el cuerpo de la tarjeta ocupe el espacio disponible */
+.card-body {
+    flex-grow: 1; /* Permitir que el contenido crezca */
+    display: flex; /* Usar flexbox */
+    flex-direction: column; /* Dirección de los elementos en columna */
+    justify-content: space-between; /* Espaciar los elementos uniformemente */
+}
+
+/* Asegurar que la imagen no deforme la tarjeta */
+.card-img-top {
+    height: 180px; /* Altura fija */
+    object-fit: cover; /* Ajustar la imagen sin deformarse */
+}
+
+.btn-reservar {
+    background-color: var(--rojo-brillante); /* Fondo rojo brillante */
+    border-color: var(--rojo-brillante); /* Borde rojo brillante */
+}
+
+.btn-reservar:hover {
+    background-color: var(--rojo-oscuro); /* Fondo rojo oscuro al pasar el cursor */
+    color: var(--rojo-brillante); /* Color rojo brillante al pasar el cursor */
+    border-color: var(--rojo-oscuro); /* Borde rojo oscuro al pasar el cursor */
+}
+
+/* 🎨 ESTILOS MEJORADOS PARA BOTONES */
+.btn-custom {
+    font-size: 1.1rem; /* Tamaño de fuente */
+    font-weight: 600; /* Negrita */
+    padding: 12px 18px; /* Padding */
+    border-radius: 8px; /* Bordes redondeados */
+    transition: all 0.3s ease-in-out; /* Transición */
+    display: flex; /* Usar flexbox */
+    align-items: center; /* Alinear verticalmente */
+    gap: 8px; /* Espacio entre elementos */
+    justify-content: center; /* Centrar horizontalmente */
+}
+
+/* 🔴 Botón principal en rojo */
+.btn-primary-custom {
+    background-color: var(--rojo-brillante); /* Fondo rojo brillante */
+    border: none; /* Sin borde */
+    color: var(--blanco-roto); /* Color blanco roto */
+}
+
+.btn-primary-custom:hover {
+    background-color: var(--rojo-oscuro); /* Fondo rojo oscuro al pasar el cursor */
+    color: var(--rojo-brillante); /* Color rojo brillante al pasar el cursor */
+    transform: translateY(-2px); /* Mover hacia arriba al pasar el cursor */
+    box-shadow: 0 4px 10px var(--negro-transparente); /* Sombra */
+}
+
+/* 🟡 Botón de advertencia (para edición) */
+.btn-warning-custom {
+    background-color: var(--naranja); /* Fondo naranja */
+    border: none; /* Sin borde */
+    color: var(--blanco-roto); /* Color blanco roto */
+}
+
+.btn-warning-custom:hover {
+    background-color: var(--naranja-oscuro); /* Fondo naranja oscuro al pasar el cursor */
+    color: var(--rojo-brillante); /* Color rojo brillante al pasar el cursor */
+    transform: translateY(-2px); /* Mover hacia arriba al pasar el cursor */
+    box-shadow: 0 4px 10px var(--negro-transparente); /* Sombra */
+}
+
+/* ⚪ Botón secundario (gris elegante) */
+.btn-secondary-custom {
+    background-color: var(--gris-elegante); /* Fondo gris elegante */
+    border: none; /* Sin borde */
+    color: var(--blanco-roto); /* Color blanco roto */
+}
+
+.btn-secondary-custom:hover {
+    background-color: var(--gris-elegante-oscuro); /* Fondo gris oscuro al pasar el cursor */
+    color: var(--rojo-brillante); /* Color rojo brillante al pasar el cursor */
+    transform: translateY(-2px); /* Mover hacia arriba al pasar el cursor */
+    box-shadow: 0 4px 10px var(--negro-transparente); /* Sombra */
+}
+
+.btn-secondary:hover {
+    color: var(--rojo-brillante); /* Color rojo brillante al pasar el cursor */
+}
+
+/* ❌ Botón de eliminación */
+.btn-danger-custom {
+    background-color: var(--rojo-peligro); /* Fondo rojo peligro */
+    border: none; /* Sin borde */
+    color: var(--blanco-roto); /* Color blanco roto */
+}
+
+.btn-danger-custom:hover {
+    background-color: var(--rojo-peligro-oscuro); /* Fondo rojo oscuro al pasar el cursor */
+    transform: translateY(-2px); /* Mover hacia arriba al pasar el cursor */
+    box-shadow: 0 4px 10px var(--negro-transparente); /* Sombra */
+}
+
+/* 🟢 Botón de éxito (verde) */
+.btn-success-custom {
+    background-color: var(--verde); /* Fondo verde */
+    border: none; /* Sin borde */
+    color: var(--blanco-roto); /* Color blanco roto */
+}
+
+.btn-success-custom:hover {
+    background-color: var(--verde-oscuro); /* Fondo verde oscuro al pasar el cursor */
+    color: var(--rojo-brillante); /* Color rojo brillante al pasar el cursor */
+    transform: translateY(-2px); /* Mover hacia arriba al pasar el cursor */
+    box-shadow: 0 4px 10px var(--negro-transparente); /* Sombra */
+}
+
+/* 📌 Estilos para los botones de reserva */
+.btn-reservar {
+    background-color: var(--rojo-brillante); /* Fondo rojo brillante */
+    border: none; /* Sin borde */
+    font-size: 1rem; /* Tamaño de fuente */
+    font-weight: bold; /* Negrita */
+}
+
+.btn-reservar:hover {
+    background-color: var(--rojo-oscuro); /* Fondo rojo oscuro al pasar el cursor */
+    color: var(--rojo-brillante); /* Color rojo brillante al pasar el cursor */
+    transform: translateY(-2px); /* Mover hacia arriba al pasar el cursor */
+}
+
+/* 📌 Añadir efecto al hacer clic */
+.btn-custom:active {
+    transform: scale(0.98); /* Escalar al hacer clic */
+}
+
+/* 🎨 Estilos mejorados para los botones en la navbar */
+.navbar .btn-custom {
+    font-size: 1rem; /* Tamaño de fuente */
+    font-weight: 600; /* Negrita */
+    padding: 10px 18px; /* Padding */
+    border-radius: 8px; /* Bordes redondeados */
+    transition: all 0.3s ease-in-out; /* Transición */
+    display: flex; /* Usar flexbox */
+    align-items: center; /* Alinear verticalmente */
+    gap: 8px; /* Espacio entre elementos */
+    justify-content: center; /* Centrar horizontalmente */
+}
+
+/* 📅 Botón de "Confirmar Reservas" (Amarillo) */
+.btn-reservas {
+    background-color: var(--naranja); /* Fondo naranja */
+    border: none; /* Sin borde */
+    color: var(--blanco-roto); /* Color blanco roto */
+}
+
+.btn-reservas:hover {
+    background-color: var(--naranja-oscuro); /* Fondo naranja oscuro al pasar el cursor */
+    color: var(--rojo-brillante); /* Color rojo brillante al pasar el cursor */
+    transform: translateY(-2px); /* Mover hacia arriba al pasar el cursor */
+    box-shadow: 0 4px 10px var(--negro-transparente); /* Sombra */
+}
+
+/* 🔴 Botón de "Cerrar Sesión" (Rojo) */
+.btn-logout {
+    background-color: var(--rojo-brillante); /* Fondo rojo brillante */
+    border: none; /* Sin borde */
+    color: var(--blanco-roto); /* Color blanco roto */
+}
+
+.btn-logout:hover {
+    background-color: var(--rojo-oscuro); /* Fondo rojo oscuro al pasar el cursor */
+    transform: translateY(-2px); /* Mover hacia arriba al pasar el cursor */
+    box-shadow: 0 4px 10px var(--negro-transparente); /* Sombra */
+}
+
+/* 🌍 Botón de cambio de idioma (Elegante) */
+.btn-language {
+    background-color: transparent; /* Fondo transparente */
+    border: 2px solid var(--blanco-transparente-borde); /* Borde blanco transparente */
+    color: var(--blanco-transparente-hover-borde); /* Color blanco transparente */
+    font-size: 0.9rem; /* Tamaño de fuente */
+    padding: 8px 14px; /* Padding */
+    transition: all 0.3s ease-in-out; /* Transición */
+}
+
+.btn-language:hover {
+    background-color: var(--blanco-transparente-hover); /* Fondo blanco transparente al pasar el cursor */
+    border-color: var(--blanco-roto); /* Borde blanco roto al pasar el cursor */
+    color: var(--rojo-brillante); /* Color rojo brillante al pasar el cursor */
+    color: var(--blanco-roto); /* Color blanco roto */
+}
+
+/* 🎨 Estilos generales para el formulario de contacto */
+.card {
+    border-radius: 12px; /* Bordes redondeados */
+    background: var(--blanco-roto); /* Fondo blanco roto */
+    border: none; /* Sin borde */
+}
+
+/* 📝 Estilos para los inputs y textarea */
+.input-custom {
+    border-radius: 8px; /* Bordes redondeados */
+    padding: 12px; /* Padding */
+    border: 2px solid var(--gris-borde); /* Borde gris */
+    transition: all 0.3s ease-in-out; /* Transición */
+}
+
+.input-custom:focus {
+    border-color: var(--rojo-brillante); /* Borde rojo brillante al enfocar */
+    box-shadow: 0 0 8px var(--negro-transparente); /* Sombra */
+}
+
+/* ✉️ Botón de enviar */
+.btn-submit {
+    background-color: var(--rojo-brillante); /* Fondo rojo brillante */
+    border: none; /* Sin borde */
+    color: var(--blanco-roto); /* Color blanco roto */
+    font-size: 1rem; /* Tamaño de fuente */
+    font-weight: bold; /* Negrita */
+    padding: 12px 20px; /* Padding */
+    border-radius: 8px; /* Bordes redondeados */
+    transition: all 0.3s ease-in-out; /* Transición */
+}
+
+.btn-submit:hover {
+    background-color: var(--rojo-oscuro); /* Fondo rojo oscuro al pasar el cursor */
+    transform: translateY(-2px); /* Mover hacia arriba al pasar el cursor */
+    box-shadow: 0 4px 10px var(--negro-transparente); /* Sombra */
+}
+
+/* 🎨 Botones personalizados para el panel del restaurante */
+.btn-custom {
+    font-size: 1.1rem; /* Tamaño de fuente */
+    font-weight: 600; /* Negrita */
+    padding: 12px 18px; /* Padding */
+    border-radius: 8px; /* Bordes redondeados */
+    transition: all 0.3s ease-in-out; /* Transición */
+    display: flex; /* Usar flexbox */
+    align-items: center; /* Alinear verticalmente */
+    gap: 8px; /* Espacio entre elementos */
+    justify-content: center; /* Centrar horizontalmente */
+}
+
+/* 🟡 Botón de "Editar Restaurante" */
+.btn-edit {
+    background-color: var(--naranja); /* Fondo naranja */
+    border: none; /* Sin borde */
+    color: var(--blanco-roto); /* Color blanco roto */
+}
+
+.btn-edit:hover {
+    background-color: var(--naranja-oscuro); /* Fondo naranja oscuro al pasar el cursor */
+    transform: translateY(-2px); /* Mover hacia arriba al pasar el cursor */
+    color: var(--rojo-brillante); /* Color rojo brillante al pasar el cursor */
+    box-shadow: 0 4px 10px var(--negro-transparente); /* Sombra */
+}
+
+/* 🔴 Botón de "Ir a Reservas" */
+.btn-reservas {
+    background-color: var(--rojo-brillante); /* Fondo rojo brillante */
+    border: none; /* Sin borde */
+    color: var(--blanco-roto); /* Color blanco roto */
+}
+
+.btn-reservas:hover {
+    background-color: var(--rojo-oscuro); /* Fondo rojo oscuro al pasar el cursor */
+    transform: translateY(-2px); /* Mover hacia arriba al pasar el cursor */
+    box-shadow: 0 4px 10px var(--negro-transparente); /* Sombra */
+}
+
+/* 🎨 Estilos generales del formulario */
+.card {
+    border-radius: 12px; /* Bordes redondeados */
+    background: var(--blanco-roto); /* Fondo blanco roto */
+    border: none; /* Sin borde */
+}
+
+/* 📝 Estilos para los inputs y textarea */
+.input-custom {
+    border-radius: 8px; /* Bordes redondeados */
+    padding: 12px; /* Padding */
+    border: 2px solid var(--gris-borde); /* Borde gris */
+    transition: all 0.3s ease-in-out; /* Transición */
+}
+
+.input-custom:focus {
+    border-color: var(--rojo-brillante); /* Borde rojo brillante al enfocar */
+    box-shadow: 0 0 8px var(--negro-transparente); /* Sombra */
+}
+
+/* 🖼️ Estilo para la previsualización de la imagen */
+.image-preview img {
+    max-width: 150px; /* Ancho máximo */
+    border-radius: 8px; /* Bordes redondeados */
+    box-shadow: 0 2px 6px var(--negro-transparente); /* Sombra */
+}
+
+/* ✉️ Botón de enviar */
+.btn-submit {
+    background-color: var(--rojo-brillante); /* Fondo rojo brillante */
+    border: none; /* Sin borde */
+    color: var(--blanco-roto); /* Color blanco roto */
+    font-size: 1rem; /* Tamaño de fuente */
+    font-weight: bold; /* Negrita */
+    padding: 12px 20px; /* Padding */
+    border-radius: 8px; /* Bordes redondeados */
+    transition: all 0.3s ease-in-out; /* Transición */
+}
+
+.btn-submit:hover {
+    background-color: var(--rojo-oscuro); /* Fondo rojo oscuro al pasar el cursor */
+    transform: translateY(-2px); /* Mover hacia arriba al pasar el cursor */
+    box-shadow: 0 4px 10px var(--negro-transparente); /* Sombra */
+}
+
+/* Hero Section con Parallax */
+.hero {
+    position: relative; /* Posición relativa */
+    background: url('../img/6.jpg') center/cover no-repeat fixed; /* Fondo con imagen */
+    display: flex; /* Usar flexbox */
+    flex-direction: column; /* Dirección de los elementos en columna */
+    justify-content: center; /* Centrar verticalmente */
+    align-items: center; /* Centrar horizontalmente */
+    z-index: 0; /* Índice z */
+    border-radius: 0; /* Sin bordes redondeados */
+}
+
+.hero-content {
+    background: var(--negro-transparente); /* Fondo negro transparente */
+    padding: 20px; /* Padding */
+    border-radius: 10px; /* Bordes redondeados */
+    text-align: center; /* Texto centrado */
+    z-index: 1; /* Índice z */
+}
+
+.hero h1 {
+    font-size: 3rem; /* Tamaño de fuente */
+    color: var(--dorado); /* Color dorado */
+}
+
+.hero p {
+    font-size: 1.4rem; /* Tamaño de fuente */
+    color: var(--blanco-roto); /* Color blanco roto */
+}
+
+.carousel-inner .carousel-item img {
+    width: 100%; /* Ancho completo */
+    height: 300px; /* Altura */
+    object-fit: contain; /* Ajustar la imagen sin deformarse */
+}
+
+#logo {
+    height: 60px; /* Altura */
+}
+
+/* Contenedor de los botones */
+.button-group {
+    display: flex; /* Usar flexbox */
+    flex-direction: column; /* Dirección de los elementos en columna */
+    align-items: center; /* Centrar horizontalmente */
+    gap: 10px; /* Espacio entre elementos */
+    width: 100%; /* Ancho completo */
+}
+
+/* Estilo uniforme para los botones */
+.button-group .btn {
+    width: 100%; /* Ancho completo */
+    max-width: 250px; /* Ancho máximo */
+    text-align: center; /* Texto centrado */
+}
+
+/* 🎨 ESTILOS PREMIUM PARA LOS MODALES */
+.modal-content {
+    border-radius: 12px; /* Bordes redondeados */
+    border: none; /* Sin borde */
+    background: var(--blanco-transparente); /* Fondo blanco transparente */
+    box-shadow: 0 10px 30px var(--negro-transparente-hover); /* Sombra */
+    backdrop-filter: blur(10px); /* Efecto vidrio esmerilado */
+    -webkit-backdrop-filter: blur(10px); /* Compatibilidad con Safari */
+    padding: 20px; /* Padding */
+    transition: all 0.3s ease-in-out; /* Transición */
+}
+
+/* 🔹 Mejorar el título del modal */
+.modal-header {
+    border-bottom: none; /* Sin borde inferior */
+    text-align: center; /* Texto centrado */
+}
+
+.modal-title {
+    font-size: 1.6rem; /* Tamaño de fuente */
+    font-weight: bold; /* Negrita */
+    color: var(--azul-oscuro); /* Color azul oscuro */
+}
+
+/* ❌ Botón de cerrar con diseño elegante */
+.modal-header .btn-custom {
+    background: none; /* Sin fondo */
+    border: none; /* Sin borde */
+    color: var(--rojo-brillante); /* Color rojo brillante */
+    font-size: 1.5rem; /* Tamaño de fuente */
+    transition: color 0.3s ease-in-out; /* Transición */
+}
+
+.modal-header .btn-custom:hover {
+    color: var(--rojo-oscuro); /* Color rojo oscuro al pasar el cursor */
+}
+
+/* 📝 Estilos para los inputs del formulario */
+.modal-body form .form-control {
+    border-radius: 8px; /* Bordes redondeados */
+    border: 2px solid var(--gris-borde); /* Borde gris */
+    transition: all 0.3s ease-in-out; /* Transición */
+    padding: 12px; /* Padding */
+}
+
+.modal-body form .form-control:focus {
+    border-color: var(--rojo-brillante); /* Borde rojo brillante al enfocar */
+    box-shadow: 0 0 10px var(--negro-transparente-hover); /* Sombra */
+}
+
+.form-select {
+    border-radius: 5px; /* Bordes redondeados */
+    border: 2px solid var(--gris-borde); /* Borde gris */
+}
+.form-select:focus {
+    border-color: var(--rojo-brillante); /* Borde rojo brillante al enfocar */
+}
+
+/* 🟢 Botones de acción dentro del modal */
+.modal-footer .btn-custom {
+    font-size: 1rem; /* Tamaño de fuente */
+    font-weight: 600; /* Negrita */
+    padding: 12px 18px; /* Padding */
+    border-radius: 8px; /* Bordes redondeados */
+    transition: all 0.3s ease-in-out; /* Transición */
+    display: flex; /* Usar flexbox */
+    align-items: center; /* Alinear verticalmente */
+    gap: 8px; /* Espacio entre elementos */
+    justify-content: center; /* Centrar horizontalmente */
+}
+
+/* ✅ Botón de confirmar */
+.btn-primary-custom {
+    background-color: var(--verde); /* Fondo verde */
+    border: none; /* Sin borde */
+    color: var(--blanco-roto); /* Color blanco roto */
+}
+
+.btn-primary:hover {
+    color: var(--rojo-brillante); /* Color rojo brillante al pasar el cursor */
+}
+
+.btn-primary-custom:hover {
+    background-color: var(--verde-oscuro); /* Fondo verde oscuro al pasar el cursor */
+    transform: translateY(-2px); /* Mover hacia arriba al pasar el cursor */
+    color: var(--rojo-brillante); /* Color rojo brillante al pasar el cursor */
+    box-shadow: 0 4px 10px var(--negro-transparente-hover); /* Sombra */
+}
+
+/* 🔴 Botón de cancelar */
+.btn-danger-custom {
+    background-color: var(--rojo-peligro); /* Fondo rojo peligro */
+    border: none; /* Sin borde */
+    color: var(--blanco-roto); /* Color blanco roto */
+}
+
+.btn-danger-custom:hover {
+    background-color: var(--rojo-peligro-oscuro); /* Fondo rojo oscuro al pasar el cursor */
+    transform: translateY(-2px); /* Mover hacia arriba al pasar el cursor */
+    box-shadow: 0 4px 10px var(--negro-transparente-hover); /* Sombra */
+}
+
+.form-control {
+    border-radius: 5px; /* Bordes redondeados */
+    border: 2px solid var(--gris-borde); /* Borde gris */
+}
+.form-control:focus {
+    border-color: var(--rojo-brillante); /* Borde rojo brillante al enfocar */
+}
+
+/* 🔴 Cambiar el color cuando se pasa el cursor */
+.pagination .page-link:hover {
+    color: var(--blanco-roto) !important; /* Rojo más oscuro en hover */
+    background-color: var(--rojo-oscuro) !important; /* Fondo blanco roto */
+}
+
+.boton-arriba {
+    text-decoration: none; /* Sin subrayado */
+    color: var(--rojo-brillante); /* Color rojo brillante */
+}
+
+.c1 {
+    position: relative; /* Posición relativa */
+    z-index: 1; /* Índice z */
+}
+
+.c2 {
+    max-width: 700px; /* Ancho máximo */
+    border-radius: 10px; /* Bordes redondeados */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Sombra */
+    overflow: hidden; /* Ocultar desbordamiento */
+}
+
+.ci {
+    object-fit: contain; /* Ajustar la imagen sin deformarse */
+    height: 500px; /* Altura */
+    width: 100%; /* Ancho completo */
+    margin: auto; /* Margen automático */
+}
+
+.sh {
+    min-height: 100vh; /* Altura mínima */
+    position: relative; /* Posición relativa */
+    overflow: hidden; /* Ocultar desbordamiento */
+}
+
+.fp {
+    position: absolute; /* Posición absoluta */
+    top: 0; /* Superior */
+    left: 0; /* Izquierda */
+    width: 100%; /* Ancho completo */
+    height: 100%; /* Altura completa */
+    background-image: url('../../img/paralax.png'); /* Fondo con imagen */
+    background-attachment: fixed; /* Fondo fijo */
+    background-size: cover; /* Cubrir */
+    background-position: center; /* Centrar */
+    z-index: -1; /* Índice z */
+}
+
+.rt {
+    position: absolute; /* Posición absoluta */
+    top: 0; /* Superior */
+    left: 0; /* Izquierda */
+    width: 100%; /* Ancho completo */
+    height: 100%; /* Altura completa */
+    background-color: rgba(169, 169, 169, 0.5); /* Fondo gris transparente */
+    z-index: 0; /* Índice z */
+}
+
+.ad {
+    max-width: 600px; /* Ancho máximo */
+    background: rgba(255, 255, 255, 0.9); /* Fondo blanco transparente */
+}
+
+.hi {
+    height: 40px; /* Altura */
+    margin-right: 10px; /* Margen derecho */
+}
+
+.hf {
+    display: none; /* No mostrar */
+}
