@@ -1,16 +1,12 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\CondicionesUsoController;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use App\Http\Controllers\ContactoController;
-use App\Http\Controllers\DondeEstamosController;
 use App\Http\Controllers\NosotrosController;
-use App\Http\Controllers\NuestraEmpresaController;
 use App\Http\Controllers\NuestraTiendaController;
-use App\Http\Controllers\ScheduleController;
 use Laravel\Fortify\Http\Controllers\AuthenticatedSessionController;
 use Laravel\Fortify\Http\Controllers\RegisteredUserController;
 use Laravel\Fortify\Http\Controllers\PasswordResetLinkController;
@@ -18,6 +14,17 @@ use Laravel\Fortify\Http\Controllers\NewPasswordController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\App;
+use App\Http\Controllers\FaqController;
+use App\Http\Controllers\CartController;
+use App\Http\Controllers\WishlistController;
+use App\Http\Controllers\TermsController;
+use App\Http\Controllers\PrivacyController;
+use App\Http\Controllers\CookiesController;
+use App\Http\Controllers\AddresController;
+use App\Http\Controllers\PayController;
+use App\Http\Controllers\ConfirmController;
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\HomeController;
 
 // Ruta página de inicio
 Route::get('/', function (Request $request) {
@@ -67,19 +74,35 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // Rutas de contacto (Solo users y restaurants)
     Route::middleware(['role:user,restaurant'])->group(function () {
         Route::get('/contacto', [ContactoController::class, 'index'])->name('contacto');
-        Route::post('/contacto/enviar', [ContactoController::class, 'enviarMensaje'])->name('contacto.enviar');
-        Route::get('/get-schedule', [ScheduleController::class, 'getSchedule'])->name('get-schedule');
-    });
+        Route::post('/contacto/enviar', [ContactoController::class, 'enviarMensaje'])->name('contacto.enviar');    });
 });
 
 // 🌎 Rutas públicas
 Route::get('/categories', fn(Request $request) => response()->json(Category::all()));
-Route::get('/', [ProductController::class, 'index'])->name('home');
+Route::get('/', [HomeController::class, 'index'])->name(name: 'home');
 Route::get('/nosotros', [NosotrosController::class, 'index'])->name('nosotros');
-Route::get('/empresa', [NuestraEmpresaController::class, 'index'])->name('empresa');
 Route::get('/tienda', [NuestraTiendaController::class, 'index'])->name('tienda');
-Route::get('/ubicacion', [DondeEstamosController::class, 'index'])->name(name: 'ubicacion');
 Route::get('/condiciones', [CondicionesUsoController::class, 'index'])->name(name: 'condiciones');
+
+
+Route::get('/faq', [FaqController::class, 'index'])->name(name: 'faq');
+Route::get('/cart', [CartController::class, 'index'])->name(name: 'cart');
+Route::get('/wishlist', [WishlistController::class, 'index'])->name(name: 'wishlist');
+Route::get('/terms', [TermsController::class, 'index'])->name(name: 'terms');
+Route::get('/privacy', [PrivacyController::class, 'index'])->name(name: 'privacy');
+Route::get('/cookies', [CookiesController::class, 'index'])->name(name: 'cookies');
+Route::get('/addres', [AddresController::class, 'index'])->name(name: 'addres');
+Route::get('/pay', action: [PayController::class, 'index'])->name(name: 'pay');
+Route::get('/confirm', action: [ConfirmController::class, 'index'])->name(name: 'confirm');
+Route::get('/admin', action: [AdminController::class, 'index'])->name(name: 'admin');
+
+
+Route::get('/privacidad')->name(name: 'privacidad');
+Route::get('/soporte')->name(name: 'soporte');
+
+
+// Ruta para mostrar categorías específicas
+Route::get('/categoria/{slug}')->name('categoria');
 
 
 // Redirección login según rol
@@ -91,5 +114,11 @@ Route::get('/home', function () {
         return redirect('/login')->with('message', 'Debes verificar tu correo antes de continuar.');
     }
 
-    return Auth::user()->role == 'restaurant' ? redirect()->route('schedules.index1') : redirect('/');
+    $role = Auth::user()->role;
+
+    return match ($role) {
+        'admin' => redirect()->route('admin'),
+        'user' => redirect('/'),
+        default => redirect('/'),
+    };
 })->name('home');

@@ -20,7 +20,7 @@
 
     @include('partials.header') <!-- Encabezado -->
 
-    <main class="{{ request()->routeIs('nosotros') ? 'p-0' : 'py-4' }}">
+    <main class="p-0">
         @yield('content') <!-- Contenido principal -->
     </main>
 
