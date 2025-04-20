@@ -82,7 +82,7 @@
             <!-- Producto 1 -->
             <div class="bg-white rounded-xl shadow-md overflow-hidden transform transition duration-300 hover:shadow-xl hover:-translate-y-1">
                 <div class="relative">
-                    <img src="{{ asset('images/products/phone-1.jpg') }}" alt="Smartphone Premium" class="w-full h-64 object-cover">
+                    <img src="{{ asset('images/products/phone-1.jpg') }}" alt="{{ __('smartphone_premium') }}" class="w-full h-64 object-cover">
                     <div class="absolute top-2 right-2">
                         <span class="bg-red-500 text-white text-xs font-bold px-2 py-1 rounded">-15%</span>
                     </div>
@@ -121,7 +121,7 @@
             <!-- Producto 2 -->
             <div class="bg-white rounded-xl shadow-md overflow-hidden transform transition duration-300 hover:shadow-xl hover:-translate-y-1">
                 <div class="relative">
-                    <img src="{{ asset('images/products/phone-2.jpg') }}" alt="Smartphone Android" class="w-full h-64 object-cover">
+                    <img src="{{ asset('images/products/phone-2.jpg') }}" alt="{{ __('smartphone_android') }}" class="w-full h-64 object-cover">
                     <div class="absolute top-2 right-2">
                         <span class="bg-green-500 text-white text-xs font-bold px-2 py-1 rounded">{{ __('nuevo') }}</span>
                     </div>
@@ -159,7 +159,7 @@
             <!-- Producto 3 -->
             <div class="bg-white rounded-xl shadow-md overflow-hidden transform transition duration-300 hover:shadow-xl hover:-translate-y-1">
                 <div class="relative">
-                    <img src="{{ asset('images/products/tablet-1.jpg') }}" alt="Tablet" class="w-full h-64 object-cover">
+                    <img src="{{ asset('images/products/tablet-1.jpg') }}" alt="{{ __('tablet') }}" class="w-full h-64 object-cover">
                     <button class="absolute top-2 left-2 bg-white p-2 rounded-full shadow-md hover:bg-gray-100 transition">
                         <i class="far fa-heart text-gray-600 hover:text-red-500"></i>
                     </button>
@@ -195,7 +195,7 @@
             <!-- Producto 4 -->
             <div class="bg-white rounded-xl shadow-md overflow-hidden transform transition duration-300 hover:shadow-xl hover:-translate-y-1">
                 <div class="relative">
-                    <img src="{{ asset('images/products/watch-1.jpg') }}" alt="Smartwatch" class="w-full h-64 object-cover">
+                    <img src="{{ asset('images/products/watch-1.jpg') }}" alt="{{ __('smartwatch') }}" class="w-full h-64 object-cover">
                     <div class="absolute top-2 right-2">
                         <span class="bg-blue-500 text-white text-xs font-bold px-2 py-1 rounded">{{ __('destacado') }}</span>
                     </div>
@@ -233,7 +233,7 @@
             <!-- Producto 5 -->
             <div class="bg-white rounded-xl shadow-md overflow-hidden transform transition duration-300 hover:shadow-xl hover:-translate-y-1">
                 <div class="relative">
-                    <img src="{{ asset('images/products/phone-3.jpg') }}" alt="Smartphone Android" class="w-full h-64 object-cover">
+                    <img src="{{ asset('images/products/phone-3.jpg') }}" alt="{{ __('smartphone_android') }}" class="w-full h-64 object-cover">
                     <button class="absolute top-2 left-2 bg-white p-2 rounded-full shadow-md hover:bg-gray-100 transition">
                         <i class="far fa-heart text-gray-600 hover:text-red-500"></i>
                     </button>
@@ -269,7 +269,7 @@
             <!-- Producto 6 -->
             <div class="bg-white rounded-xl shadow-md overflow-hidden transform transition duration-300 hover:shadow-xl hover:-translate-y-1">
                 <div class="relative">
-                    <img src="{{ asset('images/products/accessory-1.jpg') }}" alt="Auriculares" class="w-full h-64 object-cover">
+                    <img src="{{ asset('images/products/accessory-1.jpg') }}" alt="{{ __('auriculares') }}" class="w-full h-64 object-cover">
                     <div class="absolute top-2 right-2">
                         <span class="bg-orange-500 text-white text-xs font-bold px-2 py-1 rounded">{{ __('oferta') }}</span>
                     </div>
@@ -308,7 +308,7 @@
             <!-- Producto 7 -->
             <div class="bg-white rounded-xl shadow-md overflow-hidden transform transition duration-300 hover:shadow-xl hover:-translate-y-1">
                 <div class="relative">
-                    <img src="{{ asset('images/products/tablet-2.jpg') }}" alt="Tablet Android" class="w-full h-64 object-cover">
+                    <img src="{{ asset('images/products/tablet-2.jpg') }}" alt="{{ __('tablet_android') }}" class="w-full h-64 object-cover">
                     <button class="absolute top-2 left-2 bg-white p-2 rounded-full shadow-md hover:bg-gray-100 transition">
                         <i class="far fa-heart text-gray-600 hover:text-red-500"></i>
                     </button>
@@ -344,7 +344,7 @@
             <!-- Producto 8 -->
             <div class="bg-white rounded-xl shadow-md overflow-hidden transform transition duration-300 hover:shadow-xl hover:-translate-y-1">
                 <div class="relative">
-                    <img src="{{ asset('images/products/watch-2.jpg') }}" alt="Smartwatch" class="w-full h-64 object-cover">
+                    <img src="{{ asset('images/products/watch-2.jpg') }}" alt="{{ __('smartwatch') }}" class="w-full h-64 object-cover">
                     <div class="absolute top-2 right-2">
                         <span class="bg-green-500 text-white text-xs font-bold px-2 py-1 rounded">{{ __('nuevo') }}</span>
                     </div>

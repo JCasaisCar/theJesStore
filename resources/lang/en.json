@@ -354,5 +354,13 @@
   "descargar_factura": "Download invoice",
   "politica_devoluciones": "Return policy",
   "contactar_soporte": "Contact support",
-  "calidad_garantizada": "Guaranteed quality"
+  "calidad_garantizada": "Guaranteed quality",
+  "smartphone_premium": "Premium smartphone",
+  "smartphone_android": "Android smartphone",
+  "tablet": "Tablet",
+  "tablet_android": "Android tablet",
+  "smartwatch": "Smartwatch",
+  "auriculares": "Headphones",
+  "smartphone": "Smartphone",
+  "accesorio": "Accessory"
 }

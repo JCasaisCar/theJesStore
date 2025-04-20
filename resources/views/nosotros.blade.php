@@ -95,7 +95,7 @@
             <!-- Miembro 1 -->
             <div class="bg-white rounded-xl shadow-md overflow-hidden transform transition hover:scale-105 hover:shadow-lg">
                 <div class="relative">
-                    <img src="{{ asset('images/team/member1.jpg') }}" alt="Miembro del equipo" class="w-full h-64 object-cover">
+                    <img src="{{ asset('images/team/member1.jpg') }}" alt="{{ __('nombre_miembro1') }}" class="w-full h-64 object-cover">
                     <div class="absolute inset-0 bg-gradient-to-t from-blue-900 to-transparent opacity-70"></div>
                 </div>
                 <div class="p-4 text-center">
@@ -119,7 +119,7 @@
             <!-- Miembro 2 -->
             <div class="bg-white rounded-xl shadow-md overflow-hidden transform transition hover:scale-105 hover:shadow-lg">
                 <div class="relative">
-                    <img src="{{ asset('images/team/member2.jpg') }}" alt="Miembro del equipo" class="w-full h-64 object-cover">
+                    <img src="{{ asset('images/team/member2.jpg') }}" alt="{{ __('nombre_miembro2') }}" class="w-full h-64 object-cover">
                     <div class="absolute inset-0 bg-gradient-to-t from-blue-900 to-transparent opacity-70"></div>
                 </div>
                 <div class="p-4 text-center">
@@ -143,7 +143,7 @@
             <!-- Miembro 3 -->
             <div class="bg-white rounded-xl shadow-md overflow-hidden transform transition hover:scale-105 hover:shadow-lg">
                 <div class="relative">
-                    <img src="{{ asset('images/team/member3.jpg') }}" alt="Miembro del equipo" class="w-full h-64 object-cover">
+                    <img src="{{ asset('images/team/member3.jpg') }}" alt="{{ __('nombre_miembro3') }}" class="w-full h-64 object-cover">
                     <div class="absolute inset-0 bg-gradient-to-t from-blue-900 to-transparent opacity-70"></div>
                 </div>
                 <div class="p-4 text-center">
@@ -167,7 +167,7 @@
             <!-- Miembro 4 -->
             <div class="bg-white rounded-xl shadow-md overflow-hidden transform transition hover:scale-105 hover:shadow-lg">
                 <div class="relative">
-                    <img src="{{ asset('images/team/member4.jpg') }}" alt="Miembro del equipo" class="w-full h-64 object-cover">
+                    <img src="{{ asset('images/team/member4.jpg') }}" alt="{{ __('nombre_miembro4') }}" class="w-full h-64 object-cover">
                     <div class="absolute inset-0 bg-gradient-to-t from-blue-900 to-transparent opacity-70"></div>
                 </div>
                 <div class="p-4 text-center">
@@ -250,7 +250,7 @@
                     <p class="text-gray-600 mb-4 italic">{{ __('testimonio_1') }}</p>
                     <div class="flex items-center">
                         <div class="w-12 h-12 rounded-full overflow-hidden mr-4">
-                            <img src="{{ asset('images/testimonials/client1.jpg') }}" alt="Cliente" class="w-full h-full object-cover">
+                            <img src="{{ asset('images/testimonials/client1.jpg') }}" alt="{{ __('cliente_nombre_1') }}" class="w-full h-full object-cover">
                         </div>
                         <div>
                             <h4 class="font-bold text-gray-800">{{ __('cliente_nombre_1') }}</h4>
@@ -275,7 +275,7 @@
                     <p class="text-gray-600 mb-4 italic">{{ __('testimonio_2') }}</p>
                     <div class="flex items-center">
                         <div class="w-12 h-12 rounded-full overflow-hidden mr-4">
-                            <img src="{{ asset('images/testimonials/client2.jpg') }}" alt="Cliente" class="w-full h-full object-cover">
+                            <img src="{{ asset('images/testimonials/client2.jpg') }}" alt="{{ __('cliente_nombre_2') }}" class="w-full h-full object-cover">
                         </div>
                         <div>
                             <h4 class="font-bold text-gray-800">{{ __('cliente_nombre_2') }}</h4>
@@ -300,7 +300,7 @@
                     <p class="text-gray-600 mb-4 italic">{{ __('testimonio_3') }}</p>
                     <div class="flex items-center">
                         <div class="w-12 h-12 rounded-full overflow-hidden mr-4">
-                            <img src="{{ asset('images/testimonials/client3.jpg') }}" alt="Cliente" class="w-full h-full object-cover">
+                            <img src="{{ asset('images/testimonials/client3.jpg') }}" alt="{{ __('cliente_nombre_3') }}" class="w-full h-full object-cover">
                         </div>
                         <div>
                             <h4 class="font-bold text-gray-800">{{ __('cliente_nombre_3') }}</h4>

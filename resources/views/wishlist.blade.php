@@ -41,7 +41,7 @@
             <!-- Producto 1 -->
             <div class="bg-white rounded-xl shadow-md overflow-hidden transform transition hover:shadow-lg">
                 <div class="relative">
-                    <img src="{{ asset('img/products/smartphone-1.jpg') }}" alt="Smartphone" class="w-full h-48 object-cover">
+                    <img src="{{ asset('img/products/smartphone-1.jpg') }}" alt="{{ __('smartphone') }}" class="w-full h-48 object-cover">
                     <button class="absolute top-2 right-2 bg-white rounded-full p-2 shadow-md hover:bg-red-100 transition">
                         <i class="fas fa-heart text-red-500"></i>
                     </button>
@@ -71,7 +71,7 @@
             <!-- Producto 2 -->
             <div class="bg-white rounded-xl shadow-md overflow-hidden transform transition hover:shadow-lg">
                 <div class="relative">
-                    <img src="{{ asset('img/products/headphones-1.jpg') }}" alt="Auriculares" class="w-full h-48 object-cover">
+                    <img src="{{ asset('img/products/headphones-1.jpg') }}" alt="{{ __('auriculares') }}" class="w-full h-48 object-cover">
                     <button class="absolute top-2 right-2 bg-white rounded-full p-2 shadow-md hover:bg-red-100 transition">
                         <i class="fas fa-heart text-red-500"></i>
                     </button>
@@ -101,7 +101,7 @@
             <!-- Producto 3 -->
             <div class="bg-white rounded-xl shadow-md overflow-hidden transform transition hover:shadow-lg">
                 <div class="relative">
-                    <img src="{{ asset('img/products/smartwatch-1.jpg') }}" alt="Smartwatch" class="w-full h-48 object-cover">
+                    <img src="{{ asset('img/products/smartwatch-1.jpg') }}" alt="{{ __('smartwatch') }}" class="w-full h-48 object-cover">
                     <button class="absolute top-2 right-2 bg-white rounded-full p-2 shadow-md hover:bg-red-100 transition">
                         <i class="fas fa-heart text-red-500"></i>
                     </button>
@@ -153,7 +153,7 @@
             <!-- Producto recomendado 1 -->
             <div class="bg-white rounded-xl shadow-md overflow-hidden transform transition hover:scale-105 hover:shadow-lg">
                 <div class="relative">
-                    <img src="{{ asset('img/products/smartphone-2.jpg') }}" alt="Smartphone" class="w-full h-32 object-cover">
+                    <img src="{{ asset('img/products/smartphone-2.jpg') }}" alt="{{ __('smartphone') }}" class="w-full h-32 object-cover">
                     <button class="absolute top-2 right-2 bg-white rounded-full p-1.5 shadow-md hover:bg-red-100 transition">
                         <i class="far fa-heart text-gray-400 text-sm"></i>
                     </button>
@@ -169,7 +169,7 @@
             <!-- Producto recomendado 2 -->
             <div class="bg-white rounded-xl shadow-md overflow-hidden transform transition hover:scale-105 hover:shadow-lg">
                 <div class="relative">
-                    <img src="{{ asset('img/products/tablet-1.jpg') }}" alt="Tablet" class="w-full h-32 object-cover">
+                    <img src="{{ asset('img/products/tablet-1.jpg') }}" alt="{{ __('tablet') }}" class="w-full h-32 object-cover">
                     <button class="absolute top-2 right-2 bg-white rounded-full p-1.5 shadow-md hover:bg-red-100 transition">
                         <i class="far fa-heart text-gray-400 text-sm"></i>
                     </button>
@@ -185,7 +185,7 @@
             <!-- Producto recomendado 3 -->
             <div class="bg-white rounded-xl shadow-md overflow-hidden transform transition hover:scale-105 hover:shadow-lg">
                 <div class="relative">
-                    <img src="{{ asset('img/products/accessory-1.jpg') }}" alt="Accesorio" class="w-full h-32 object-cover">
+                    <img src="{{ asset('img/products/accessory-1.jpg') }}" alt="{{ __('accesorio') }}" class="w-full h-32 object-cover">
                     <button class="absolute top-2 right-2 bg-white rounded-full p-1.5 shadow-md hover:bg-red-100 transition">
                         <i class="far fa-heart text-gray-400 text-sm"></i>
                     </button>
@@ -201,7 +201,7 @@
             <!-- Producto recomendado 4 -->
             <div class="bg-white rounded-xl shadow-md overflow-hidden transform transition hover:scale-105 hover:shadow-lg">
                 <div class="relative">
-                    <img src="{{ asset('img/products/smartwatch-2.jpg') }}" alt="Smartwatch" class="w-full h-32 object-cover">
+                    <img src="{{ asset('img/products/smartwatch-2.jpg') }}" alt="{{ __('smartwatch') }}" class="w-full h-32 object-cover">
                     <button class="absolute top-2 right-2 bg-white rounded-full p-1.5 shadow-md hover:bg-red-100 transition">
                         <i class="far fa-heart text-gray-400 text-sm"></i>
                     </button>
