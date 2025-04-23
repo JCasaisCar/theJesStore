@@ -12,7 +12,16 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         $this->call([
-            UsersSeeder::class,
+            UsersSeeder::class,               // Asumiendo que este seed crea usuarios con roles
+            CategorySeeder::class,
+            ProductSeeder::class,
+            ShippingAddressSeeder::class,
+            OrderSeeder::class,
+            OrderItemSeeder::class,
+            WishlistSeeder::class,
+            CartItemSeeder::class,
+            ReviewSeeder::class,
+            ContactSeeder::class,
         ]);
     }
 }
