@@ -21,9 +21,9 @@
   "iniciar_sesion": "Iniciar sesión",
   "registrarse": "Registrarse",
   "cerrar_sesion": "Cerrar sesión",
-  "smartphones": "Smartphones",
-  "accesorios": "Accesorios",
-  "tablets": "Tablets",
+  "Smartphones": "Smartphones",
+  "Accesorios": "Accesorios",
+  "Tablets": "Tablets",
   "categorías": "Categorías",
   "es": "🇪🇸 Español",
   "en": "🇬🇧 Inglés",
@@ -485,5 +485,6 @@
   "cambios_politica_p1": "Podemos actualizar nuestra política de privacidad de vez en cuando. Los cambios serán publicados en esta página.",
   "contacto_privacidad": "Contacto para privacidad",
   "contacto_privacidad_p1": "Si tienes preguntas o inquietudes sobre cómo tratamos tu información personal, puedes contactarnos a través de los siguientes medios:",
-  "contactanos_dudas": "Si tienes alguna duda o pregunta, no dudes en contactarnos. Estaremos encantados de ayudarte."
+  "contactanos_dudas": "Si tienes alguna duda o pregunta, no dudes en contactarnos. Estaremos encantados de ayudarte.",
+  "noCategorias": "No se pueden mostrar las categorías de la base de datos."
 }

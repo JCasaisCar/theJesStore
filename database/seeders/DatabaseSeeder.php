@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Brand;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -14,6 +15,7 @@ class DatabaseSeeder extends Seeder
         $this->call([
             UsersSeeder::class,               // Asumiendo que este seed crea usuarios con roles
             CategorySeeder::class,
+            BrandSeeder::class,
             ProductSeeder::class,
             ShippingAddressSeeder::class,
             OrderSeeder::class,

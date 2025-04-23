@@ -21,9 +21,9 @@
   "iniciar_sesion": "Sign In",
   "registrarse": "Sign Up",
   "cerrar_sesion": "Sign Out",
-  "smartphones": "Smartphones",
-  "accesorios": "Accessories",
-  "tablets": "Tablets",
+  "Smartphones": "Smartphones",
+  "Accesorios": "Accessories",
+  "Tablets": "Tablets",
   "categorías": "Categories",
   "es": "🇪🇸 Español",
   "en": "🇬🇧 EN",
@@ -482,5 +482,6 @@
   "cambios_politica_p1": "We may update our privacy policy from time to time. Changes will be posted on this page.",
   "contacto_privacidad": "Privacy contact",
   "contacto_privacidad_p1": "If you have any questions or concerns about how we handle your personal information, you can contact us through the following means:",
-  "contactanos_dudas": "If you have any questions or concerns, feel free to contact us. We will be happy to assist you."
+  "contactanos_dudas": "If you have any questions or concerns, feel free to contact us. We will be happy to assist you.",
+  "noCategorias": "Categories from the database cannot be displayed."
 }

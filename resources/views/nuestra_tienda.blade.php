@@ -23,378 +23,89 @@
 <!-- Filtros y Búsqueda -->
 <div class="bg-white shadow-md border-b">
     <div class="container mx-auto px-4 py-4">
-        <div class="flex flex-col md:flex-row justify-between items-center gap-4">
+        <form method="GET" class="flex flex-col md:flex-row justify-between items-center gap-4">
             <!-- Búsqueda -->
             <div class="relative w-full md:w-64">
-                <input type="text" placeholder="{{ __('buscar_productos') }}" class="w-full pl-10 pr-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                <input name="search" value="{{ request('search') }}" type="text"
+                    placeholder="{{ __('buscar_productos') }}"
+                    class="w-full pl-10 pr-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500">
                 <div class="absolute left-3 top-2.5 text-gray-400">
                     <i class="fas fa-search"></i>
                 </div>
             </div>
-            
+
             <!-- Filtros -->
             <div class="flex flex-wrap items-center gap-3">
                 <span class="text-gray-700 font-medium">{{ __('filtrar_por') }}:</span>
-                <select class="py-2 px-3 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+
+                <!-- Categoría -->
+                <select name="category" class="py-2 px-3 rounded border border-gray-300">
                     <option value="">{{ __('categoria') }}</option>
-                    <option value="smartphones">{{ __('smartphones') }}</option>
-                    <option value="tablets">{{ __('tablets') }}</option>
-                    <option value="accesorios">{{ __('accesorios') }}</option>
-                    <option value="smartwatches">{{ __('smartwatches') }}</option>
+                    @foreach($categories as $category)
+                        <option value="{{ $category->slug }}"
+                            {{ request('category') == $category->slug ? 'selected' : '' }}>
+                            {{ $category->name }}
+                        </option>
+                    @endforeach
                 </select>
-                <select class="py-2 px-3 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+
+                <!-- Precio -->
+                <select name="price" class="py-2 px-3 rounded border border-gray-300">
                     <option value="">{{ __('precio') }}</option>
-                    <option value="asc">{{ __('menor_precio') }}</option>
-                    <option value="desc">{{ __('mayor_precio') }}</option>
+                    <option value="asc" {{ request('price') == 'asc' ? 'selected' : '' }}>{{ __('menor_precio') }}</option>
+                    <option value="desc" {{ request('price') == 'desc' ? 'selected' : '' }}>{{ __('mayor_precio') }}</option>
                 </select>
-                <select class="py-2 px-3 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+
+                <!-- Marca -->
+                <select name="brand" class="py-2 px-3 rounded border border-gray-300">
                     <option value="">{{ __('marca') }}</option>
-                    <option value="apple">Apple</option>
-                    <option value="samsung">Samsung</option>
-                    <option value="xiaomi">Xiaomi</option>
-                    <option value="huawei">Huawei</option>
+                    @foreach($brands as $brand)
+                        <option value="{{ $brand->slug }}"
+                            {{ request('brand') == $brand->slug ? 'selected' : '' }}>
+                            {{ $brand->name }}
+                        </option>
+                    @endforeach
                 </select>
-                <button class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg transition transform hover:scale-105">
+
+                <button type="submit"
+                    class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg transition transform hover:scale-105">
                     <i class="fas fa-filter mr-1"></i> {{ __('aplicar') }}
                 </button>
             </div>
-        </div>
+        </form>
     </div>
 </div>
 
-<!-- Productos Grid -->
+<!-- Productos -->
 <div class="bg-gray-50 py-12">
     <div class="container mx-auto px-4">
-        <div class="flex justify-between items-center mb-8">
-            <h2 class="text-2xl md:text-3xl font-bold">{{ __('nuestros_productos') }}</h2>
-            <div class="flex items-center gap-2 text-gray-600">
-                <span>{{ __('ver') }}:</span>
-                <button class="bg-white p-2 rounded-md shadow-sm hover:bg-gray-100 transition">
-                    <i class="fas fa-th"></i>
-                </button>
-                <button class="bg-white p-2 rounded-md shadow-sm hover:bg-gray-100 transition">
-                    <i class="fas fa-list"></i>
-                </button>
-            </div>
-        </div>
-        
+        <h2 class="text-3xl font-bold mb-8">{{ __('nuestros_productos') }}</h2>
+
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-            <!-- Producto 1 -->
-            <div class="bg-white rounded-xl shadow-md overflow-hidden transform transition duration-300 hover:shadow-xl hover:-translate-y-1">
-                <div class="relative">
-                    <img src="{{ asset('images/products/phone-1.jpg') }}" alt="{{ __('smartphone_premium') }}" class="w-full h-64 object-cover">
-                    <div class="absolute top-2 right-2">
-                        <span class="bg-red-500 text-white text-xs font-bold px-2 py-1 rounded">-15%</span>
-                    </div>
-                    <button class="absolute top-2 left-2 bg-white p-2 rounded-full shadow-md hover:bg-gray-100 transition">
-                        <i class="far fa-heart text-gray-600 hover:text-red-500"></i>
-                    </button>
-                </div>
-                <div class="p-4">
-                    <h3 class="font-bold text-gray-800 text-lg">iPhone 14 Pro Max</h3>
-                    <div class="flex text-yellow-400 mt-1 text-sm">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star-half-alt"></i>
-                        <span class="text-gray-500 ml-1">(120)</span>
-                    </div>
-                    <div class="mt-2 space-y-2">
-                        <p class="text-sm text-gray-600">6.7" Super Retina XDR, 256GB</p>
-                        <div class="flex items-end gap-2">
-                            <span class="text-xl font-bold text-blue-700">999€</span>
-                            <span class="text-sm text-gray-500 line-through">1,199€</span>
+            @forelse($products as $product)
+                <div class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition">
+                    <img src="{{ $product->image }}" alt="{{ $product->name }}" class="w-full h-64 object-cover">
+                    <div class="p-4">
+                        <h3 class="font-bold text-gray-800 text-lg">{{ $product->name }}</h3>
+                        <p class="text-sm text-gray-500 mb-2">{{ $product->brand->name ?? '' }}</p>
+                        <p class="text-sm text-gray-600">{{ \Illuminate\Support\Str::limit($product->description, 60) }}</p>
+                        <div class="mt-3">
+                            <span class="text-xl font-bold text-blue-700">{{ number_format($product->price, 2) }}€</span>
                         </div>
-                        <div class="flex items-center gap-2 pt-2">
-                            <button class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg flex-grow transition transform hover:scale-105">
+                        <div class="mt-4 flex gap-2">
+                            <button class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg w-full">
                                 <i class="fas fa-shopping-cart mr-1"></i> {{ __('añadir') }}
                             </button>
-                            <button class="bg-gray-200 hover:bg-gray-300 text-gray-700 p-2 rounded-lg transition">
-                                <i class="fas fa-eye"></i>
-                            </button>
                         </div>
                     </div>
                 </div>
-            </div>
-            
-            <!-- Producto 2 -->
-            <div class="bg-white rounded-xl shadow-md overflow-hidden transform transition duration-300 hover:shadow-xl hover:-translate-y-1">
-                <div class="relative">
-                    <img src="{{ asset('images/products/phone-2.jpg') }}" alt="{{ __('smartphone_android') }}" class="w-full h-64 object-cover">
-                    <div class="absolute top-2 right-2">
-                        <span class="bg-green-500 text-white text-xs font-bold px-2 py-1 rounded">{{ __('nuevo') }}</span>
-                    </div>
-                    <button class="absolute top-2 left-2 bg-white p-2 rounded-full shadow-md hover:bg-gray-100 transition">
-                        <i class="far fa-heart text-gray-600 hover:text-red-500"></i>
-                    </button>
-                </div>
-                <div class="p-4">
-                    <h3 class="font-bold text-gray-800 text-lg">Samsung Galaxy S23 Ultra</h3>
-                    <div class="flex text-yellow-400 mt-1 text-sm">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <span class="text-gray-500 ml-1">(85)</span>
-                    </div>
-                    <div class="mt-2 space-y-2">
-                        <p class="text-sm text-gray-600">6.8" AMOLED, 512GB, S Pen</p>
-                        <div class="flex items-end gap-2">
-                            <span class="text-xl font-bold text-blue-700">1,199€</span>
-                        </div>
-                        <div class="flex items-center gap-2 pt-2">
-                            <button class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg flex-grow transition transform hover:scale-105">
-                                <i class="fas fa-shopping-cart mr-1"></i> {{ __('añadir') }}
-                            </button>
-                            <button class="bg-gray-200 hover:bg-gray-300 text-gray-700 p-2 rounded-lg transition">
-                                <i class="fas fa-eye"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Producto 3 -->
-            <div class="bg-white rounded-xl shadow-md overflow-hidden transform transition duration-300 hover:shadow-xl hover:-translate-y-1">
-                <div class="relative">
-                    <img src="{{ asset('images/products/tablet-1.jpg') }}" alt="{{ __('tablet') }}" class="w-full h-64 object-cover">
-                    <button class="absolute top-2 left-2 bg-white p-2 rounded-full shadow-md hover:bg-gray-100 transition">
-                        <i class="far fa-heart text-gray-600 hover:text-red-500"></i>
-                    </button>
-                </div>
-                <div class="p-4">
-                    <h3 class="font-bold text-gray-800 text-lg">iPad Pro M2</h3>
-                    <div class="flex text-yellow-400 mt-1 text-sm">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="far fa-star"></i>
-                        <span class="text-gray-500 ml-1">(62)</span>
-                    </div>
-                    <div class="mt-2 space-y-2">
-                        <p class="text-sm text-gray-600">11" Liquid Retina, 256GB, WiFi</p>
-                        <div class="flex items-end gap-2">
-                            <span class="text-xl font-bold text-blue-700">899€</span>
-                            <span class="text-sm text-gray-500 line-through">949€</span>
-                        </div>
-                        <div class="flex items-center gap-2 pt-2">
-                            <button class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg flex-grow transition transform hover:scale-105">
-                                <i class="fas fa-shopping-cart mr-1"></i> {{ __('añadir') }}
-                            </button>
-                            <button class="bg-gray-200 hover:bg-gray-300 text-gray-700 p-2 rounded-lg transition">
-                                <i class="fas fa-eye"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Producto 4 -->
-            <div class="bg-white rounded-xl shadow-md overflow-hidden transform transition duration-300 hover:shadow-xl hover:-translate-y-1">
-                <div class="relative">
-                    <img src="{{ asset('images/products/watch-1.jpg') }}" alt="{{ __('smartwatch') }}" class="w-full h-64 object-cover">
-                    <div class="absolute top-2 right-2">
-                        <span class="bg-blue-500 text-white text-xs font-bold px-2 py-1 rounded">{{ __('destacado') }}</span>
-                    </div>
-                    <button class="absolute top-2 left-2 bg-white p-2 rounded-full shadow-md hover:bg-gray-100 transition">
-                        <i class="far fa-heart text-gray-600 hover:text-red-500"></i>
-                    </button>
-                </div>
-                <div class="p-4">
-                    <h3 class="font-bold text-gray-800 text-lg">Apple Watch Series 8</h3>
-                    <div class="flex text-yellow-400 mt-1 text-sm">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star-half-alt"></i>
-                        <span class="text-gray-500 ml-1">(94)</span>
-                    </div>
-                    <div class="mt-2 space-y-2">
-                        <p class="text-sm text-gray-600">45mm, GPS + Cellular, Aluminio</p>
-                        <div class="flex items-end gap-2">
-                            <span class="text-xl font-bold text-blue-700">499€</span>
-                        </div>
-                        <div class="flex items-center gap-2 pt-2">
-                            <button class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg flex-grow transition transform hover:scale-105">
-                                <i class="fas fa-shopping-cart mr-1"></i> {{ __('añadir') }}
-                            </button>
-                            <button class="bg-gray-200 hover:bg-gray-300 text-gray-700 p-2 rounded-lg transition">
-                                <i class="fas fa-eye"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Producto 5 -->
-            <div class="bg-white rounded-xl shadow-md overflow-hidden transform transition duration-300 hover:shadow-xl hover:-translate-y-1">
-                <div class="relative">
-                    <img src="{{ asset('images/products/phone-3.jpg') }}" alt="{{ __('smartphone_android') }}" class="w-full h-64 object-cover">
-                    <button class="absolute top-2 left-2 bg-white p-2 rounded-full shadow-md hover:bg-gray-100 transition">
-                        <i class="far fa-heart text-gray-600 hover:text-red-500"></i>
-                    </button>
-                </div>
-                <div class="p-4">
-                    <h3 class="font-bold text-gray-800 text-lg">Google Pixel 7 Pro</h3>
-                    <div class="flex text-yellow-400 mt-1 text-sm">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="far fa-star"></i>
-                        <span class="text-gray-500 ml-1">(57)</span>
-                    </div>
-                    <div class="mt-2 space-y-2">
-                        <p class="text-sm text-gray-600">6.7" OLED, 128GB, Android 13</p>
-                        <div class="flex items-end gap-2">
-                            <span class="text-xl font-bold text-blue-700">889€</span>
-                            <span class="text-sm text-gray-500 line-through">999€</span>
-                        </div>
-                        <div class="flex items-center gap-2 pt-2">
-                            <button class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg flex-grow transition transform hover:scale-105">
-                                <i class="fas fa-shopping-cart mr-1"></i> {{ __('añadir') }}
-                            </button>
-                            <button class="bg-gray-200 hover:bg-gray-300 text-gray-700 p-2 rounded-lg transition">
-                                <i class="fas fa-eye"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Producto 6 -->
-            <div class="bg-white rounded-xl shadow-md overflow-hidden transform transition duration-300 hover:shadow-xl hover:-translate-y-1">
-                <div class="relative">
-                    <img src="{{ asset('images/products/accessory-1.jpg') }}" alt="{{ __('auriculares') }}" class="w-full h-64 object-cover">
-                    <div class="absolute top-2 right-2">
-                        <span class="bg-orange-500 text-white text-xs font-bold px-2 py-1 rounded">{{ __('oferta') }}</span>
-                    </div>
-                    <button class="absolute top-2 left-2 bg-white p-2 rounded-full shadow-md hover:bg-gray-100 transition">
-                        <i class="far fa-heart text-gray-600 hover:text-red-500"></i>
-                    </button>
-                </div>
-                <div class="p-4">
-                    <h3 class="font-bold text-gray-800 text-lg">AirPods Pro 2</h3>
-                    <div class="flex text-yellow-400 mt-1 text-sm">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <span class="text-gray-500 ml-1">(128)</span>
-                    </div>
-                    <div class="mt-2 space-y-2">
-                        <p class="text-sm text-gray-600">Cancelación de ruido, Audio espacial</p>
-                        <div class="flex items-end gap-2">
-                            <span class="text-xl font-bold text-blue-700">239€</span>
-                            <span class="text-sm text-gray-500 line-through">279€</span>
-                        </div>
-                        <div class="flex items-center gap-2 pt-2">
-                            <button class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg flex-grow transition transform hover:scale-105">
-                                <i class="fas fa-shopping-cart mr-1"></i> {{ __('añadir') }}
-                            </button>
-                            <button class="bg-gray-200 hover:bg-gray-300 text-gray-700 p-2 rounded-lg transition">
-                                <i class="fas fa-eye"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Producto 7 -->
-            <div class="bg-white rounded-xl shadow-md overflow-hidden transform transition duration-300 hover:shadow-xl hover:-translate-y-1">
-                <div class="relative">
-                    <img src="{{ asset('images/products/tablet-2.jpg') }}" alt="{{ __('tablet_android') }}" class="w-full h-64 object-cover">
-                    <button class="absolute top-2 left-2 bg-white p-2 rounded-full shadow-md hover:bg-gray-100 transition">
-                        <i class="far fa-heart text-gray-600 hover:text-red-500"></i>
-                    </button>
-                </div>
-                <div class="p-4">
-                    <h3 class="font-bold text-gray-800 text-lg">Samsung Galaxy Tab S8+</h3>
-                    <div class="flex text-yellow-400 mt-1 text-sm">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="far fa-star"></i>
-                        <span class="text-gray-500 ml-1">(42)</span>
-                    </div>
-                    <div class="mt-2 space-y-2">
-                        <p class="text-sm text-gray-600">12.4" AMOLED, 256GB, S Pen incluido</p>
-                        <div class="flex items-end gap-2">
-                            <span class="text-xl font-bold text-blue-700">849€</span>
-                            <span class="text-sm text-gray-500 line-through">899€</span>
-                        </div>
-                        <div class="flex items-center gap-2 pt-2">
-                            <button class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg flex-grow transition transform hover:scale-105">
-                                <i class="fas fa-shopping-cart mr-1"></i> {{ __('añadir') }}
-                            </button>
-                            <button class="bg-gray-200 hover:bg-gray-300 text-gray-700 p-2 rounded-lg transition">
-                                <i class="fas fa-eye"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Producto 8 -->
-            <div class="bg-white rounded-xl shadow-md overflow-hidden transform transition duration-300 hover:shadow-xl hover:-translate-y-1">
-                <div class="relative">
-                    <img src="{{ asset('images/products/watch-2.jpg') }}" alt="{{ __('smartwatch') }}" class="w-full h-64 object-cover">
-                    <div class="absolute top-2 right-2">
-                        <span class="bg-green-500 text-white text-xs font-bold px-2 py-1 rounded">{{ __('nuevo') }}</span>
-                    </div>
-                    <button class="absolute top-2 left-2 bg-white p-2 rounded-full shadow-md hover:bg-gray-100 transition">
-                        <i class="far fa-heart text-gray-600 hover:text-red-500"></i>
-                    </button>
-                </div>
-                <div class="p-4">
-                    <h3 class="font-bold text-gray-800 text-lg">Samsung Galaxy Watch 5 Pro</h3>
-                    <div class="flex text-yellow-400 mt-1 text-sm">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star-half-alt"></i>
-                        <span class="text-gray-500 ml-1">(73)</span>
-                    </div>
-                    <div class="mt-2 space-y-2">
-                        <p class="text-sm text-gray-600">45mm, GPS, Titanio, BioActive</p>
-                        <div class="flex items-end gap-2">
-                            <span class="text-xl font-bold text-blue-700">429€</span>
-                        </div>
-                        <div class="flex items-center gap-2 pt-2">
-                            <button class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg flex-grow transition transform hover:scale-105">
-                                <i class="fas fa-shopping-cart mr-1"></i> {{ __('añadir') }}
-                            </button>
-                            <button class="bg-gray-200 hover:bg-gray-300 text-gray-700 p-2 rounded-lg transition">
-                                <i class="fas fa-eye"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            @empty
+                <p class="col-span-4 text-center text-gray-600">{{ __('no_hay_productos') }}</p>
+            @endforelse
         </div>
-        
-        <!-- Paginación -->
-        <div class="mt-12 flex justify-center">
-            <nav class="flex items-center space-x-1">
-                <a href="#" class="px-3 py-2 rounded-md bg-gray-200 text-gray-600 hover:bg-gray-300 transition">
-                    <i class="fas fa-chevron-left"></i>
-                </a>
-                <a href="#" class="px-4 py-2 rounded-md bg-blue-600 text-white font-medium hover:bg-blue-700 transition">1</a>
-                <a href="#" class="px-4 py-2 rounded-md hover:bg-gray-200 text-gray-700 transition">2</a>
-                <a href="#" class="px-4 py-2 rounded-md hover:bg-gray-200 text-gray-700 transition">3</a>
-                <span class="px-4 py-2 text-gray-600">...</span>
-                <a href="#" class="px-4 py-2 rounded-md hover:bg-gray-200 text-gray-700 transition">8</a>
-                <a href="#" class="px-3 py-2 rounded-md bg-gray-200 text-gray-600 hover:bg-gray-300 transition">
-                    <i class="fas fa-chevron-right"></i>
-                </a>
-            </nav>
+
+        <div class="mt-10">
+            {{ $products->withQueryString()->links() }}
         </div>
     </div>
 </div>

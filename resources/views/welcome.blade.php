@@ -64,39 +64,24 @@
         <p class="text-gray-600 text-center mb-8">{{ __('explora_nuestras_categorias') }}</p>
         
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
-            <!-- Categoría 1: Smartphones -->
-            <a href="{{ route('categoria', 'smartphones') }}" class="bg-white rounded-xl shadow-md overflow-hidden transform transition hover:scale-105 hover:shadow-lg">
-                <div class="p-4 text-center">
-                    <div class="w-16 h-16 mx-auto bg-blue-100 rounded-full flex items-center justify-center mb-3">
-                        <i class="fas fa-mobile-alt text-blue-600 text-2xl"></i>
+            @foreach ($categorias as $categoria)
+                <a href="{{ route('categoria', $categoria->slug) }}" class="bg-white rounded-xl shadow-md overflow-hidden transform transition hover:scale-105 hover:shadow-lg">
+                    <div class="p-4 text-center">
+                        <div class="w-16 h-16 mx-auto bg-blue-100 rounded-full flex items-center justify-center mb-3">
+                            <i class="fas fa-tags text-blue-600 text-2xl"></i>
+                        </div>
+                        <h3 class="font-bold text-gray-800">{{ __($categoria->name) }}</h3>
+                        <p class="text-sm text-gray-500 mt-1">{{ __('explorar_ahora') }}</p>
                     </div>
-                    <h3 class="font-bold text-gray-800">{{ __('smartphones') }}</h3>
-                    <p class="text-sm text-gray-500 mt-1">{{ __('ultimos_modelos') }}</p>
-                </div>
-            </a>
-            
-            <!-- Categoría 2: Accesorios -->
-            <a href="{{ route('categoria', 'accesorios') }}" class="bg-white rounded-xl shadow-md overflow-hidden transform transition hover:scale-105 hover:shadow-lg">
-                <div class="p-4 text-center">
-                    <div class="w-16 h-16 mx-auto bg-purple-100 rounded-full flex items-center justify-center mb-3">
-                        <i class="fas fa-headphones text-purple-600 text-2xl"></i>
-                    </div>
-                    <h3 class="font-bold text-gray-800">{{ __('accesorios') }}</h3>
-                    <p class="text-sm text-gray-500 mt-1">{{ __('complementa_tu_equipo') }}</p>
-                </div>
-            </a>
-            
-            <!-- Categoría 3: Tablets -->
-            <a href="{{ route('categoria', 'tablets') }}" class="bg-white rounded-xl shadow-md overflow-hidden transform transition hover:scale-105 hover:shadow-lg">
-                <div class="p-4 text-center">
-                    <div class="w-16 h-16 mx-auto bg-green-100 rounded-full flex items-center justify-center mb-3">
-                        <i class="fas fa-tablet-alt text-green-600 text-2xl"></i>
-                    </div>
-                    <h3 class="font-bold text-gray-800">{{ __('tablets') }}</h3>
-                    <p class="text-sm text-gray-500 mt-1">{{ __('versatilidad_y_potencia') }}</p>
-                </div>
-            </a>
+                </a>
+            @endforeach
         </div>
+
+        @if ($categorias->isEmpty())
+            <p class="text-center text-gray-400 mt-8 italic">
+                {{ __('noCategorias') }}
+            </p>
+        @endif
     </div>
 </div>
 @endsection
