@@ -64,17 +64,17 @@
         <p class="text-gray-600 text-center mb-8">{{ __('explora_nuestras_categorias') }}</p>
         
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
-            @foreach ($categorias as $categoria)
-                <a href="{{ route('categoria', $categoria->slug) }}" class="bg-white rounded-xl shadow-md overflow-hidden transform transition hover:scale-105 hover:shadow-lg">
-                    <div class="p-4 text-center">
-                        <div class="w-16 h-16 mx-auto bg-blue-100 rounded-full flex items-center justify-center mb-3">
-                            <i class="fas fa-tags text-blue-600 text-2xl"></i>
-                        </div>
-                        <h3 class="font-bold text-gray-800">{{ __($categoria->name) }}</h3>
-                        <p class="text-sm text-gray-500 mt-1">{{ __('explorar_ahora') }}</p>
-                    </div>
-                </a>
-            @endforeach
+        @foreach ($categorias as $categoria)
+    <a href="{{ route('tienda', ['category' => $categoria->slug]) }}" class="bg-white rounded-xl shadow-md overflow-hidden transform transition hover:scale-105 hover:shadow-lg">
+        <div class="p-4 text-center">
+            <div class="w-16 h-16 mx-auto bg-blue-100 rounded-full flex items-center justify-center mb-3">
+                <i class="fas fa-tags text-blue-600 text-2xl"></i>
+            </div>
+            <h3 class="font-bold text-gray-800">{{ __($categoria->name) }}</h3>
+            <p class="text-sm text-gray-500 mt-1">{{ __('explorar_ahora') }}</p>
+        </div>
+    </a>
+@endforeach
         </div>
 
         @if ($categorias->isEmpty())
