@@ -44,7 +44,7 @@
                     @foreach($categories as $category)
                         <option value="{{ $category->slug }}"
                             {{ request('category') == $category->slug ? 'selected' : '' }}>
-                            {{ $category->name }}
+                            {{ __($category->name) }}
                         </option>
                     @endforeach
                 </select>
