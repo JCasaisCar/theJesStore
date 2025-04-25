@@ -486,5 +486,13 @@
   "contacto_privacidad": "Contacto para privacidad",
   "contacto_privacidad_p1": "Si tienes preguntas o inquietudes sobre cómo tratamos tu información personal, puedes contactarnos a través de los siguientes medios:",
   "contactanos_dudas": "Si tienes alguna duda o pregunta, no dudes en contactarnos. Estaremos encantados de ayudarte.",
-  "noCategorias": "No se pueden mostrar las categorías de la base de datos."
+  "noCategorias": "No se pueden mostrar las categorías de la base de datos.",
+  "olvidaste_contrasena": "¿Olvidaste tu contraseña?",
+  "ingresa_correo_para_restaurar": "Ingresa tu correo electrónico para restaurar tu contraseña.",
+  "enviar_enlace_restauracion": "Enviar enlace de restauración",
+  "confirmar_contrasena": "Confirmar contraseña",
+  "restablecer_contrasena": "Restablecer contraseña",
+  "introduce_contrasena_nueva": "Introduce tu nueva contraseña",
+  "nueva_contrasena": "Nueva contraseña",
+  "introducir_nueva_contrasena": "Introduce una nueva contraseña"
 }

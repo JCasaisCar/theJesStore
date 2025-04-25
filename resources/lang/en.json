@@ -483,5 +483,13 @@
   "contacto_privacidad": "Privacy contact",
   "contacto_privacidad_p1": "If you have any questions or concerns about how we handle your personal information, you can contact us through the following means:",
   "contactanos_dudas": "If you have any questions or concerns, feel free to contact us. We will be happy to assist you.",
-  "noCategorias": "Categories from the database cannot be displayed."
+  "noCategorias": "Categories from the database cannot be displayed.",
+  "olvidaste_contrasena": "Forgot your password?",
+  "ingresa_correo_para_restaurar": "Enter your email to restore",
+  "enviar_enlace_restauracion": "Send restoration link",
+  "confirmar_contrasena": "Confirm password",
+  "restablecer_contrasena": "Reset password",
+  "introduce_contrasena_nueva": "Enter a new password",
+  "nueva_contrasena": "New password",
+  "introducir_nueva_contrasena": "Enter a new password"
 }
