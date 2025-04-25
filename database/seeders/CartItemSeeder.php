@@ -13,12 +13,6 @@ class CartItemSeeder extends Seeder
      */
     public function run(): void
     {
-        for ($i = 1; $i <= 10; $i++) {
-            CartItem::create([
-                'user_id' => 1,
-                'product_id' => rand(1, 20),
-                'quantity' => rand(1, 3),
-            ]);
-        }
+        //
     }
 }

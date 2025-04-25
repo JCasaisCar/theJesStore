@@ -13,11 +13,6 @@ class WishlistSeeder extends Seeder
      */
     public function run(): void
     {
-        for ($i = 1; $i <= 10; $i++) {
-            Wishlist::create([
-                'user_id' => 1,
-                'product_id' => rand(1, 20),
-            ]);
-        }
+        //
     }
 }

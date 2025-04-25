@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Product extends Model
 {
-    protected $fillable = ['category_id', 'brand_id', 'name', 'slug', 'description', 'price', 'sku', 'image', 'stock'];
+    protected $fillable = ['category_id', 'model_id', 'name', 'slug', 'description', 'price', 'sku', 'image', 'stock'];
 
     public function category()
     {
@@ -21,5 +21,10 @@ class Product extends Model
     public function brand()
 {
     return $this->belongsTo(Brand::class);
+}
+
+public function model()
+{
+    return $this->belongsTo(\App\Models\ModelDevice::class, 'model_id');
 }
 }

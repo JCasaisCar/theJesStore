@@ -13,17 +13,18 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         $this->call([
-            UsersSeeder::class,               // Asumiendo que este seed crea usuarios con roles
-            CategorySeeder::class,
-            BrandSeeder::class,
-            ProductSeeder::class,
-            ShippingAddressSeeder::class,
-            OrderSeeder::class,
-            OrderItemSeeder::class,
-            WishlistSeeder::class,
-            CartItemSeeder::class,
-            ReviewSeeder::class,
-            ContactSeeder::class,
+            UsersSeeder::class,           
+            CategorySeeder::class,        
+            BrandSeeder::class,            
+            ModelDeviceSeeder::class,    
+            ProductSeeder::class,          
+            ShippingAddressSeeder::class,  
+            OrderSeeder::class,           
+            OrderItemSeeder::class,       
+            WishlistSeeder::class,         
+            CartItemSeeder::class,          
+            ReviewSeeder::class,            
+            ContactSeeder::class,           
         ]);
     }
 }

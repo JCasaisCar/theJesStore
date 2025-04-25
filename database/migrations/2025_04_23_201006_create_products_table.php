@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('products', function (Blueprint $table) {
             $table->id();
             $table->foreignId('category_id')->constrained()->onDelete('cascade');
-            $table->foreignId('brand_id')->nullable()->constrained()->onDelete('set null'); // 🔥 Relación con brands
+            $table->foreignId('model_id')->nullable()->constrained('model_devices')->onDelete('set null'); // Modelo propio del producto
             $table->string('name');
             $table->string('slug')->unique();
             $table->text('description');

@@ -84,111 +84,48 @@
                             </div>
                             
                             <div class="divide-y divide-gray-200">
-                                <!-- Producto 1 -->
+                                @foreach($items as $item)
                                 <div class="p-4 sm:p-6">
                                     <div class="flex flex-col sm:flex-row">
                                         <!-- Imagen del producto -->
                                         <div class="mb-4 sm:mb-0 sm:mr-6">
                                             <div class="w-24 h-24 bg-gray-100 rounded-lg overflow-hidden flex items-center justify-center">
-                                                <i class="fas fa-tshirt text-3xl text-gray-400"></i>
-                                                <!-- Aquí iría la imagen real: <img src="{{ asset('img/productos/producto1.jpg') }}" alt="Producto 1" class="object-cover w-full h-full"> -->
+                                                <img src="{{ asset('img/products/' . $item->product->image) }}" alt="{{ $item->product->name }}" class="object-cover w-full h-full">
                                             </div>
                                         </div>
-                                        
+
                                         <!-- Detalles del producto -->
                                         <div class="flex-1">
                                             <div class="flex flex-col sm:flex-row sm:justify-between mb-4">
                                                 <div>
-                                                    <h3 class="font-bold text-gray-800 mb-1">{{ __('nombre_producto_1') }}</h3>
-                                                    <p class="text-sm text-gray-500 mb-2">{{ __('referencia') }}: #12345</p>
-                                                    <div class="flex items-center mb-2">
-                                                        <span class="text-sm text-gray-500 mr-2">{{ __('talla') }}:</span>
-                                                        <span class="bg-gray-100 px-2 py-1 rounded text-xs font-medium">M</span>
-                                                    </div>
+                                                    <h3 class="font-bold text-gray-800 mb-1">{{ $item->product->name }}</h3>
+                                                    <p class="text-sm text-gray-500 mb-2">{{ __('referencia') }}: #{{ $item->product->sku }}</p>
                                                 </div>
                                                 <div class="mt-2 sm:mt-0">
-                                                    <span class="font-bold text-blue-600">29,99 €</span>
+                                                    <span class="font-bold text-blue-600">{{ number_format($item->product->price, 2) }}€</span>
                                                 </div>
                                             </div>
-                                            
+
                                             <div class="flex flex-wrap items-center justify-between">
-                                                <!-- Selector de cantidad -->
-                                                <div class="inline-flex items-center border border-gray-300 rounded-lg">
-                                                    <button type="button" class="w-8 h-8 flex items-center justify-center text-gray-600 hover:bg-gray-100 rounded-l-lg" onclick="decrementQuantity('quantity-1')">
-                                                        <i class="fas fa-minus text-xs"></i>
-                                                    </button>
-                                                    <input type="number" id="quantity-1" class="w-12 h-8 text-center border-0 focus:ring-0 p-0 text-gray-800" value="1" min="1" max="99">
-                                                    <button type="button" class="w-8 h-8 flex items-center justify-center text-gray-600 hover:bg-gray-100 rounded-r-lg" onclick="incrementQuantity('quantity-1')">
-                                                        <i class="fas fa-plus text-xs"></i>
-                                                    </button>
-                                                </div>
-                                                
-                                                <!-- Botones de acción -->
-                                                <div class="mt-3 sm:mt-0 space-x-2">
-                                                    <button type="button" class="text-gray-500 hover:text-blue-600" title="{{ __('mover_favoritos') }}">
-                                                        <i class="far fa-heart"></i>
-                                                    </button>
-                                                    <button type="button" class="text-gray-500 hover:text-red-600" title="{{ __('eliminar') }}" onclick="removeCartItem(1)">
+                                            <form action="{{ route('cart.update', $item->id) }}" method="POST">
+                                                @csrf
+                                                <button type="submit" name="action" value="decrease">-</button>
+                                                <input type="number" value="{{ $item->quantity }}" readonly>
+                                                <button type="submit" name="action" value="increase">+</button>
+                                            </form>
+
+                                                <form action="{{ route('cart.remove', $item->id) }}" method="POST">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" class="text-gray-500 hover:text-red-600 ml-4" title="{{ __('eliminar') }}">
                                                         <i class="far fa-trash-alt"></i>
                                                     </button>
-                                                </div>
+                                                </form>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                
-                                <!-- Producto 2 -->
-                                <div class="p-4 sm:p-6">
-                                    <div class="flex flex-col sm:flex-row">
-                                        <!-- Imagen del producto -->
-                                        <div class="mb-4 sm:mb-0 sm:mr-6">
-                                            <div class="w-24 h-24 bg-gray-100 rounded-lg overflow-hidden flex items-center justify-center">
-                                                <i class="fas fa-shoe-prints text-3xl text-gray-400"></i>
-                                                <!-- Aquí iría la imagen real: <img src="{{ asset('img/productos/producto2.jpg') }}" alt="Producto 2" class="object-cover w-full h-full"> -->
-                                            </div>
-                                        </div>
-                                        
-                                        <!-- Detalles del producto -->
-                                        <div class="flex-1">
-                                            <div class="flex flex-col sm:flex-row sm:justify-between mb-4">
-                                                <div>
-                                                    <h3 class="font-bold text-gray-800 mb-1">{{ __('nombre_producto_2') }}</h3>
-                                                    <p class="text-sm text-gray-500 mb-2">{{ __('referencia') }}: #67890</p>
-                                                    <div class="flex items-center mb-2">
-                                                        <span class="text-sm text-gray-500 mr-2">{{ __('talla') }}:</span>
-                                                        <span class="bg-gray-100 px-2 py-1 rounded text-xs font-medium">42</span>
-                                                    </div>
-                                                </div>
-                                                <div class="mt-2 sm:mt-0">
-                                                    <span class="font-bold text-blue-600">49,99 €</span>
-                                                </div>
-                                            </div>
-                                            
-                                            <div class="flex flex-wrap items-center justify-between">
-                                                <!-- Selector de cantidad -->
-                                                <div class="inline-flex items-center border border-gray-300 rounded-lg">
-                                                    <button type="button" class="w-8 h-8 flex items-center justify-center text-gray-600 hover:bg-gray-100 rounded-l-lg" onclick="decrementQuantity('quantity-2')">
-                                                        <i class="fas fa-minus text-xs"></i>
-                                                    </button>
-                                                    <input type="number" id="quantity-2" class="w-12 h-8 text-center border-0 focus:ring-0 p-0 text-gray-800" value="1" min="1" max="99">
-                                                    <button type="button" class="w-8 h-8 flex items-center justify-center text-gray-600 hover:bg-gray-100 rounded-r-lg" onclick="incrementQuantity('quantity-2')">
-                                                        <i class="fas fa-plus text-xs"></i>
-                                                    </button>
-                                                </div>
-                                                
-                                                <!-- Botones de acción -->
-                                                <div class="mt-3 sm:mt-0 space-x-2">
-                                                    <button type="button" class="text-gray-500 hover:text-blue-600" title="{{ __('mover_favoritos') }}">
-                                                        <i class="far fa-heart"></i>
-                                                    </button>
-                                                    <button type="button" class="text-gray-500 hover:text-red-600" title="{{ __('eliminar') }}" onclick="removeCartItem(2)">
-                                                        <i class="far fa-trash-alt"></i>
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                                @endforeach
                             </div>
                             
                             <!-- Botones de acción para todos los productos -->
@@ -197,10 +134,13 @@
                                     <i class="fas fa-arrow-left mr-2"></i>
                                     {{ __('seguir_comprando') }}
                                 </a>
-                                <button type="button" class="text-red-600 hover:text-red-800 transition inline-flex items-center" onclick="clearCart()">
-                                    <i class="far fa-trash-alt mr-2"></i>
-                                    {{ __('vaciar_carrito') }}
-                                </button>
+                                <form action="{{ route('cart.clear') }}" method="POST">
+                                    @csrf
+                                    <button type="submit" class="text-red-600 hover:text-red-800 transition inline-flex items-center">
+                                        <i class="far fa-trash-alt mr-2"></i>
+                                        {{ __('vaciar_carrito') }}
+                                    </button>
+                                </form>
                             </div>
                         </div>
                     </div>

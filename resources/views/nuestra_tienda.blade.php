@@ -84,7 +84,7 @@
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
             @forelse($products as $product)
                 <div class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition">
-                    <img src="{{ $product->image }}" alt="{{ $product->name }}" class="w-full h-64 object-cover">
+                    <img src="{{ asset('img/products/' . $product->image) }}" alt="{{ $product->name }}" class="w-full h-64 object-cover">
                     <div class="p-4">
                         <h3 class="font-bold text-gray-800 text-lg">{{ $product->name }}</h3>
                         <p class="text-sm text-gray-500 mb-2">{{ $product->brand->name ?? '' }}</p>
@@ -93,9 +93,23 @@
                             <span class="text-xl font-bold text-blue-700">{{ number_format($product->price, 2) }}€</span>
                         </div>
                         <div class="mt-4 flex gap-2">
-                            <button class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg w-full">
-                                <i class="fas fa-shopping-cart mr-1"></i> {{ __('añadir') }}
-                            </button>
+                            <!-- Botón Añadir al carrito -->
+                            <form action="{{ route('cart.add') }}" method="POST" class="w-full">
+                                @csrf
+                                <input type="hidden" name="product_id" value="{{ $product->id }}">
+                                <input type="hidden" name="quantity" value="1">
+                                <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg w-full flex items-center justify-center">
+                                    <i class="fas fa-shopping-cart mr-1"></i> {{ __('añadir') }}
+                                </button>
+                            </form>
+
+                            <!-- Botón Lista de deseos -->
+                            <form action="{{ route('wishlist.add', $product) }}" method="POST" class="w-full">
+                                @csrf
+                                <button type="submit" class="bg-pink-500 hover:bg-pink-600 text-white font-medium py-2 px-4 rounded-lg w-full flex items-center justify-center">
+                                    <i class="fas fa-heart mr-1"></i> {{ __('lista_deseos') }}
+                                </button>
+                            </form>
                         </div>
                     </div>
                 </div>
