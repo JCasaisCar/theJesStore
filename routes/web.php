@@ -1,40 +1,57 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\CondicionesUsoController;
-use App\Models\Category;
-use Illuminate\Http\Request;
-use App\Http\Controllers\ContactoController;
-use App\Http\Controllers\NosotrosController;
-use App\Http\Controllers\NuestraTiendaController;
-use Laravel\Fortify\Http\Controllers\AuthenticatedSessionController;
-use Laravel\Fortify\Http\Controllers\RegisteredUserController;
-use Laravel\Fortify\Http\Controllers\PasswordResetLinkController;
-use Laravel\Fortify\Http\Controllers\NewPasswordController;
-use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\App;
-use App\Http\Controllers\FaqController;
-use App\Http\Controllers\CartController;
-use App\Http\Controllers\WishlistController;
-use App\Http\Controllers\TermsController;
-use App\Http\Controllers\PrivacyController;
-use App\Http\Controllers\CookiesController;
-use App\Http\Controllers\AddresController;
-use App\Http\Controllers\PayController;
-use App\Http\Controllers\ConfirmController;
-use App\Http\Controllers\AdminController;
-use App\Http\Controllers\HomeController;
+use Illuminate\Http\Request;
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
 
-// Ruta página de inicio
-Route::get('/', function (Request $request) {
-    if ($request->has('lang')) {
-        App::setLocale($request->query('lang'));
-    }
-    return view('welcome');
-});
+use App\Models\Category;
+use App\Http\Controllers\{
+    AdminController,
+    AddresController,
+    CartController,
+    ConfirmController,
+    CondicionesUsoController,
+    ContactoController,
+    CookiesController,
+    FaqController,
+    HomeController,
+    NosotrosController,
+    NuestraTiendaController,
+    PayController,
+    PrivacyController,
+    TermsController,
+    WishlistController
+};
+use Laravel\Fortify\Http\Controllers\{
+    AuthenticatedSessionController,
+    NewPasswordController,
+    PasswordResetLinkController,
+    RegisteredUserController
+};
 
-// Rutas de autenticación con Fortify (Usuarios invitados)
+// 🌍 Página de inicio
+Route::get('/', [HomeController::class, 'index'])->name('home');
+
+// 🌐 Rutas públicas
+Route::get('/categories', fn(Request $request) => response()->json(Category::all()));
+Route::get('/nosotros', [NosotrosController::class, 'index'])->name('nosotros');
+Route::get('/tienda', [NuestraTiendaController::class, 'index'])->name('tienda');
+Route::get('/condiciones', [CondicionesUsoController::class, 'index'])->name('condiciones');
+Route::get('/faq', [FaqController::class, 'index'])->name('faq');
+Route::get('/terms', [TermsController::class, 'index'])->name('terms');
+Route::get('/privacy', [PrivacyController::class, 'index'])->name('privacy');
+Route::get('/cookies', [CookiesController::class, 'index'])->name('cookies');
+Route::get('/addres', [AddresController::class, 'index'])->name('addres');
+Route::get('/pay', [PayController::class, 'index'])->name('pay');
+Route::get('/confirm', [ConfirmController::class, 'index'])->name('confirm');
+Route::get('/admin', [AdminController::class, 'index'])->name('admin');
+Route::get('/privacidad')->name('privacidad');
+Route::get('/soporte')->name('soporte');
+Route::get('/categoria/{slug}')->name('categoria');
+
+// 🧾 Rutas de autenticación Fortify (invitados)
 Route::middleware('guest')->group(function () {
     Route::get('/login', [AuthenticatedSessionController::class, 'create'])->name('login');
     Route::post('/login', [AuthenticatedSessionController::class, 'store']);
@@ -46,13 +63,14 @@ Route::middleware('guest')->group(function () {
     Route::post('/reset-password', [NewPasswordController::class, 'store'])->name('password.update');
 });
 
-// Rutas de verificación de email
+// 📧 Verificación de email
 Route::middleware(['auth'])->group(function () {
     Route::get('/email/verify', fn() => view('auth.verify-email'))->name('verification.notice');
     Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
         $request->fulfill();
         return redirect('/')->with('message', 'Tu correo ha sido verificado correctamente.');
     })->middleware(['signed'])->name('verification.verify');
+
     Route::post('/email/verification-notification', function (Request $request) {
         if (!$request->user()->hasVerifiedEmail()) {
             $request->user()->sendEmailVerificationNotification();
@@ -62,49 +80,39 @@ Route::middleware(['auth'])->group(function () {
     })->middleware('throttle:6,1')->name('verification.send');
 });
 
-// Rutas protegidas (Usuarios autenticados y verificados)
+// 🔒 Rutas autenticadas y verificadas
 Route::middleware(['auth', 'verified'])->group(function () {
+
     Route::get('/logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
 
-    // Rutas de horarios y product controller
-    Route::middleware(['role:admin'])->group(function () {
-        
+    // Contacto (user y restaurant)
+    Route::middleware(['check.roles:user,restaurant'])->group(function () {
+        Route::get('/contacto', [ContactoController::class, 'index'])->name('contacto');
+        Route::post('/contacto/enviar', [ContactoController::class, 'enviarMensaje'])->name('contacto.enviar');
     });
 
-    // Rutas de contacto (Solo users y restaurants)
-    Route::middleware(['role:user,restaurant'])->group(function () {
-        Route::get('/contacto', [ContactoController::class, 'index'])->name('contacto');
-        Route::post('/contacto/enviar', [ContactoController::class, 'enviarMensaje'])->name('contacto.enviar');    });
+    // Lista de deseos (user)
+    Route::middleware(['check.roles:user'])->group(function () {
+        Route::post('/wishlist/add/{product}', [WishlistController::class, 'add'])->name('wishlist.add');
+        Route::get('/wishlist', [WishlistController::class, 'index'])->name('wishlist');
+    });
+
+    // Carrito (user)
+    Route::middleware(['check.roles:user'])->group(function () {
+        Route::get('/cart', [CartController::class, 'index'])->name('cart');
+        Route::post('/cart/add', [CartController::class, 'add'])->name('cart.add');
+        Route::post('/cart/update/{id}', [CartController::class, 'update'])->name('cart.update');
+        Route::delete('/cart/remove/{id}', [CartController::class, 'remove'])->name('cart.remove');
+        Route::post('/cart/clear', [CartController::class, 'clear'])->name('cart.clear');
+    });
+
+    // Panel Admin (admin)
+    Route::middleware(['check.roles:admin'])->group(function () {
+        Route::get('/admin', [AdminController::class, 'index'])->name('admin');
+    });
 });
 
-// 🌎 Rutas públicas
-Route::get('/categories', fn(Request $request) => response()->json(Category::all()));
-Route::get('/', [HomeController::class, 'index'])->name(name: 'home');
-Route::get('/nosotros', [NosotrosController::class, 'index'])->name('nosotros');
-Route::get('/tienda', [NuestraTiendaController::class, 'index'])->name('tienda');
-Route::get('/condiciones', [CondicionesUsoController::class, 'index'])->name(name: 'condiciones');
-
-
-Route::get('/faq', [FaqController::class, 'index'])->name(name: 'faq');
-Route::get('/cart', [CartController::class, 'index'])->name(name: 'cart');
-Route::get('/terms', [TermsController::class, 'index'])->name(name: 'terms');
-Route::get('/privacy', [PrivacyController::class, 'index'])->name(name: 'privacy');
-Route::get('/cookies', [CookiesController::class, 'index'])->name(name: 'cookies');
-Route::get('/addres', [AddresController::class, 'index'])->name(name: 'addres');
-Route::get('/pay', action: [PayController::class, 'index'])->name(name: 'pay');
-Route::get('/confirm', action: [ConfirmController::class, 'index'])->name(name: 'confirm');
-Route::get('/admin', action: [AdminController::class, 'index'])->name(name: 'admin');
-
-
-Route::get('/privacidad')->name(name: 'privacidad');
-Route::get('/soporte')->name(name: 'soporte');
-
-
-// Ruta para mostrar categorías específicas
-Route::get('/categoria/{slug}')->name('categoria');
-
-
-// Redirección login según rol
+// 🚦 Redirección por rol
 Route::get('/home', function () {
     if (!Auth::check()) return redirect('/');
 
@@ -113,27 +121,9 @@ Route::get('/home', function () {
         return redirect('/login')->with('message', 'Debes verificar tu correo antes de continuar.');
     }
 
-    $role = Auth::user()->role;
-
-    return match ($role) {
+    return match (Auth::user()->role) {
         'admin' => redirect()->route('admin'),
         'user' => redirect('/'),
         default => redirect('/'),
     };
 })->name('home');
-
-
-Route::middleware(['auth'])->group(function () {
-    Route::post('/wishlist/add/{product}', [WishlistController::class, 'add'])->name('wishlist.add');
-    Route::get('/wishlist', [WishlistController::class, 'index'])->name('wishlist');
-});
-
-
-
-Route::middleware(['auth'])->group(function () {
-    Route::get('/cart', [CartController::class, 'index'])->name('cart');
-    Route::post('/cart/add', [CartController::class, 'add'])->name('cart.add');
-    Route::post('/cart/update/{id}', [CartController::class, 'update'])->name('cart.update');
-    Route::delete('/cart/remove/{id}', [CartController::class, 'remove'])->name('cart.remove');
-    Route::post('/cart/clear', [CartController::class, 'clear'])->name('cart.clear');
-});
