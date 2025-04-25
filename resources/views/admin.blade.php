@@ -13,7 +13,7 @@
                 <a href="" class="bg-blue-800 hover:bg-blue-700 text-white p-2 rounded-lg">
                     <i class="fas fa-cog"></i>
                 </a>
-                <a href="" class="bg-white hover:bg-gray-100 text-blue-800 font-semibold py-2 px-4 rounded-lg transition shadow">
+                <a href="{{ route('tienda') }}" class="bg-white hover:bg-gray-100 text-blue-800 font-semibold py-2 px-4 rounded-lg transition shadow">
                     <i class="fas fa-store mr-2"></i>{{ __('admin.ver_tienda') }}
                 </a>
             </div>

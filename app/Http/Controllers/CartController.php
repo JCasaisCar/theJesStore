@@ -12,9 +12,22 @@ class CartController extends Controller
     public function index()
 {
     $cart = Cart::firstOrCreate(['user_id' => Auth::id()]);
-    $items = $cart->items()->with('product')->get();
+$items = $cart->items()->with('product')->get();
 
-    return view('cart', compact('items'));
+// Cálculos
+$totalConIVA = 0;
+
+foreach ($items as $item) {
+    $totalConIVA += $item->product->price * $item->quantity;
+}
+
+// Calcular subtotal sin IVA y el IVA (21%)
+$subtotalSinIVA = round($totalConIVA * 100 / 121, 2);
+$iva = round($totalConIVA - $subtotalSinIVA, 2);
+$envio = 4.99;
+$totalFinal = round($totalConIVA + $envio, 2);
+
+return view('cart', compact('items', 'subtotalSinIVA', 'iva', 'envio', 'totalFinal'));
 }
 
 public function add(Request $request)
@@ -40,21 +53,29 @@ public function add(Request $request)
 
 public function update(Request $request, $id)
 {
+
     $user = Auth::user();
+
+    // Verificamos o creamos el carrito
     $cart = Cart::firstOrCreate(['user_id' => $user->id]);
 
+    // Buscamos el item dentro del carrito
     $item = $cart->items()->where('id', $id)->first();
 
+    
     if (!$item) {
         return redirect()->route('cart')->with('error', 'Item no encontrado en tu carrito.');
     }
 
+    // Acción recibida del formulario
     $action = $request->input('action');
 
+    // Aplicar cambio
     if ($action === 'increase') {
         $item->quantity++;
     } elseif ($action === 'decrease' && $item->quantity > 1) {
         $item->quantity--;
+    } else {
     }
 
     $item->save();

@@ -107,12 +107,23 @@
                                             </div>
 
                                             <div class="flex flex-wrap items-center justify-between">
-                                            <form action="{{ route('cart.update', $item->id) }}" method="POST">
-                                                @csrf
-                                                <button type="submit" name="action" value="decrease">-</button>
-                                                <input type="number" value="{{ $item->quantity }}" readonly>
-                                                <button type="submit" name="action" value="increase">+</button>
-                                            </form>
+                                            <div class="flex items-center gap-2">
+    <!-- Botón disminuir -->
+    <form action="{{ route('cart.update', $item->id) }}" method="POST" class="inline">
+        @csrf
+        <input type="hidden" name="action" value="decrease">
+        <button type="submit" class="px-2 py-1 bg-gray-200 rounded">-</button>
+    </form>
+
+    <input type="number" value="{{ $item->quantity }}" readonly class="w-12 text-center border rounded">
+
+    <!-- Botón aumentar -->
+    <form action="{{ route('cart.update', $item->id) }}" method="POST" class="inline">
+        @csrf
+        <input type="hidden" name="action" value="increase">
+        <button type="submit" class="px-2 py-1 bg-gray-200 rounded">+</button>
+    </form>
+</div>
 
                                                 <form action="{{ route('cart.remove', $item->id) }}" method="POST">
                                                     @csrf
@@ -155,23 +166,23 @@
                             <div class="p-4 sm:p-6">
                                 <!-- Subtotal, envío, descuentos -->
                                 <div class="space-y-3 mb-6">
-                                    <div class="flex justify-between">
-                                        <span class="text-gray-600">{{ __('subtotal') }}</span>
-                                        <span class="font-medium">79,98 €</span>
-                                    </div>
-                                    <div class="flex justify-between">
-                                        <span class="text-gray-600">{{ __('envio') }}</span>
-                                        <span class="font-medium">4,99 €</span>
-                                    </div>
-                                    <div class="flex justify-between">
-                                        <span class="text-gray-600">{{ __('impuestos') }}</span>
-                                        <span class="font-medium">16,80 €</span>
-                                    </div>
-                                    <div class="pt-3 border-t border-gray-200 flex justify-between">
-                                        <span class="font-bold text-gray-800">{{ __('total') }}</span>
-                                        <span class="font-bold text-blue-600">101,77 €</span>
-                                    </div>
-                                </div>
+    <div class="flex justify-between">
+        <span class="text-gray-600">{{ __('subtotal') }}</span>
+        <span class="font-medium">{{ number_format($subtotalSinIVA, 2) }} €</span>
+    </div>
+    <div class="flex justify-between">
+        <span class="text-gray-600">{{ __('envio') }}</span>
+        <span class="font-medium">{{ number_format($envio, 2) }} €</span>
+    </div>
+    <div class="flex justify-between">
+        <span class="text-gray-600">{{ __('impuestos') }}</span>
+        <span class="font-medium">{{ number_format($iva, 2) }} €</span>
+    </div>
+    <div class="pt-3 border-t border-gray-200 flex justify-between">
+        <span class="font-bold text-gray-800">{{ __('total') }}</span>
+        <span class="font-bold text-blue-600">{{ number_format($totalFinal, 2) }} €</span>
+    </div>
+</div>
                                 
                                 <!-- Código promocional -->
                                 <div class="mb-6">

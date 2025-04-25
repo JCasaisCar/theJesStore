@@ -92,6 +92,7 @@
                         <div class="mt-3">
                             <span class="text-xl font-bold text-blue-700">{{ number_format($product->price, 2) }}€</span>
                         </div>
+                        @if (!Auth::check() || Auth::user()->role !== 'admin')
                         <div class="mt-4 flex gap-2">
                             <!-- Botón Añadir al carrito -->
                             <form action="{{ route('cart.add') }}" method="POST" class="w-full">
@@ -111,6 +112,7 @@
                                 </button>
                             </form>
                         </div>
+                        @endif
                     </div>
                 </div>
             @empty
