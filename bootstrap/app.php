@@ -23,13 +23,7 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware) {
         $middleware->alias([
-            'role' => RoleMiddleware::class,
-            'admin' => AdminMiddleware::class,
-            'usuario' => UsuarioMiddleware::class,
-            'reserva' => ReservaController::class,
-            'carritoReserva' => CarritoReservaController::class,
-            'restaurant' => RestauranteMiddleware::class,
-            'get-schedule' => ScheduleController::class,
+            'check.roles' => \App\Http\Middleware\CheckRoles::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
