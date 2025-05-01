@@ -245,37 +245,42 @@
                     
                     <div class="p-4 space-y-4">
                         <!-- Subtotal -->
-                        <div class="pt-2">
-                            <div class="flex justify-between py-2">
-                                <span class="text-gray-600">{{ __('subtotal') }}</span>
-                                <span class="font-medium text-gray-800">{{ number_format($order->subtotal, 2) }} €</span>
-                            </div>
-                            
-                            <!-- Envío -->
-                            <div class="flex justify-between py-2">
-                                <span class="text-gray-600">{{ __('envio') }}</span>
-                                <span class="font-medium text-gray-800">{{ $shippingAddress->shippingMethod->precio }} €</span>
-                            </div>
-                            
-                            <!-- Impuestos -->
-                            <div class="flex justify-between py-2">
-                                <span class="text-gray-600">{{ __('impuestos') }}</span>
-                                <span class="font-medium text-gray-800">{{ number_format($order->iva, 2) }} €</span>
-                            </div>
-                            
-                            
-                            <!-- Descuento aplicado -->
-                            <div class="flex justify-between py-2">
+<div class="flex justify-between py-2">
+    <span class="text-gray-600">{{ __('subtotal') }}</span>
+    <span class="font-medium text-gray-800">{{ number_format($order->subtotal, 2) }} €</span>
+</div>
+
+<!-- Envío -->
+<div class="flex justify-between py-2">
+    <span class="text-gray-600">{{ __('envio') }}</span>
+    <span class="font-medium text-gray-800">
+    {{ number_format($order->shippingAddress?->shippingMethod?->precio ?? 0, 2) }} €
+</span>
+</div>
+
+<!-- IVA -->
+<div class="flex justify-between py-2">
+    <span class="text-gray-600">{{ __('impuestos') }}</span>
+    <span class="font-medium text-gray-800">{{ number_format($order->iva, 2) }} €</span>
+</div>
+
+<!-- Descuento aplicado -->
+<div class="flex justify-between py-2">
                                 <span class="text-green-600">{{ __('descuento') }}</span>
                                 <span class="font-medium text-green-600">-</span>
                             </div>
+
+<!-- Total -->
+<div class="flex justify-between py-3 border-t border-gray-200 mt-2">
+    <span class="font-bold text-gray-800">{{ __('total') }}</span>
+    <span class="font-bold text-blue-600 text-xl">{{ number_format($order->total, 2) }} €</span>
+</div>
                             
                             
-                            <!-- Total -->
-                            <div class="flex justify-between py-3 border-t border-gray-200 mt-2">
-                                <span class="font-bold text-gray-800">{{ __('total') }}</span>
-                                <span class="font-bold text-blue-600 text-xl">{{ number_format($order->total, 2) }} €</span>
-                            </div>
+                            
+                            
+                            
+                            
                         </div>
                         
                         <!-- Factura -->
