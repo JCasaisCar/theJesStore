@@ -22,11 +22,15 @@ class ConfirmController extends Controller
         $shippingMethod = ShippingMethod::find(session('shipping_method_id'));
         $shippingPrice = session('shipping_price', 0);
 
-        // Calcular totales
-        $totalConIVA = $cart->items->sum(fn($item) => $item->product->price * $item->quantity);
+        // Total con IVA solo de productos
+        $totalConIVA = $cart->items->sum(fn($item) => floatval($item->product->price) * $item->quantity);
+
+        // Subtotal e IVA solo sobre productos
         $subtotal = round($totalConIVA / 1.21, 2);
         $iva = round($totalConIVA - $subtotal, 2);
-        $total = round($subtotal + $iva + $shippingPrice, 2);
+
+        // Total final: productos (con IVA) + envío (sin IVA)
+        $total = round($totalConIVA + $shippingPrice, 2);
 
         // Crear pedido
         $order = Order::create([
@@ -68,7 +72,7 @@ class ConfirmController extends Controller
             return redirect('/')->with('error', 'No se encontró ningún pedido.');
         }
 
-        $order = Order::with('details.product', 'shippingAddress', 'shippingMethod')->find($orderId);
+        $order = Order::with('details.product', 'shippingAddress.shippingMethod')->find($orderId);
 
         if (!$order) {
             return redirect('/')->with('error', 'Pedido no encontrado.');
@@ -77,7 +81,7 @@ class ConfirmController extends Controller
         return view('confirm', [
             'order' => $order,
             'shippingAddress' => $order->shippingAddress,
-            'shippingMethod' => $order->shippingMethod,
+            'shippingMethod' => $order->shippingAddress->shippingMethod,
         ]);
     }
 }

@@ -10,7 +10,7 @@ use App\Models\ShippingMethod;
 
 class Order extends Model
 {
-    protected $fillable = ['user_id', 'shipping_address_id', 'total', 'status', 'payment_method'];
+    protected $fillable = ['user_id', 'shipping_address_id', 'total', 'subtotal', 'iva', 'status', 'payment_method'];
 
     public function user()
     {

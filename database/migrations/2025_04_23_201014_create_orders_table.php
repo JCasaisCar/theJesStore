@@ -15,7 +15,9 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->foreignId('shipping_address_id')->constrained()->onDelete('cascade');
-            $table->decimal('total', 10, 2);
+            $table->decimal('subtotal', 10, 2)->default(0); // 🆕 Subtotal sin IVA
+            $table->decimal('iva', 10, 2)->default(0);      // 🆕 IVA calculado
+            $table->decimal('total', 10, 2);                // Total final con IVA y envío
             $table->string('status')->default('pendiente');
             $table->string('payment_method');
             $table->timestamps();
