@@ -106,7 +106,7 @@
                                             <input type="radio" id="pago-tarjeta" name="metodo_pago" value="tarjeta" checked class="text-blue-600 focus:ring-blue-600 mr-3">
                                             <label for="pago-tarjeta" class="flex-1 cursor-pointer">
                                                 <div class="flex justify-between items-center">
-                                                    <span class="font-medium text-gray-800">{{ __('tarjeta_credito') }}</span>
+                                                <span class="font-medium text-gray-800">Stripe</span>
                                                     <div class="flex space-x-2">
                                                         <i class="fab fa-cc-visa text-blue-700 text-xl"></i>
                                                         <i class="fab fa-cc-mastercard text-red-600 text-xl"></i>
@@ -114,26 +114,6 @@
                                                     </div>
                                                 </div>
                                             </label>
-                                        </div>
-                                    </div>
-                                    
-                                    <!-- Contenido tarjeta de crédito - Stripe Elements -->
-                                    <div id="tarjeta-content" class="bg-gray-50 rounded-lg p-6 border border-gray-200">
-                                        <!-- Elementos de Stripe se insertarán aquí -->
-                                        <div class="mb-6">
-                                            <label for="card-element" class="block text-sm font-medium text-gray-700 mb-2">{{ __('datos_tarjeta') }}</label>
-                                            <div id="card-element" class="p-4 border border-gray-300 rounded-lg bg-white">
-                                                <!-- Aquí se renderiza el elemento de Stripe -->
-                                            </div>
-                                            <div id="card-errors" class="text-red-600 text-sm mt-2" role="alert"></div>
-                                        </div>
-                                        
-                                        <!-- Nombre en la tarjeta -->
-                                        <div class="mb-6">
-                                            <label for="card-name" class="block text-sm font-medium text-gray-700 mb-2">
-                                                {{ __('nombre_en_tarjeta') }} <span class="text-red-500">*</span>
-                                            </label>
-                                            <input type="text" id="card-name" name="card-name" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
                                         </div>
                                     </div>
                                     
@@ -280,4 +260,47 @@
         </div>
     </div>
 </div>
+
+
+<script src="https://js.stripe.com/v3/"></script>
+<script>
+    const stripe = Stripe("{{ config('services.stripe.key') }}");
+    const stripeUrl = "{{ route('stripe.payment') }}";
+    const paypalUrl = "{{ route('paypal.redirect') }}";
+    const total = "{{ json_encode($total) }}";
+
+    document.getElementById('payment-form').addEventListener('submit', async function (e) {
+        e.preventDefault();
+
+        const metodo = document.querySelector('input[name="metodo_pago"]:checked').value;
+
+        if (metodo === 'tarjeta') {
+            try {
+                const response = await fetch(stripeUrl, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "X-CSRF-TOKEN": "{{ csrf_token() }}"
+                    },
+                    body: JSON.stringify({ amount: total })
+                });
+
+                const data = await response.json();
+
+                if (data.id) {
+                    stripe.redirectToCheckout({ sessionId: data.id });
+                } else {
+                    alert("Error al iniciar pago con Stripe");
+                }
+            } catch (error) {
+                alert("Error de red al contactar Stripe.");
+                console.error(error);
+            }
+        }
+
+        if (metodo === 'paypal') {
+            window.location.href = paypalUrl;
+        }
+    });
+</script>
 @endsection

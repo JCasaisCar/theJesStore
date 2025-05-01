@@ -5,6 +5,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\App;
 use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
+use App\Http\Controllers\StripeController;
+use App\Http\Controllers\PaypalController;
 
 use App\Models\Category;
 use App\Http\Controllers\{
@@ -45,7 +47,7 @@ Route::get('/privacy', [PrivacyController::class, 'index'])->name('privacy');
 Route::get('/cookies', [CookiesController::class, 'index'])->name('cookies');
 Route::get('/addres', [AddresController::class, 'index'])->name('addres');
 Route::get('/pay', [PayController::class, 'index'])->name('pay');
-Route::get('/confirm', [ConfirmController::class, 'index'])->name('confirm');
+// Route::get('/confirm', [ConfirmController::class, 'index'])->name('confirm');
 Route::get('/admin', [AdminController::class, 'index'])->name('admin');
 Route::get('/privacidad')->name('privacidad');
 Route::get('/soporte')->name('soporte');
@@ -129,5 +131,7 @@ Route::get('/home', function () {
 })->name('home');
 
 
-
 Route::post('/addres/store', [AddresController::class, 'store'])->name('addres.store');
+Route::post('/stripe/payment', [StripeController::class, 'pay'])->name('stripe.payment');
+Route::get('/paypal/redirect', [PaypalController::class, 'redirect'])->name('paypal.redirect');
+Route::get('/confirm', [ConfirmController::class, 'success'])->name('confirm');
