@@ -158,12 +158,14 @@
                             
                             <!-- Botón de pago -->
                             <div>
-                                <button type="submit" href="{{ route('confirm') }}" id="submit-button" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-6 rounded-lg transition focus:outline-none focus:ring-4 focus:ring-blue-300 flex justify-center items-center">
+                            <button type="button" id="submit-button" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-6 rounded-lg transition focus:outline-none focus:ring-4 focus:ring-blue-300 flex justify-center items-center">
                                     <span>{{ __('realizar_pago') }}</span>
                                     <i class="fas fa-lock ml-2"></i>
                                 </button>
                             </div>
                         </form>
+
+                        <div id="stripe-error" class="hidden mb-4 p-4 bg-red-100 text-red-700 border border-red-300 rounded"></div>
                     </div>
                 </div>
                 
@@ -264,43 +266,61 @@
 
 <script src="https://js.stripe.com/v3/"></script>
 <script>
+document.addEventListener('DOMContentLoaded', function () {
     const stripe = Stripe("{{ config('services.stripe.key') }}");
     const stripeUrl = "{{ route('stripe.payment') }}";
     const paypalUrl = "{{ route('paypal.redirect') }}";
-    const total = "{{ json_encode($total) }}";
+    const total = parseFloat("{{ str_replace(',', '.', $total) }}");
 
-    document.getElementById('payment-form').addEventListener('submit', async function (e) {
-        e.preventDefault();
+    console.log("Total enviado a Stripe:", total);
 
-        const metodo = document.querySelector('input[name="metodo_pago"]:checked').value;
+    const errorContainer = document.getElementById('stripe-error');
+    const submitBtn = document.getElementById('submit-button');
 
-        if (metodo === 'tarjeta') {
-            try {
-                const response = await fetch(stripeUrl, {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                        "X-CSRF-TOKEN": "{{ csrf_token() }}"
-                    },
-                    body: JSON.stringify({ amount: total })
-                });
+    if (submitBtn) {
+        submitBtn.addEventListener('click', async function (e) {
+            e.preventDefault();
+            errorContainer.classList.add('hidden');
+            errorContainer.innerText = '';
 
-                const data = await response.json();
+            const metodo = document.querySelector('input[name="metodo_pago"]:checked')?.value;
 
-                if (data.id) {
-                    stripe.redirectToCheckout({ sessionId: data.id });
-                } else {
-                    alert("Error al iniciar pago con Stripe");
+            if (!metodo) return;
+
+            if (metodo === 'tarjeta') {
+                try {
+                    const response = await fetch(stripeUrl, {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                            "X-CSRF-TOKEN": "{{ csrf_token() }}"
+                        },
+                        body: JSON.stringify({ amount: total })
+                    });
+
+                    const data = await response.json();
+
+                    if (data.id) {
+                        stripe.redirectToCheckout({ sessionId: data.id });
+                    } else {
+                        errorContainer.innerText = data.error || "Error inesperado al procesar el pago.";
+                        errorContainer.classList.remove('hidden');
+                        console.error("Stripe error:", data.error || data);
+                    }
+                } catch (error) {
+                    errorContainer.innerText = "Error de red al contactar con Stripe.";
+                    errorContainer.classList.remove('hidden');
+                    console.error("Network error:", error);
                 }
-            } catch (error) {
-                alert("Error de red al contactar Stripe.");
-                console.error(error);
             }
-        }
 
-        if (metodo === 'paypal') {
-            window.location.href = paypalUrl;
-        }
-    });
+            if (metodo === 'paypal') {
+                window.location.href = paypalUrl;
+            }
+        });
+    } else {
+        console.error("Botón de pago no encontrado.");
+    }
+});
 </script>
 @endsection
