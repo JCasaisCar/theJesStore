@@ -98,11 +98,11 @@
                             <div class="flex flex-col md:flex-row md:justify-between">
                                 <div class="mb-4 md:mb-0">
                                     <p class="text-sm text-gray-600">{{ __('numero_pedido') }}</p>
-                                    <p class="font-bold text-gray-800">#</p>
+                                    <p class="font-bold text-gray-800">#{{ $order->id }}</p>
                                 </div>
                                 <div class="mb-4 md:mb-0">
                                     <p class="text-sm text-gray-600">{{ __('fecha') }}</p>
-                                    <p class="font-bold text-gray-800"></p>
+                                    <p class="font-bold text-gray-800">{{ $order->created_at->format('d/m/Y') }}</p>
                                 </div>
                                 <div class="mb-4 md:mb-0">
                                     <p class="text-sm text-gray-600">{{ __('estado') }}</p>
@@ -113,7 +113,7 @@
                                 </div>
                                 <div>
                                     <p class="text-sm text-gray-600">{{ __('pago') }}</p>
-                                    <p class="font-bold text-gray-800"></p>
+                                    <p class="font-bold text-gray-800">{{ ucfirst($order->payment_method) }}</p>
                                 </div>
                             </div>
                         </div>
@@ -135,23 +135,23 @@
                                         </tr>
                                     </thead>
                                     <tbody class="divide-y divide-gray-200">
-                                        
-                                        <tr>
-                                            <td class="py-4 px-4">
-                                                <div class="flex items-center">
-                                                    <div class="w-12 h-12 bg-gray-100 rounded mr-3 overflow-hidden">
-                                                        <img src="" alt="" class="w-full h-full object-cover">
+                                        @foreach ($order->details as $detail)
+                                            <tr>
+                                                <td class="py-4 px-4">
+                                                    <div class="flex items-center">
+                                                        <div class="w-12 h-12 bg-gray-100 rounded mr-3 overflow-hidden">
+                                                            <img src="{{ $detail->product->image }}" alt="{{ $detail->product->name }}" class="w-full h-full object-cover">
+                                                        </div>
+                                                        <div>
+                                                            <p class="font-medium text-gray-800">{{ $detail->product->name }}</p>
+                                                            <p class="text-xs text-gray-500">SKU: {{ $detail->product->id }}</p>
+                                                        </div>
                                                     </div>
-                                                    <div>
-                                                        <p class="font-medium text-gray-800"></p>
-                                                        <p class="text-xs text-gray-500">SKU: </p>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td class="py-4 px-4 text-center text-gray-800"></td>
-                                            <td class="py-4 px-4 text-right font-medium text-gray-800"></td>
-                                        </tr>
-                                        
+                                                </td>
+                                                <td class="py-4 px-4 text-center text-gray-800">{{ $detail->quantity }}</td>
+                                                <td class="py-4 px-4 text-right font-medium text-gray-800">{{ number_format($detail->price, 2) }} €</td>
+                                            </tr>
+                                        @endforeach
                                     </tbody>
                                 </table>
                             </div>
@@ -165,11 +165,10 @@
                             </h3>
                             
                             <div class="bg-gray-50 rounded-lg p-4 border border-gray-200">
-                                <p class="font-medium text-gray-800"></p>
-                                <p class="text-gray-600">, </p>
-                                <p class="text-gray-600">, </p>
-                                <p class="text-gray-600"></p>
-                                <p class="text-gray-600"></p>
+                                <p class="font-medium text-gray-800">{{ $shippingAddress->nombre }} {{ $shippingAddress->apellidos }}</p>
+                                <p class="text-gray-600">{{ $shippingAddress->direccion }}, {{ $shippingAddress->codigo_postal }}</p>
+                                <p class="text-gray-600">{{ $shippingAddress->ciudad }}, {{ $shippingAddress->provincia }}</p>
+                                <p class="text-gray-600">{{ $shippingAddress->pais }}</p>
                             </div>
                         </div>
 
@@ -188,8 +187,7 @@
                                     </div>
                                     <div class="mb-4 md:mb-0">
                                         <p class="text-sm text-gray-600">{{ __('metodo_envio') }}</p>
-                                        <p class="font-medium text-gray-800"></p>
-                                    </div>
+                                        <p class="font-medium text-gray-800">{{ $order->shippingAddress?->shippingMethod?->nombre ?? __('desconocido') }}</p>                                    </div>
                                     <div>
                                         <p class="text-sm text-gray-600">{{ __('fecha_estimada') }}</p>
                                         <p class="font-medium text-gray-800">{{ now()->addDays(5)->format('d/m/Y') }}</p>
@@ -250,19 +248,19 @@
                         <div class="pt-2">
                             <div class="flex justify-between py-2">
                                 <span class="text-gray-600">{{ __('subtotal') }}</span>
-                                <span class="font-medium text-gray-800"></span>
+                                <span class="font-medium text-gray-800">{{ number_format($order->subtotal, 2) }} €</span>
                             </div>
                             
                             <!-- Envío -->
                             <div class="flex justify-between py-2">
                                 <span class="text-gray-600">{{ __('envio') }}</span>
-                                <span class="font-medium text-gray-800"></span>
+                                <span class="font-medium text-gray-800">{{ $shippingAddress->shippingMethod->precio }} €</span>
                             </div>
                             
                             <!-- Impuestos -->
                             <div class="flex justify-between py-2">
                                 <span class="text-gray-600">{{ __('impuestos') }}</span>
-                                <span class="font-medium text-gray-800"></span>
+                                <span class="font-medium text-gray-800">{{ number_format($order->iva, 2) }} €</span>
                             </div>
                             
                             
@@ -276,7 +274,7 @@
                             <!-- Total -->
                             <div class="flex justify-between py-3 border-t border-gray-200 mt-2">
                                 <span class="font-bold text-gray-800">{{ __('total') }}</span>
-                                <span class="font-bold text-blue-600 text-xl"></span>
+                                <span class="font-bold text-blue-600 text-xl">{{ number_format($order->total, 2) }} €</span>
                             </div>
                         </div>
                         

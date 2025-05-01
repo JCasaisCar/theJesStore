@@ -11,48 +11,73 @@ use App\Models\ShippingMethod;
 
 class ConfirmController extends Controller
 {
+    public function success(Request $request)
+    {
+        $user = Auth::user();
+        $paymentMethod = $request->query('method', 'desconocido');
+
+        // Obtener el carrito y datos de envío
+        $cart = Cart::with('items.product')->where('user_id', $user->id)->first();
+        $shippingAddress = ShippingAddress::find(session('shipping_address_id'));
+        $shippingMethod = ShippingMethod::find(session('shipping_method_id'));
+        $shippingPrice = session('shipping_price', 0);
+
+        // Calcular totales
+        $totalConIVA = $cart->items->sum(fn($item) => $item->product->price * $item->quantity);
+        $subtotal = round($totalConIVA / 1.21, 2);
+        $iva = round($totalConIVA - $subtotal, 2);
+        $total = round($subtotal + $iva + $shippingPrice, 2);
+
+        // Crear pedido
+        $order = Order::create([
+            'user_id' => $user->id,
+            'shipping_address_id' => $shippingAddress->id,
+            'shipping_method_id' => $shippingMethod->id,
+            'subtotal' => $subtotal,
+            'iva' => $iva,
+            'total' => $total,
+            'status' => 'confirmado',
+            'payment_method' => $paymentMethod,
+        ]);
+
+        // Crear detalles del pedido
+        foreach ($cart->items as $item) {
+            $order->details()->create([
+                'product_id' => $item->product_id,
+                'quantity' => $item->quantity,
+                'price' => $item->product->price,
+            ]);
+        }
+
+        // Vaciar carrito
+        $cart->items()->delete();
+        $cart->delete();
+
+        // Guardar el ID del pedido en sesión y redirigir a vista limpia
+        session()->forget(['shipping_address_id', 'shipping_method_id', 'shipping_price']);
+        session()->put('order_id', $order->id);
+
+        return redirect()->route('confirm');
+    }
+
     public function index()
     {
-        return view('confirm');
-    }
+        $orderId = session('order_id');
 
-    public function success(Request $request)
-{
-    $user = Auth::user();
-    $paymentMethod = $request->query('method', 'desconocido');
+        if (!$orderId) {
+            return redirect('/')->with('error', 'No se encontró ningún pedido.');
+        }
 
-    $cart = Cart::with('items.product')->where('user_id', $user->id)->first();
-    $shippingAddress = ShippingAddress::find(session('shipping_address_id'));
-    $shippingMethod = ShippingMethod::find(session('shipping_method_id'));
-    $shippingPrice = session('shipping_price', 0);
+        $order = Order::with('details.product', 'shippingAddress', 'shippingMethod')->find($orderId);
 
-    $totalConIVA = $cart->items->sum(fn($item) => $item->product->price * $item->quantity);
-    $subtotal = round($totalConIVA / 1.21, 2);
-    $iva = round($totalConIVA - $subtotal, 2);
-    $total = round($subtotal + $iva + $shippingPrice, 2);
+        if (!$order) {
+            return redirect('/')->with('error', 'Pedido no encontrado.');
+        }
 
-    $order = Order::create([
-        'user_id' => $user->id,
-        'shipping_address_id' => $shippingAddress->id,
-        'shipping_method_id' => $shippingMethod->id,
-        'subtotal' => $subtotal,
-        'iva' => $iva,
-        'total' => $total,
-        'status' => 'confirmado',
-        'payment_method' => $paymentMethod,
-    ]);
-
-    foreach ($cart->items as $item) {
-        $order->details()->create([
-            'product_id' => $item->product_id,
-            'quantity' => $item->quantity,
-            'price' => $item->product->price,
+        return view('confirm', [
+            'order' => $order,
+            'shippingAddress' => $order->shippingAddress,
+            'shippingMethod' => $order->shippingMethod,
         ]);
     }
-
-    $cart->items()->delete();
-    $cart->delete();
-
-    return view('confirm', compact('order', 'shippingAddress', 'shippingMethod'));
-}
 }

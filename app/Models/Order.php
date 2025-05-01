@@ -4,6 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Models\OrderDetail;
+use App\Models\User;
+use App\Models\ShippingAddress;
+use App\Models\ShippingMethod;
 
 class Order extends Model
 {
@@ -27,5 +30,10 @@ class Order extends Model
     public function details()
 {
     return $this->hasMany(OrderDetail::class);
+}
+
+public function shippingMethod()
+{
+    return $this->belongsTo(ShippingMethod::class);
 }
 }

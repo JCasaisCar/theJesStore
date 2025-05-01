@@ -134,5 +134,6 @@ Route::get('/home', function () {
 Route::post('/addres/store', [AddresController::class, 'store'])->name('addres.store');
 Route::post('/stripe/payment', [StripeController::class, 'pay'])->name('stripe.payment');
 Route::get('/paypal/redirect', [PaypalController::class, 'redirect'])->name('paypal.redirect');
-Route::get('/confirm', [ConfirmController::class, 'success'])->name('confirm');
+Route::get('/confirm/success', [ConfirmController::class, 'success'])->name('confirm.success');
+Route::get('/confirm', [ConfirmController::class, 'index'])->name('confirm');
 Route::post('/paypal/pay', [PaypalController::class, 'pay'])->name('paypal.pay');
