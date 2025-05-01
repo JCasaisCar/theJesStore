@@ -35,7 +35,7 @@ class PaypalController extends Controller
                 ]
             ]],
             'application_context' => [
-                'return_url' => route('confirm'),
+                'return_url' => route('confirm', ['method' => 'paypal']),
                 'cancel_url' => url('/cancel'),
             ]
         ]);

@@ -35,7 +35,7 @@ class StripeController extends Controller
                     'quantity' => 1,
                 ]],
                 'mode' => 'payment',
-                'success_url' => route('confirm', [], true) . '?success=true',
+                'success_url' => route('confirm', [], true) . '?success=true&method=stripe',
                 'cancel_url' => route('pay', [], true) . '?cancel=true',
             ]);
 

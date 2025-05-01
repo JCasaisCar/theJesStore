@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\OrderDetail;
 
 class Order extends Model
 {
@@ -22,4 +23,9 @@ class Order extends Model
     {
         return $this->hasMany(OrderItem::class);
     }
+
+    public function details()
+{
+    return $this->hasMany(OrderDetail::class);
+}
 }
