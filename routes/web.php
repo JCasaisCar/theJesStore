@@ -127,3 +127,7 @@ Route::get('/home', function () {
         default => redirect('/'),
     };
 })->name('home');
+
+
+
+Route::post('/addres/store', [AddresController::class, 'store'])->name('addres.store');

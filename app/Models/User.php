@@ -6,6 +6,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Models\ShippingAddress;
+
+
 
 class User extends Authenticatable implements MustVerifyEmail
 {
@@ -34,6 +37,15 @@ class User extends Authenticatable implements MustVerifyEmail
             }
         });
     }
+
+    /**
+ * @property \Illuminate\Database\Eloquent\Collection|\App\Models\ShippingAddress[] $shippingAddresses
+ */
+
+    public function shippingAddresses()
+{
+    return $this->hasMany(ShippingAddress::class);
+}
 
     // Relación con product
     public function product()

@@ -213,45 +213,40 @@
                     <div class="p-4 space-y-4">
                         <!-- Productos -->
                         <div class="space-y-3">
-                            <div class="flex justify-between py-2 border-b border-gray-100">
-                                <div class="flex items-center">
-                                    <div class="w-12 h-12 bg-gray-100 rounded mr-3 overflow-hidden">
-                                        <img src="" alt="" class="w-full h-full object-cover">
+                            @foreach ($cart->items as $item)
+                                <div class="flex justify-between py-2 border-b border-gray-100">
+                                    <div class="flex items-center">
+                                        <div class="w-12 h-12 bg-gray-100 rounded mr-3 overflow-hidden">
+                                            <img src="{{ $item->product->image }}" alt="{{ $item->product->name }}" class="w-full h-full object-cover">
+                                        </div>
+                                        <div>
+                                            <p class="font-medium text-gray-800">{{ $item->product->name }}</p>
+                                            <p class="text-xs text-gray-500">{{ __('cantidad') }}: {{ $item->quantity }}</p>
+                                        </div>
                                     </div>
-                                    <div>
-                                        <p class="font-medium text-gray-800"></p>
-                                        <p class="text-xs text-gray-500">{{ __('cantidad') }}: </p>
+                                    <div class="text-right">
+                                        <p class="font-medium text-gray-800">{{ number_format($item->product->price * $item->quantity, 2) }} €</p>
                                     </div>
                                 </div>
-                                <div class="text-right">
-                                    <p class="font-medium text-gray-800"></p>
-                                </div>
-                            </div>
+                            @endforeach
                         </div>
-                        
-                        <!-- Subtotal -->
+
                         <div class="pt-2">
                             <div class="flex justify-between py-2">
                                 <span class="text-gray-600">{{ __('subtotal') }}</span>
-                                <span class="font-medium text-gray-800"></span>
+                                <span class="font-medium text-gray-800">{{ number_format($subtotal, 2) }} €</span>
                             </div>
-                            
-                            <!-- Envío -->
                             <div class="flex justify-between py-2">
                                 <span class="text-gray-600">{{ __('envio') }}</span>
-                                <span class="font-medium text-gray-800"></span>
+                                <span class="font-medium text-gray-800">{{ number_format($shippingPrice, 2) }} €</span>
                             </div>
-                            
-                            <!-- Impuestos -->
                             <div class="flex justify-between py-2">
                                 <span class="text-gray-600">{{ __('impuestos') }}</span>
-                                <span class="font-medium text-gray-800"></span>
+                                <span class="font-medium text-gray-800">{{ number_format($iva, 2) }} €</span>
                             </div>
-                            
-                            <!-- Total -->
                             <div class="flex justify-between py-3 border-t border-gray-200 mt-2">
                                 <span class="font-bold text-gray-800">{{ __('total') }}</span>
-                                <span class="font-bold text-blue-600 text-xl"></span>
+                                <span class="font-bold text-blue-600 text-xl">{{ number_format($total, 2) }} €</span>
                             </div>
                         </div>
                         

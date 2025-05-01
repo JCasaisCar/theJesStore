@@ -81,7 +81,8 @@
                     </div>
                     
                     <div class="p-6">
-                        <form id="shipping-form">
+                    <form id="shipping-form" method="POST" action="{{ route('addres.store') }}">
+                    @csrf
                             <!-- Datos personales -->
                             <div class="mb-8">
                                 <h3 class="text-md font-semibold text-gray-700 mb-4 flex items-center">
@@ -170,41 +171,25 @@
                                 </h3>
                                 
                                 <div class="space-y-4">
-                                    <!-- Opción estándar -->
-                                    <div class="border border-gray-300 rounded-lg p-4 hover:border-blue-600 cursor-pointer transition">
-                                        <div class="flex items-center">
-                                            <input type="radio" id="envio-estandar" name="metodo_envio" value="estandar" checked class="text-blue-600 focus:ring-blue-600 mr-3">
-                                            <label for="envio-estandar" class="flex-1 cursor-pointer">
-                                                <div class="flex flex-col md:flex-row md:items-center md:justify-between">
-                                                    <div>
-                                                        <p class="font-medium text-gray-800">{{ __('envio_estandar') }}</p>
-                                                        <p class="text-sm text-gray-600">{{ __('envio_estandar_desc') }}</p>
+                                    @foreach ($shippingMethods as $method)
+                                        <div class="border border-gray-300 rounded-lg p-4 hover:border-blue-600 cursor-pointer transition" data-envio-container>
+                                            <div class="flex items-center">
+                                                <input type="radio" id="envio-{{ $method->id }}" name="shipping_method_id" value="{{ $method->id }}"
+                                                    class="text-blue-600 focus:ring-blue-600 mr-3" {{ $loop->first ? 'checked' : '' }}>
+                                                <label for="envio-{{ $method->id }}" class="flex-1 cursor-pointer">
+                                                    <div class="flex flex-col md:flex-row md:items-center md:justify-between">
+                                                        <div>
+                                                            <p class="font-medium text-gray-800">{{ $method->nombre }}</p>
+                                                            <p class="text-sm text-gray-600">{{ $method->descripcion }}</p>
+                                                        </div>
+                                                        <div class="mt-2 md:mt-0">
+                                                            <span class="font-bold text-blue-600">{{ number_format($method->precio, 2) }} €</span>
+                                                        </div>
                                                     </div>
-                                                    <div class="mt-2 md:mt-0">
-                                                        <span class="font-bold text-blue-600">4,99 €</span>
-                                                    </div>
-                                                </div>
-                                            </label>
+                                                </label>
+                                            </div>
                                         </div>
-                                    </div>
-                                    
-                                    <!-- Opción express -->
-                                    <div class="border border-gray-300 rounded-lg p-4 hover:border-blue-600 cursor-pointer transition">
-                                        <div class="flex items-center">
-                                            <input type="radio" id="envio-express" name="metodo_envio" value="express" class="text-blue-600 focus:ring-blue-600 mr-3">
-                                            <label for="envio-express" class="flex-1 cursor-pointer">
-                                                <div class="flex flex-col md:flex-row md:items-center md:justify-between">
-                                                    <div>
-                                                        <p class="font-medium text-gray-800">{{ __('envio_express') }}</p>
-                                                        <p class="text-sm text-gray-600">{{ __('envio_express_desc') }}</p>
-                                                    </div>
-                                                    <div class="mt-2 md:mt-0">
-                                                        <span class="font-bold text-blue-600">9,99 €</span>
-                                                    </div>
-                                                </div>
-                                            </label>
-                                        </div>
-                                    </div>
+                                    @endforeach
                                 </div>
                             </div>
                             
@@ -243,29 +228,19 @@
                     <div class="p-4 sm:p-6">
                         <!-- Resumen de productos -->
                         <div class="mb-6">
-                            <h3 class="text-sm font-medium text-gray-700 mb-3">{{ __('productos') }} (2)</h3>
+                        <h3 class="text-sm font-medium text-gray-700 mb-3">{{ __('productos') }} ({{ $cart->items->count() }})</h3>
                             <div class="space-y-3">
-                                <!-- Producto 1 -->
-                                <div class="flex items-center">
-                                    <div class="w-10 h-10 bg-gray-100 rounded-md flex items-center justify-center mr-3">
-                                        <i class="fas fa-tshirt text-gray-400"></i>
+                                @foreach ($cart->items as $item)
+                                    <div class="flex items-center">
+                                        <div class="w-10 h-10 bg-gray-100 rounded-md overflow-hidden mr-3">
+                                            <img src="{{ $item->product->image }}" alt="{{ $item->product->name }}" class="w-full h-full object-cover">
+                                        </div>
+                                        <div class="flex-1 text-sm">
+                                            <p class="text-gray-800 truncate">{{ $item->product->name }}</p>
+                                            <p class="text-gray-500">{{ $item->quantity }} x {{ number_format($item->product->price, 2) }} €</p>
+                                        </div>
                                     </div>
-                                    <div class="flex-1 text-sm">
-                                        <p class="text-gray-800 truncate">{{ __('nombre_producto_1') }}</p>
-                                        <p class="text-gray-500">1 x 29,99 €</p>
-                                    </div>
-                                </div>
-                                
-                                <!-- Producto 2 -->
-                                <div class="flex items-center">
-                                    <div class="w-10 h-10 bg-gray-100 rounded-md flex items-center justify-center mr-3">
-                                        <i class="fas fa-shoe-prints text-gray-400"></i>
-                                    </div>
-                                    <div class="flex-1 text-sm">
-                                        <p class="text-gray-800 truncate">{{ __('nombre_producto_2') }}</p>
-                                        <p class="text-gray-500">1 x 49,99 €</p>
-                                    </div>
-                                </div>
+                                @endforeach
                             </div>
                         </div>
                         
@@ -273,26 +248,26 @@
                         <div class="space-y-3 mb-6">
                             <div class="flex justify-between">
                                 <span class="text-gray-600">{{ __('subtotal') }}</span>
-                                <span class="font-medium">79,98 €</span>
+                                <span class="font-medium">{{ number_format($subtotal, 2) }} €</span>
                             </div>
                             <div class="flex justify-between">
                                 <span class="text-gray-600">{{ __('envio') }}</span>
-                                <span class="font-medium">4,99 €</span>
+                                <span class="font-medium">{{ number_format($envio, 2) }} €</span>
                             </div>
                             <div class="flex justify-between">
                                 <span class="text-gray-600">{{ __('impuestos') }}</span>
-                                <span class="font-medium">16,80 €</span>
+                                <span class="font-medium">{{ number_format($iva, 2) }} €</span>
                             </div>
                             <div class="pt-3 border-t border-gray-200 flex justify-between">
                                 <span class="font-bold text-gray-800">{{ __('total') }}</span>
-                                <span class="font-bold text-blue-600">101,77 €</span>
+                                <span class="font-bold text-blue-600">{{ number_format($total, 2) }} €</span>
                             </div>
                         </div>
                                 
                         <!-- Botón de continuar al pago -->
-                        <a href="{{ route('pay') }}" class="block w-full bg-gradient-to-r from-blue-800 to-blue-600 hover:from-blue-700 hover:to-blue-500 text-white font-bold py-3 px-6 rounded-lg transition shadow-lg text-center">
+                        <button type="submit" form="shipping-form" class="block w-full bg-gradient-to-r from-blue-800 to-blue-600 hover:from-blue-700 hover:to-blue-500 text-white font-bold py-3 px-6 rounded-lg transition shadow-lg text-center">
                             {{ __('continuar_al_pago') }} <i class="fas fa-arrow-right ml-2"></i>
-                        </a>
+                        </button>
                         
                         <!-- Garantías -->
                         <div class="mt-6 text-center">
@@ -310,41 +285,43 @@
 
 <!-- Script para manejo de formulario -->
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        // Selección de opciones de envío
-        const envioOptions = document.querySelectorAll('[name="metodo_envio"]');
-        const envioContainers = document.querySelectorAll('.border.border-gray-300.rounded-lg');
-        
-        envioOptions.forEach((option, index) => {
-            option.addEventListener('change', function() {
-                // Resetear todos los bordes
-                envioContainers.forEach(container => {
-                    container.classList.remove('border-blue-600');
-                    container.classList.add('border-gray-300');
-                });
-                
-                // Destacar el seleccionado
-                if (this.checked) {
-                    envioContainers[index].classList.remove('border-gray-300');
-                    envioContainers[index].classList.add('border-blue-600');
-                    
-                    // Actualizar precio de envío en el resumen
-                    const precioEnvio = this.value === 'estandar' ? '4,99 €' : '9,99 €';
-                    const totalPrecio = this.value === 'estandar' ? '101,77 €' : '106,77 €';
-                    
-                    document.querySelectorAll('.space-y-3.mb-6 .font-medium')[1].textContent = precioEnvio;
-                    document.querySelector('.space-y-3.mb-6 .font-bold.text-blue-600').textContent = totalPrecio;
-                }
+document.addEventListener('DOMContentLoaded', function () {
+    const envioOptions = document.querySelectorAll('[name="shipping_method_id"]');
+
+    envioOptions.forEach(option => {
+        option.addEventListener('change', function () {
+            // Quitar borde azul de todos los contenedores
+            document.querySelectorAll('[data-envio-container]').forEach(container => {
+                container.classList.remove('border-blue-600');
+                container.classList.add('border-gray-300');
             });
-        });
-        
-        // Para que los contenedores actúen como labels
-        envioContainers.forEach((container, index) => {
-            container.addEventListener('click', function() {
-                envioOptions[index].checked = true;
-                envioOptions[index].dispatchEvent(new Event('change'));
-            });
+
+            // Activar contenedor seleccionado
+            const container = this.closest('[data-envio-container]');
+            container.classList.remove('border-gray-300');
+            container.classList.add('border-blue-600');
+
+            // Obtener precio desde el contenedor activo
+            const precioText = container.querySelector('.font-bold.text-blue-600').textContent;
+            const precioEnvio = parseFloat(precioText.replace('€', '').trim().replace(',', '.'));
+            const subtotal = parseFloat('{{ $subtotal }}');
+            const iva = parseFloat('{{ $iva }}');
+            const total = (subtotal + iva + precioEnvio).toFixed(2);
+
+            // Actualizar resumen
+            document.querySelectorAll('.space-y-3.mb-6 .font-medium')[1].textContent = precioEnvio.toFixed(2) + ' €';
+            document.querySelector('.space-y-3.mb-6 .font-bold.text-blue-600').textContent = total + ' €';
         });
     });
+
+    // Clic en contenedor para seleccionar radio
+    document.querySelectorAll('[data-envio-container]').forEach(container => {
+        container.addEventListener('click', function () {
+            const input = container.querySelector('input[type="radio"]');
+            input.checked = true;
+            input.dispatchEvent(new Event('change'));
+        });
+    });
+});
 </script>
 @endsection
