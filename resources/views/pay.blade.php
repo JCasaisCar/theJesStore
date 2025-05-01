@@ -165,6 +165,11 @@
                             </div>
                         </form>
 
+                        <form id="paypal-form" method="POST" action="{{ route('paypal.pay') }}">
+    @csrf
+    <input type="hidden" name="amount" id="paypal-amount">
+</form>
+
                         <div id="stripe-error" class="hidden mb-4 p-4 bg-red-100 text-red-700 border border-red-300 rounded"></div>
                     </div>
                 </div>
@@ -315,8 +320,9 @@ document.addEventListener('DOMContentLoaded', function () {
             }
 
             if (metodo === 'paypal') {
-                window.location.href = paypalUrl;
-            }
+    document.getElementById('paypal-amount').value = total;
+    document.getElementById('paypal-form').submit();
+}
         });
     } else {
         console.error("Botón de pago no encontrado.");
