@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use App\Http\Controllers\StripeController;
 use App\Http\Controllers\PaypalController;
+use App\Http\Controllers\ProductController;
 
 use App\Models\Category;
 use App\Http\Controllers\{
@@ -111,6 +112,52 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // Panel Admin (admin)
     Route::middleware(['check.roles:admin'])->group(function () {
         Route::get('/admin', [AdminController::class, 'index'])->name('admin');
+
+
+
+
+
+
+
+
+
+
+        
+    // Rutas específicas para productos
+    Route::prefix('admin/productos')->group(function () {
+        // Vista principal de gestión de productos
+        Route::get('/', [ProductController::class, 'index'])->name('admin.productos');
+        
+        // Formulario para crear un nuevo producto
+        Route::get('/crear', [ProductController::class, 'create'])->name('admin.productos.create');
+        
+        // Guardar un nuevo producto
+        Route::post('/', [ProductController::class, 'store'])->name('admin.productos.store');
+        
+        // Obtener datos de productos para AJAX
+        Route::get('/listar', [ProductController::class, 'getProducts'])->name('admin.productos.listar');
+        
+        // Ver detalles de un producto específico
+        Route::get('/{producto}', [ProductController::class, 'show'])->name('admin.productos.show');
+        
+        // Formulario para editar un producto
+        Route::get('/{producto}/editar', [ProductController::class, 'edit'])->name('admin.productos.edit');
+        
+        // Actualizar un producto existente
+        Route::put('/{producto}', [ProductController::class, 'update'])->name('admin.productos.update');
+        
+        // Eliminar un producto
+        Route::delete('/{producto}', [ProductController::class, 'destroy'])->name('admin.productos.destroy');
+        
+        // Cambiar rápidamente el estado de un producto (activar/desactivar)
+        Route::patch('/{producto}/estado', [ProductController::class, 'updateStatus'])->name('admin.productos.status');
+        
+        // Obtener categorías para el formulario dinámico
+        Route::get('/categorias/listar', [ProductController::class, 'getCategories'])->name('admin.productos.categorias');
+        
+        // Obtener modelos para el formulario dinámico
+        Route::get('/modelos/listar', [ProductController::class, 'getModels'])->name('admin.productos.modelos');
+    });
     });
 });
 
