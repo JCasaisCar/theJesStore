@@ -31,3 +31,18 @@ import './validarPassword.js'; // Importa el archivo validarPassword.js
 import './unavailableHours.js'; // Importa el archivo unavailableHours.js
 
 import './confirmDelete.js'; // Importa el archivo confirmDelete.js
+
+import './modal.js'; // Importa el archivo que creaste para los modales
+
+import { toggleStatus } from './toggleStatus.js';
+
+// Activar botones de cambio de estado
+document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('[data-toggle-status]').forEach(button => {
+        button.addEventListener('click', () => {
+            const productId = button.dataset.productId;
+            const currentStatus = button.dataset.currentStatus === "1";
+            toggleStatus(productId, currentStatus, button);
+        });
+    });
+});

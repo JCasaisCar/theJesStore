@@ -114,15 +114,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/admin', [AdminController::class, 'index'])->name('admin');
 
 
-
-
-
-
-
-
-
-
-        
     // Rutas específicas para productos
     Route::prefix('admin/productos')->group(function () {
         // Vista principal de gestión de productos
@@ -141,7 +132,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/{producto}', [ProductController::class, 'show'])->name('admin.productos.show');
         
         // Formulario para editar un producto
-        Route::get('/{producto}/editar', [ProductController::class, 'edit'])->name('admin.productos.edit');
+        Route::get('/{producto}/edit', [ProductController::class, 'edit'])->name('admin.productos.edit');
         
         // Actualizar un producto existente
         Route::put('/{producto}', [ProductController::class, 'update'])->name('admin.productos.update');
@@ -157,6 +148,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
         
         // Obtener modelos para el formulario dinámico
         Route::get('/modelos/listar', [ProductController::class, 'getModels'])->name('admin.productos.modelos');
+
+        Route::put('/{product}/stock', [ProductController::class, 'updateStock'])->name('admin.productos.updateStock');
+            
+        Route::patch('/{product}/status', [ProductController::class, 'toggleStatus'])->name('admin.productos.toggleStatus');
+
     });
     });
 });
