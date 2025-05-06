@@ -38,6 +38,8 @@ import './arriba.js';
 
 import './admin.js';
 
+import './cart.js';
+
 
 import { toggleStatus } from './toggleStatus.js';
 
