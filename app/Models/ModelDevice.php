@@ -12,4 +12,9 @@ class ModelDevice extends Model
 {
     return $this->belongsTo(\App\Models\Brand::class, 'brand_id');
 }
+
+public function products()
+{
+    return $this->hasMany(Product::class);
+}
 }

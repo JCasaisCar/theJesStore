@@ -27,4 +27,9 @@ public function model()
 {
     return $this->belongsTo(\App\Models\ModelDevice::class, 'model_id');
 }
+
+public function modelDevice()
+{
+    return $this->belongsTo(ModelDevice::class, 'model_id');
+}
 }

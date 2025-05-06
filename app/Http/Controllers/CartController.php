@@ -7,6 +7,7 @@ use App\Models\Cart;
 use App\Models\CartItem;
 use App\Models\ShippingMethod;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Product;
 
 class CartController extends Controller
 {
@@ -32,48 +33,74 @@ class CartController extends Controller
     }
 
     public function add(Request $request)
-    {
-        $cart = Cart::firstOrCreate(['user_id' => Auth::id()]);
-        $productId = $request->input('product_id');
-        $quantity = $request->input('quantity', 1);
+{
+    $cart = Cart::firstOrCreate(['user_id' => Auth::id()]);
+    $productId = $request->input('product_id');
+    $quantity = $request->input('quantity', 1);
 
-        $item = $cart->items()->where('product_id', $productId)->first();
+    // Obtener el producto desde la base de datos
+    $product = Product::findOrFail($productId);
 
-        if ($item) {
-            $item->quantity += $quantity;
-            $item->save();
-        } else {
-            $cart->items()->create([
-                'product_id' => $productId,
-                'quantity' => $quantity,
-            ]);
-        }
+    // Verificar que la cantidad solicitada no supere el stock disponible
+    $cartItem = $cart->items()->where('product_id', $productId)->first();
+    $currentQuantityInCart = $cartItem ? $cartItem->quantity : 0;
+    $availableStock = $product->stock; // Suponiendo que el campo stock está en el modelo Product
 
-        return redirect()->back()->with('success', 'Producto añadido al carrito.');
+    // Verificar si el carrito ya tiene ese producto y la cantidad total no supere el stock
+    if ($currentQuantityInCart + $quantity > $availableStock) {
+        return redirect()->back()->with('error', 'No puedes añadir más productos al carrito. El stock disponible es limitado.');
     }
 
-    public function update(Request $request, $id)
-    {
-        $user = Auth::user();
-        $cart = Cart::firstOrCreate(['user_id' => $user->id]);
-        $item = $cart->items()->where('id', $id)->first();
-
-        if (!$item) {
-            return redirect()->route('cart')->with('error', 'Item no encontrado en tu carrito.');
-        }
-
-        $action = $request->input('action');
-
-        if ($action === 'increase') {
-            $item->quantity++;
-        } elseif ($action === 'decrease' && $item->quantity > 1) {
-            $item->quantity--;
-        }
-
-        $item->save();
-
-        return redirect()->route('cart')->with('success', 'Cantidad actualizada.');
+    if ($cartItem) {
+        // Si ya hay ese producto, aumentar la cantidad
+        $cartItem->quantity += $quantity;
+        $cartItem->save();
+    } else {
+        // Si no existe en el carrito, agregarlo
+        $cart->items()->create([
+            'product_id' => $productId,
+            'quantity' => $quantity,
+        ]);
     }
+
+    return redirect()->back()->with('success', 'Producto añadido al carrito.');
+}
+
+
+public function update(Request $request, $id)
+{
+    $user = Auth::user();
+    $cart = Cart::firstOrCreate(['user_id' => $user->id]);
+    $item = $cart->items()->where('id', $id)->first();
+
+    if (!$item) {
+        return redirect()->route('cart')->with('error', 'Item no encontrado en tu carrito.');
+    }
+
+    $action = $request->input('action');
+    $product = $item->product; // Obtener el producto relacionado con el item del carrito
+
+    // Obtener el stock disponible del producto
+    $availableStock = $product->stock; 
+
+    // Si la acción es 'increase', verificar que no se supere el stock
+    if ($action === 'increase') {
+        // Verificar que la cantidad total no supere el stock disponible
+        if ($item->quantity + 1 > $availableStock) {
+            return redirect()->route('cart')->with('error', 'No puedes aumentar la cantidad del producto. El stock disponible es limitado.');
+        }
+        $item->quantity++;
+    } 
+    // Si la acción es 'decrease', verificar que la cantidad no se vuelva negativa
+    elseif ($action === 'decrease' && $item->quantity > 1) {
+        $item->quantity--;
+    }
+
+    $item->save();
+
+    return redirect()->route('cart')->with('success', 'Cantidad actualizada.');
+}
+
 
     public function remove($id)
     {

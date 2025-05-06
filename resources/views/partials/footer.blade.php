@@ -86,14 +86,18 @@
         </h4>
         <p class="text-sm text-gray-300 mb-3">{{ __('suscribete_ofertas') }}</p>
         
-        <form class="mb-4">
+        <form action="{{ route('newsletter.subscribe') }}" method="POST" class="mb-4">
+          @csrf
           <div class="flex">
-            <input type="email" placeholder="{{ __('tu_email') }}" class="px-4 py-2 bg-gray-800 text-white rounded-l-md border border-gray-700 focus:outline-none focus:border-blue-500 w-full text-sm">
+            <input type="email" name="email" placeholder="{{ __('tu_email') }}"
+              class="px-4 py-2 bg-gray-800 text-white rounded-l-md border border-gray-700 focus:outline-none focus:border-blue-500 w-full text-sm" required>
             <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-r-md transition">
               <i class="fas fa-paper-plane"></i>
             </button>
           </div>
         </form>
+
+
         
         <h5 class="font-semibold text-white mb-3">{{ __('siguenos') }}</h5>
         <div class="flex justify-center md:justify-start space-x-4">
@@ -130,26 +134,3 @@
     <i class="fas fa-arrow-up"></i>
   </a>
 </footer>
-
-<script>
-  // Botón volver arriba
-  const volverArriba = document.getElementById('volver-arriba');
-  
-  window.addEventListener('scroll', () => {
-    if (window.scrollY > 300) {
-      volverArriba.classList.remove('opacity-0', 'invisible');
-      volverArriba.classList.add('opacity-100', 'visible');
-    } else {
-      volverArriba.classList.add('opacity-0', 'invisible');
-      volverArriba.classList.remove('opacity-100', 'visible');
-    }
-  });
-  
-  volverArriba.addEventListener('click', (e) => {
-    e.preventDefault();
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth'
-    });
-  });
-</script>

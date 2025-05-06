@@ -12,7 +12,7 @@ class NuestraTiendaController extends Controller
 {
     public function index(Request $request)
 {
-    $query = Product::with(['category', 'model.brand']);
+    $query = Product::with(['category', 'model.brand'])->where('active', true);
 
     // Búsqueda
     if ($request->filled('search')) {

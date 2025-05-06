@@ -12,11 +12,6 @@
                 {{ __('descubre_dispositivos_premium') }}
             </p>
         </div>
-        <!-- Decoraciones de fondo -->
-        <div class="absolute top-0 left-0 w-full h-full overflow-hidden opacity-10">
-            <div class="absolute top-0 right-0 w-1/3 h-1/3 bg-pink-400 rounded-full blur-3xl"></div>
-            <div class="absolute bottom-0 left-0 w-1/4 h-1/2 bg-indigo-500 rounded-full blur-3xl"></div>
-        </div>
     </div>
 </div>
 
@@ -92,17 +87,33 @@
                         <div class="mt-3">
                             <span class="text-xl font-bold text-blue-700">{{ number_format($product->price, 2) }}€</span>
                         </div>
+
+                        <!-- Mostrar el stock -->
+                        <p class="text-sm text-gray-600 mt-2">
+                            @if($product->stock > 0)
+                                {{ __('stock_disponible') }}: {{ $product->stock }}
+                            @else
+                                <span class="text-red-600">{{ __('sin_stock') }}</span>
+                            @endif
+                        </p>
+
                         @if (!Auth::check() || Auth::user()->role !== 'admin')
                         <div class="mt-4 flex gap-2">
-                            <!-- Botón Añadir al carrito -->
-                            <form action="{{ route('cart.add') }}" method="POST" class="w-full">
-                                @csrf
-                                <input type="hidden" name="product_id" value="{{ $product->id }}">
-                                <input type="hidden" name="quantity" value="1">
-                                <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg w-full flex items-center justify-center">
-                                    <i class="fas fa-shopping-cart mr-1"></i> {{ __('añadir') }}
+                            <!-- Botón Añadir al carrito (solo si hay stock) -->
+                            @if($product->stock > 0)
+                                <form action="{{ route('cart.add') }}" method="POST" class="w-full">
+                                    @csrf
+                                    <input type="hidden" name="product_id" value="{{ $product->id }}">
+                                    <input type="hidden" name="quantity" value="1">
+                                    <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg w-full flex items-center justify-center">
+                                        <i class="fas fa-shopping-cart mr-1"></i> {{ __('añadir') }}
+                                    </button>
+                                </form>
+                            @else
+                                <button type="button" class="bg-gray-400 text-white font-medium py-2 px-4 rounded-lg w-full flex items-center justify-center cursor-not-allowed" disabled>
+                                    <i class="fas fa-shopping-cart mr-1"></i> {{ __('sin_stock') }}
                                 </button>
-                            </form>
+                            @endif
 
                             <!-- Botón Lista de deseos -->
                             <form action="{{ route('wishlist.add', $product) }}" method="POST" class="w-full">
@@ -132,16 +143,26 @@
         <div class="max-w-2xl mx-auto text-center">
             <h2 class="text-2xl md:text-3xl font-bold text-white mb-4">{{ __('suscribete_newsletter') }}</h2>
             <p class="text-gray-300 mb-6">{{ __('recibe_ofertas_exclusivas') }}</p>
-            <form class="flex flex-col md:flex-row gap-2">
-                <input type="email" placeholder="{{ __('tu_email') }}" class="flex-grow px-4 py-3 rounded-lg border-0 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition transform hover:scale-105">
+
+            <form action="{{ route('newsletter.subscribe') }}" method="POST" class="flex flex-col md:flex-row gap-2">
+                @csrf
+                <input type="email" name="email" placeholder="{{ __('tu_email') }}"
+                    class="flex-grow px-4 py-3 rounded-lg border-0 focus:outline-none focus:ring-2 focus:ring-blue-500 @error('email') ring-2 ring-red-500 @enderror">
+                <button type="submit"
+                    class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition transform hover:scale-105">
                     {{ __('suscribirse') }} <i class="fas fa-paper-plane ml-2"></i>
                 </button>
             </form>
+
+            @error('email')
+                <p class="text-red-400 text-sm mt-2">{{ $message }}</p>
+            @enderror
+
             <p class="text-gray-400 text-sm mt-4">{{ __('privacidad_garantizada') }}</p>
         </div>
     </div>
 </div>
+
 
 <!-- Badges/Ventajas -->
 <div class="bg-white py-10">
@@ -174,5 +195,4 @@
                     <p class="text-sm text-gray-600 mt-1">{{ __('garantia_dias') }}</p>
                 </div>
             </div>
-            
 @endsection

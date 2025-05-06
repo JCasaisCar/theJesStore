@@ -15,6 +15,7 @@
         <table class="min-w-full table-auto">
             <thead>
                 <tr class="border-b">
+                    <th class="py-3 text-left">ID</th>
                     <th class="py-3 text-left">Producto</th>
                     <th class="py-3 text-left">Stock</th>
                     <th class="py-3 text-left">Estado</th>
@@ -24,10 +25,11 @@
             <tbody>
                 @foreach ($products as $product)
                 <tr class="hover:bg-gray-50">
+                    <td class="py-3">{{ $product->id }}</td>
                     <td class="py-3">{{ $product->name }}</td>
                     <td class="py-3">
-                        <form action="{{ route('admin.productos.updateStock', $product) }}" method="POST">
-                            @csrf
+                    <form action="{{ route('admin.productos.updateStock', $product) }}" method="POST">
+                    @csrf
                             @method('PUT')
                             <input type="number" name="stock" value="{{ $product->stock }}" class="border border-gray-300 p-1 rounded">
                             <button type="submit" class="bg-blue-600 text-white px-2 py-1 rounded">Actualizar</button>
@@ -83,12 +85,11 @@
             <!-- Categoría del producto -->
             <div class="mb-4">
                 <label for="category" class="block text-sm font-medium text-gray-700">Categoría</label>
-                <select name="category" id="category" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm" required>
+                <select name="category_id" id="category" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm" required>
                     <option value="">Seleccionar categoría</option>
-                    <!-- Asegúrate de cargar las categorías dinámicamente si es necesario -->
-                    <option value="1">Electrónica</option>
-                    <option value="2">Ropa</option>
-                    <option value="3">Accesorios</option>
+                    @foreach ($categories as $category)
+                        <option value="{{ $category->id }}">{{ $category->name }}</option>
+                    @endforeach
                 </select>
             </div>
 
@@ -96,6 +97,36 @@
             <div class="mb-4">
                 <label for="image" class="block text-sm font-medium text-gray-700">Imagen</label>
                 <input type="file" name="image" id="image" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm" accept="image/*">
+            </div>
+
+            <!-- Marca del dispositivo -->
+            <div class="mb-4">
+                <label for="brand_id" class="block text-sm font-medium text-gray-700">Marca</label>
+                <select name="brand_id" id="brand_id" class="block w-full mt-1 border-gray-300 rounded-md shadow-sm">
+                    <option value="">Seleccionar marca</option>
+                    @foreach ($brands as $brand)
+                        <option value="{{ $brand->id }}">{{ $brand->name }}</option>
+                    @endforeach
+                </select>
+                <input type="text" name="new_brand" id="new_brand" class="mt-2 block w-full border-gray-300 rounded-md shadow-sm" placeholder="O escribe una nueva marca">
+            </div>
+
+            <!-- Modelo del dispositivo -->
+            <div class="mb-4">
+                <label for="model_id" class="block text-sm font-medium text-gray-700">Modelo</label>
+                <select name="model_id" id="model_id" class="block w-full mt-1 border-gray-300 rounded-md shadow-sm">
+                    <option value="">Seleccionar modelo</option>
+                    @foreach ($models as $model)
+                        <option value="{{ $model->id }}">{{ $model->name }}</option>
+                    @endforeach
+                </select>
+                <input type="text" name="new_model" id="new_model" class="mt-2 block w-full border-gray-300 rounded-md shadow-sm" placeholder="O escribe un nuevo modelo">
+            </div>
+
+            <!-- Stock del producto -->
+            <div class="mb-4">
+                <label for="stock" class="block text-sm font-medium text-gray-700">Stock</label>
+                <input type="number" name="stock" id="stock" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">
             </div>
 
             <!-- Estado del producto -->
@@ -149,21 +180,42 @@
             <!-- Categoría del producto -->
             <div class="mb-4">
                 <label for="editCategory" class="block text-sm font-medium text-gray-700">Categoría</label>
-                <select name="category" id="editCategory" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm" required>
+                <select name="category_id" id="editCategory" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm" required>
                     <option value="">Seleccionar categoría</option>
-                    <option value="1">Electrónica</option>
-                    <option value="2">Ropa</option>
-                    <option value="3">Accesorios</option>
+                    @foreach ($categories as $category)
+                        <option value="{{ $category->id }}">{{ $category->name }}</option>
+                    @endforeach
                 </select>
             </div>
 
-            <!-- Imagen del producto -->
+            <!-- Marca -->
             <div class="mb-4">
-                <label for="editImage" class="block text-sm font-medium text-gray-700">Imagen</label>
-                <input type="file" name="image" id="editImage" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm" accept="image/*" onchange="previewImage(event)">
-                <div class="mt-2" id="imagePreview">
-                    <!-- Vista previa de la imagen aquí -->
-                </div>
+                <label for="editBrand" class="block text-sm font-medium text-gray-700">Marca</label>
+                <select name="brand_id" id="editBrand" class="block w-full mt-1 border-gray-300 rounded-md shadow-sm">
+                    <option value="">Seleccionar marca</option>
+                    @foreach ($brands as $brand)
+                        <option value="{{ $brand->id }}">{{ $brand->name }}</option>
+                    @endforeach
+                </select>
+                <input type="text" name="new_brand" id="new_brand" class="mt-2 block w-full border-gray-300 rounded-md shadow-sm" placeholder="O escribe una nueva marca">
+            </div>
+
+            <!-- Modelo -->
+            <div class="mb-4">
+                <label for="editModel" class="block text-sm font-medium text-gray-700">Modelo</label>
+                <select name="model_id" id="editModel" class="block w-full mt-1 border-gray-300 rounded-md shadow-sm">
+                    <option value="">Seleccionar modelo</option>
+                    @foreach ($models as $model)
+                        <option value="{{ $model->id }}">{{ $model->name }}</option>
+                    @endforeach
+                </select>
+                <input type="text" name="new_model" id="new_model" class="mt-2 block w-full border-gray-300 rounded-md shadow-sm" placeholder="O escribe un nuevo modelo">
+            </div>
+
+            <!-- Stock del producto -->
+            <div class="mb-4">
+                <label for="editStock" class="block text-sm font-medium text-gray-700">Stock</label>
+                <input type="number" name="stock" id="editStock" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">
             </div>
 
             <!-- Estado del producto -->
@@ -174,6 +226,7 @@
                     <option value="0">Inactivo</option>
                 </select>
             </div>
+
 
             <div class="flex justify-end">
                 <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded">Actualizar Producto</button>

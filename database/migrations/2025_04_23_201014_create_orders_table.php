@@ -19,6 +19,7 @@ return new class extends Migration
             $table->decimal('iva', 10, 2)->default(0);      // 🆕 IVA calculado
             $table->decimal('total', 10, 2);                // Total final con IVA y envío
             $table->string('status')->default('pendiente');
+            $table->string('tracking')->default('preparation');
             $table->string('payment_method');
             $table->timestamps();
         });

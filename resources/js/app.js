@@ -34,6 +34,8 @@ import './confirmDelete.js'; // Importa el archivo confirmDelete.js
 
 import './modal.js'; // Importa el archivo que creaste para los modales
 
+import './arriba.js';
+
 import { toggleStatus } from './toggleStatus.js';
 
 // Activar botones de cambio de estado

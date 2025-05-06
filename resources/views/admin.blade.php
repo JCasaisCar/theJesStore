@@ -8,12 +8,9 @@
         <div class="flex flex-col md:flex-row justify-between items-center">
             <div class="text-white mb-4 md:mb-0">
                 <h1 class="text-3xl font-bold">{{ __('admin.panel_administracion') }}</h1>
-                <p class="text-blue-100">{{ __('admin.bienvenido') }},</p>
+                <p class="text-blue-100">{{ __('admin.bienvenido') }}, {{ Auth::user()->name }}</p>
             </div>
             <div class="flex items-center space-x-3">
-                <a href="#" class="bg-blue-800 hover:bg-blue-700 text-white p-2 rounded-lg">
-                    <i class="fas fa-cog"></i>
-                </a>
                 <a href="{{ route('tienda') }}" class="bg-white hover:bg-gray-100 text-blue-800 font-semibold py-2 px-4 rounded-lg transition shadow">
                     <i class="fas fa-store mr-2"></i>{{ __('admin.ver_tienda') }}
                 </a>
@@ -29,9 +26,11 @@
         <div class="bg-white rounded-xl shadow-md p-6 border-l-4 border-blue-500">
             <div class="flex justify-between items-start">
                 <div>
-                    <p class="text-gray-500 text-sm">{{ __('admin.ventas_totales') }}</p>
-                    <h3 class="text-2xl font-bold text-gray-800">€</h3>
-                    <p class="text-sm text-green-500"><i class="fas fa-arrow-up mr-1"></i></p>
+                    <p class="text-gray-500 text-sm">{{ __('admin.ventas_totales_completadas') }}</p>
+                    <h3 class="text-2xl font-bold text-gray-800">€{{ number_format($totalVentas, 2, ',', '.') }}</h3>
+                    <p class="text-sm text-green-500">
+                        <i class="fas fa-arrow-up mr-1"></i>{{ $totalPedidos }} ventas
+                    </p>
                 </div>
                 <div class="rounded-full bg-blue-100 p-3">
                     <i class="fas fa-shopping-cart text-blue-500 text-xl"></i>
@@ -39,16 +38,16 @@
             </div>
         </div>
 
-        <!-- Pedidos -->
-        <div class="bg-white rounded-xl shadow-md p-6 border-l-4 border-green-500">
+        <!-- Pedidos en Preparación -->
+        <div class="bg-white rounded-xl shadow-md p-6 border-l-4 border-yellow-500">
             <div class="flex justify-between items-start">
                 <div>
-                    <p class="text-gray-500 text-sm">{{ __('admin.pedidos_nuevos') }}</p>
-                    <h3 class="text-2xl font-bold text-gray-800"></h3>
-                    <p class="text-sm text-gray-500">{{ __('admin.pendientes') }}:</p>
+                    <p class="text-gray-500 text-sm">{{ __('admin.pedidos_preparacion') }}</p>
+                    <h3 class="text-2xl font-bold text-gray-800">{{ $pedidosEnPreparacion }}</h3>
+                    <p class="text-sm text-yellow-500"><i class="fas fa-truck-loading mr-1"></i>{{ __('admin.en_preparacion') }}</p>
                 </div>
-                <div class="rounded-full bg-green-100 p-3">
-                    <i class="fas fa-box text-green-500 text-xl"></i>
+                <div class="rounded-full bg-yellow-100 p-3">
+                    <i class="fas fa-box-open text-yellow-500 text-xl"></i>
                 </div>
             </div>
         </div>
@@ -76,7 +75,7 @@
                     <p class="text-gray-500 text-sm">{{ __('admin.productos_activos') }}</p>
                     <h3 class="text-2xl font-bold text-gray-800">{{ $productosActivos }}</h3>
                     <p class="text-sm text-amber-500">
-                        <i class="fas fa-exclamation-triangle mr-1"></i>{{ __('admin.stock_bajo') }}: {{ $stockBajo }}
+                        <i class="fas fa-exclamation-triangle mr-1"></i>{{ __('admin.productos_inactivos') }}: {{ $productosInactivos }}
                     </p>
                 </div>
                 <div class="rounded-full bg-red-100 p-3">
@@ -88,108 +87,124 @@
 
     <!-- Gráficos y Actividad Reciente -->
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-8">
-        <!-- Gráfico de Ventas -->
-        <div class="lg:col-span-2 bg-white rounded-xl shadow-md p-6">
-            <div class="flex justify-between items-center mb-4">
-                <h3 class="text-xl font-semibold text-gray-800">{{ __('admin.ventas_recientes') }}</h3>
-                <div class="flex space-x-2">
-                    <button class="text-sm px-3 py-1 rounded-md bg-blue-100 text-blue-700">{{ __('admin.mensual') }}</button>
-                    <button class="text-sm px-3 py-1 rounded-md text-gray-500 hover:bg-gray-100">{{ __('admin.trimestral') }}</button>
-                    <button class="text-sm px-3 py-1 rounded-md text-gray-500 hover:bg-gray-100">{{ __('admin.anual') }}</button>
-                </div>
-            </div>
-            <div class="h-64 flex items-center justify-center">
-                <canvas id="salesChart"></canvas>
-            </div>
+        <!-- Actualización para el Gráfico de Ventas -->
+<div class="lg:col-span-2 bg-white rounded-xl shadow-md p-6">
+    <div class="flex justify-between items-center mb-4">
+        <h3 class="text-xl font-semibold text-gray-800">{{ __('admin.ventas_recientes_completadas') }}</h3>
+        <div class="flex space-x-2">
+            <button id="btn-mensual" class="text-sm px-3 py-1 rounded-md bg-blue-100 text-blue-700 periodo-btn active">{{ __('admin.mensual') }}</button>
+            <button id="btn-trimestral" class="text-sm px-3 py-1 rounded-md text-gray-500 hover:bg-gray-100 periodo-btn">{{ __('admin.trimestral') }}</button>
+            <button id="btn-anual" class="text-sm px-3 py-1 rounded-md text-gray-500 hover:bg-gray-100 periodo-btn">{{ __('admin.anual') }}</button>
         </div>
+    </div>
+    <div class="h-64 flex items-center justify-center" id="chart-container">
+        <canvas id="salesChart"></canvas>
+    </div>
+</div>
 
-        <!-- Actividad Reciente -->
-        <div class="bg-white rounded-xl shadow-md p-6">
-            <h3 class="text-xl font-semibold text-gray-800 mb-4">{{ __('admin.actividad_reciente') }}</h3>
-            <div class="space-y-4">
-                <div class="flex items-start space-x-3">
-                    <div class="flex-shrink-0">
-                        <div class="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center">
-                            <i class="fas fa-shopping-bag text-green-500"></i>
-                        </div>
-                    </div>
-                    <div>
-                        <p class="text-sm text-gray-800"></p>
-                        <p class="text-xs text-gray-500"></p>
-                    </div>
-                </div>
-                <a href="#" class="block text-center text-sm text-blue-600 hover:text-blue-800 mt-2">
-                    {{ __('admin.ver_todas_actividades') }}
-                </a>
-            </div>
-        </div>
+        <!-- Productos con stock bajo -->
+<div class="bg-white rounded-xl shadow-md p-6">
+    <h3 class="text-xl font-semibold text-gray-800 mb-4">{{ __('admin.productos_stock_bajo') }}</h3>
+    
+    <div class="overflow-x-auto">
+        <table class="min-w-full">
+            <thead>
+                <tr class="border-b border-gray-200">
+                    <th class="py-3 text-left text-xs font-medium text-gray-500 uppercase">ID</th>
+                    <th class="py-3 text-left text-xs font-medium text-gray-500 uppercase">{{ __('admin.nombre') }}</th>
+                    <th class="py-3 text-left text-xs font-medium text-gray-500 uppercase">{{ __('admin.stock') }}</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($productosConStockBajo as $producto)
+                    <tr class="hover:bg-gray-50">
+                        <td class="py-3 text-sm">{{ $producto->id }}</td>
+                        <td class="py-3 text-sm">{{ $producto->name }}</td>
+                        <td class="py-3 text-sm">{{ $producto->stock }}</td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
+    </div>
+</div>
+
     </div>
 
     <!-- Pedidos y Mensajes -->
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-8">
         <!-- Pedidos Recientes -->
         <div class="bg-white rounded-xl shadow-md p-6">
-            <div class="flex justify-between items-center mb-4">
-                <h3 class="text-xl font-semibold text-gray-800">{{ __('admin.pedidos_recientes') }}</h3>
-                <a href="#" class="text-blue-600 hover:text-blue-800 text-sm">{{ __('admin.ver_todos') }}</a>
-            </div>
-            <div class="overflow-x-auto">
-                <table class="min-w-full">
-                    <thead>
-                        <tr class="border-b border-gray-200">
-                            <th class="py-3 text-left text-xs font-medium text-gray-500 uppercase">ID</th>
-                            <th class="py-3 text-left text-xs font-medium text-gray-500 uppercase">{{ __('admin.cliente') }}</th>
-                            <th class="py-3 text-left text-xs font-medium text-gray-500 uppercase">{{ __('admin.estado') }}</th>
-                            <th class="py-3 text-left text-xs font-medium text-gray-500 uppercase">{{ __('admin.total') }}</th>
-                            <th class="py-3 text-left text-xs font-medium text-gray-500 uppercase">{{ __('admin.fecha') }}</th>
-                            <th class="py-3 text-xs font-medium text-gray-500 uppercase"></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr class="hover:bg-gray-50">
-                            <td class="py-3 text-sm">#</td>
-                            <td class="py-3 text-sm"></td>
-                            <td class="py-3 text-sm">
-                                <span class="px-2 py-1 text-xs rounded-full bg-green-100 text-green-800">{{ __('admin.completado') }}</span>
-                            </td>
-                            <td class="py-3 text-sm">€</td>
-                            <td class="py-3 text-sm"></td>
-                            <td class="py-3 text-right">
-                                <a href="#" class="text-blue-600 hover:text-blue-800"><i class="fas fa-eye"></i></a>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
+    <div class="flex justify-between items-center mb-4">
+        <h3 class="text-xl font-semibold text-gray-800">{{ __('admin.pedidos') }}</h3>
+        <a href="#" onclick="abrirModalPedidos()" class="text-blue-600 hover:text-blue-800 text-sm">
+            {{ __('admin.ver_todos') }}
+        </a>
+    </div>
+
+    <div class="overflow-x-auto">
+        <table class="min-w-full">
+            <thead>
+                <tr class="border-b border-gray-200">
+                    <th class="py-3 text-left text-xs font-medium text-gray-500 uppercase">ID</th>
+                    <th class="py-3 text-left text-xs font-medium text-gray-500 uppercase">{{ __('admin.cliente') }}</th>
+                    <th class="py-3 text-left text-xs font-medium text-gray-500 uppercase">{{ __('admin.estado') }}</th>
+                    <th class="py-3 text-left text-xs font-medium text-gray-500 uppercase">{{ __('admin.total') }}</th>
+                    <th class="py-3 text-left text-xs font-medium text-gray-500 uppercase">{{ __('admin.fecha') }}</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($ultimosPedidos as $pedido)
+                    <tr class="hover:bg-gray-50">
+                        <td class="py-3 text-sm">#{{ $pedido->id }}</td>
+                        <td class="py-3 text-sm">{{ $pedido->user->name ?? 'Sin cliente' }}</td>
+                        <td class="py-3 text-sm">
+                            <span class="px-2 py-1 text-xs rounded-full bg-green-100 text-green-800">
+                                {{ $pedido->status }}
+                            </span>
+                        </td>
+                        <td class="py-3 text-sm">€{{ number_format($pedido->total, 2) }}</td>
+                        <td class="py-3 text-sm">{{ $pedido->created_at->format('d/m/Y') }}</td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
+    </div>
+
+    <div class="mt-4">
+        {{ $ultimosPedidos->links() }}
+    </div>
+</div>
 
         <!-- Mensajes -->
-        <div class="bg-white rounded-xl shadow-md p-6">
-            <div class="flex justify-between items-center mb-4">
-                <h3 class="text-xl font-semibold text-gray-800">{{ __('admin.mensajes_recientes') }}</h3>
-                <a href="#" class="text-blue-600 hover:text-blue-800 text-sm">{{ __('admin.ver_todos') }}</a>
-            </div>
-            <div class="space-y-4">
-                <div class="p-4 rounded-lg bg-gray-50 hover:bg-gray-100">
-                    <div class="flex justify-between">
-                        <h4 class="font-semibold text-gray-800"></h4>
-                        <span class="text-xs text-gray-500"></span>
-                    </div>
-                    <p class="text-sm text-gray-600 mt-1"></p>
-                    <div class="flex justify-between items-center mt-2">
-                        <span class="text-xs text-gray-500"></span>
-                        <a href="#" class="text-sm text-blue-600 hover:text-blue-800">
-                            {{ __('admin.ver_mensaje') }}
-                        </a>
-                    </div>
-                </div>
+        <div class="bg-white p-4 rounded shadow mb-6">
+        <h2 class="text-xl font-bold mb-4">Mensajes recientes</h2>
 
-                <div class="text-center py-4 text-gray-500">
-                    <i class="fas fa-inbox text-2xl mb-2"></i>
-                    <p>{{ __('admin.no_mensajes_nuevos') }}</p>
-                </div>
+        @foreach ($ultimosContactos as $contacto)
+            <div class="border-b py-2">
+                <p><strong>{{ $contacto->user->name ?? $contacto->name }}</strong> ({{ $contacto->created_at->format('d/m/Y H:i') }})</p>
+                <p class="text-gray-700">Asunto: {{ $contacto->asunto }}</p>
+                <button 
+                    class="mt-2 text-blue-600 hover:underline"
+                    onclick="openModal({{ $contacto->id }}, 
+                        '{{ addslashes($contacto->user->name ?? $contacto->name) }}', 
+                        '{{ addslashes($contacto->user->email ?? $contacto->email) }}', 
+                        '{{ addslashes($contacto->telefono ?? '') }}', 
+                        '{{ addslashes($contacto->asunto) }}', 
+                        '{{ addslashes($contacto->mensaje) }}', 
+                        '{{ addslashes($contacto->answer ?? '') }}', 
+                        '{{ $contacto->created_at->format('d/m/Y H:i') }}'
+                    )"
+                >
+                    Ver y responder o editar respuesta
+                </button>
             </div>
+        @endforeach
+
+        <div class="mt-4">
+            {{ $ultimosContactos->links() }}
         </div>
+    </div>
+
     </div>
 
     <!-- Productos Totales -->
@@ -217,11 +232,267 @@
                 </a>
             </div>
         </div>
-        <div class="bg-gray-50 px-6 py-3">
-            <a href="{{ route('admin.productos.create') }}" class="text-sm text-blue-600 hover:text-blue-500 font-medium transition">
-                <i class="fas fa-plus mr-1"></i>{{ __('admin.añadir_producto') }}
-            </a>
-        </div>
     </div>
 </div>
+
+
+<!-- Modal de Pedidos -->
+<div id="modalPedidos" class="fixed inset-0 z-50 bg-black bg-opacity-50 hidden justify-center items-center">
+    <div class="bg-white w-11/12 max-w-6xl rounded-xl shadow-lg p-6 overflow-auto max-h-[90vh]">
+        <div class="flex justify-between items-center mb-4">
+            <h2 class="text-xl font-bold text-gray-800">Todos los Pedidos</h2>
+            <button onclick="cerrarModalPedidos()" class="text-gray-600 hover:text-red-600">&times;</button>
+        </div>
+        <table class="min-w-full text-sm">
+            <thead>
+                <tr class="border-b text-gray-600 uppercase text-xs">
+                    <th>ID</th>
+                    <th>Cliente</th>
+                    <th>Estado</th>
+                    <th>Tracking</th>
+                    <th>Total</th>
+                    <th>Fecha</th>
+                    <th>Acción</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach($ultimosPedidos as $pedido)
+                    <tr class="border-b hover:bg-gray-100">
+                        <td class="py-2">#{{ $pedido->id }}</td>
+                        <td class="py-2">{{ $pedido->user->name ?? 'Sin cliente' }}</td>
+                        <td class="py-2">
+                            <select onchange="marcarCambio({{ $pedido->id }})" id="status-{{ $pedido->id }}" class="border rounded px-2 py-1">
+                                <option value="pendiente" {{ $pedido->status == 'pendiente' ? 'selected' : '' }}>Pendiente</option>
+                                <option value="completado" {{ $pedido->status == 'completado' ? 'selected' : '' }}>Completado</option>
+                                <option value="cancelado" {{ $pedido->status == 'cancelado' ? 'selected' : '' }}>Cancelado</option>
+                            </select>
+                        </td>
+                        <td class="py-2">
+                            <select onchange="marcarCambio({{ $pedido->id }})" id="tracking-{{ $pedido->id }}" class="border rounded px-2 py-1">
+                                <option value="pending" {{ $pedido->tracking == 'pending' ? 'selected' : '' }}>Pendiente</option>
+                                <option value="preparation" {{ $pedido->tracking == 'preparation' ? 'selected' : '' }}>En preparación</option>
+                                <option value="shipped" {{ $pedido->tracking == 'shipped' ? 'selected' : '' }}>Enviado</option>
+                                <option value="delivered" {{ $pedido->tracking == 'delivered' ? 'selected' : '' }}>Entregado</option>
+                            </select>
+                        </td>
+                        <td class="py-2">€{{ $pedido->total }}</td>
+                        <td class="py-2">{{ $pedido->created_at->format('d/m/Y') }}</td>
+                        <td class="py-2">
+                            <button onclick="guardarCambios({{ $pedido->id }})"
+                                class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded text-xs">Guardar</button>
+                        </td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    // Variable global para almacenar la instancia del gráfico
+    let salesChart;
+    
+    // Función para inicializar el gráfico
+    function initChart() {
+        const ctx = document.getElementById('salesChart').getContext('2d');
+        
+        // Destruir el gráfico anterior si existe
+        if (salesChart) {
+            salesChart.destroy();
+        }
+        
+        // Crear el gráfico con datos mensuales por defecto
+        cargarDatosMensuales();
+    }
+    
+    // Función para cargar datos mensuales
+    function cargarDatosMensuales() {
+        // Mostrar carga
+        document.getElementById('chart-container').innerHTML = '<div class="text-center"><i class="fas fa-spinner fa-spin text-blue-500 text-2xl"></i><p class="text-gray-500 mt-2">Cargando datos...</p></div>';
+        
+        // Llamada AJAX para obtener datos
+        fetch('/admin/ventas/mensuales')
+            .then(response => response.json())
+            .then(data => {
+                crearGrafico('mensual', data);
+                actualizarBotones('btn-mensual');
+            })
+            .catch(error => {
+                console.error('Error al cargar datos mensuales:', error);
+                document.getElementById('chart-container').innerHTML = '<div class="text-center"><i class="fas fa-exclamation-circle text-red-500 text-2xl"></i><p class="text-gray-500 mt-2">Error al cargar datos</p></div>';
+            });
+    }
+    
+    // Función para cargar datos trimestrales
+    function cargarDatosTrimestrales() {
+        // Mostrar carga
+        document.getElementById('chart-container').innerHTML = '<div class="text-center"><i class="fas fa-spinner fa-spin text-blue-500 text-2xl"></i><p class="text-gray-500 mt-2">Cargando datos...</p></div>';
+        
+        // Llamada AJAX para obtener datos
+        fetch('/admin/ventas/trimestrales')
+            .then(response => response.json())
+            .then(data => {
+                crearGrafico('trimestral', data);
+                actualizarBotones('btn-trimestral');
+            })
+            .catch(error => {
+                console.error('Error al cargar datos trimestrales:', error);
+                document.getElementById('chart-container').innerHTML = '<div class="text-center"><i class="fas fa-exclamation-circle text-red-500 text-2xl"></i><p class="text-gray-500 mt-2">Error al cargar datos</p></div>';
+            });
+    }
+    
+    // Función para cargar datos anuales
+    function cargarDatosAnuales() {
+        // Mostrar carga
+        document.getElementById('chart-container').innerHTML = '<div class="text-center"><i class="fas fa-spinner fa-spin text-blue-500 text-2xl"></i><p class="text-gray-500 mt-2">Cargando datos...</p></div>';
+        
+        // Llamada AJAX para obtener datos
+        fetch('/admin/ventas/anuales')
+            .then(response => response.json())
+            .then(data => {
+                crearGrafico('anual', data);
+                actualizarBotones('btn-anual');
+            })
+            .catch(error => {
+                console.error('Error al cargar datos anuales:', error);
+                document.getElementById('chart-container').innerHTML = '<div class="text-center"><i class="fas fa-exclamation-circle text-red-500 text-2xl"></i><p class="text-gray-500 mt-2">Error al cargar datos</p></div>';
+            });
+    }
+    
+    // Función para crear o actualizar el gráfico con los datos recibidos
+    function crearGrafico(periodo, datos) {
+        // Recrear el canvas para evitar problemas
+        document.getElementById('chart-container').innerHTML = '<canvas id="salesChart"></canvas>';
+        const ctx = document.getElementById('salesChart').getContext('2d');
+        
+        // Configuración del gráfico según el período
+        let config = {
+            type: 'line',
+            data: {
+                labels: datos.labels,
+                datasets: [{
+                    label: 'Ventas',
+                    data: datos.values,
+                    backgroundColor: 'rgba(59, 130, 246, 0.2)',
+                    borderColor: 'rgba(59, 130, 246, 1)',
+                    borderWidth: 2,
+                    tension: 0.4,
+                    pointBackgroundColor: 'rgba(59, 130, 246, 1)',
+                    pointRadius: 4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            callback: function(value) {
+                                return '€' + value;
+                            }
+                        }
+                    }
+                },
+                plugins: {
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                return 'Ventas: €' + context.parsed.y;
+                            }
+                        }
+                    },
+                    legend: {
+                        display: false
+                    }
+                }
+            }
+        };
+        
+        // Crear el gráfico
+        salesChart = new Chart(ctx, config);
+    }
+    
+    // Función para actualizar apariencia de botones
+    function actualizarBotones(activeBtnId) {
+        // Quitar clase activa de todos los botones
+        document.querySelectorAll('.periodo-btn').forEach(btn => {
+            btn.classList.remove('active', 'bg-blue-100', 'text-blue-700');
+            btn.classList.add('text-gray-500', 'hover:bg-gray-100');
+        });
+        
+        // Agregar clase activa al botón seleccionado
+        document.getElementById(activeBtnId).classList.remove('text-gray-500', 'hover:bg-gray-100');
+        document.getElementById(activeBtnId).classList.add('active', 'bg-blue-100', 'text-blue-700');
+    }
+    
+    // Asignar eventos a los botones
+    document.addEventListener('DOMContentLoaded', function() {
+        // Inicializar gráfico con datos mensuales
+        initChart();
+        
+        // Asignar eventos a los botones
+        document.getElementById('btn-mensual').addEventListener('click', cargarDatosMensuales);
+        document.getElementById('btn-trimestral').addEventListener('click', cargarDatosTrimestrales);
+        document.getElementById('btn-anual').addEventListener('click', cargarDatosAnuales);
+    });
+</script>
+
+
+
+
+<!-- Modal para responder mensajes -->
+<div id="respuestaModal" class="hidden fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
+    <div class="bg-white p-6 rounded shadow w-full max-w-lg">
+        <h2 class="text-xl font-bold mb-4">Responder mensaje</h2>
+        <form method="POST" action="{{ route('contact.answer') }}">
+            @csrf
+            <input type="hidden" name="contact_id" id="contact_id">
+            
+            <p id="nombreUsuario" class="text-gray-600 mb-2"></p>
+            <p id="emailUsuario" class="text-gray-600 mb-2"></p>
+            <p id="telefonoUsuario" class="text-gray-600 mb-2"></p>
+            <p id="asuntoUsuario" class="text-gray-600 mb-2"></p>
+            <p id="mensajeUsuario" class="text-gray-600 mb-2"></p>
+            <p id="fechaCreacion" class="text-gray-600 mb-2"></p>
+            
+            <p class="text-lg font-bold text-blue-600 mt-4">Responder:</p>
+
+            <textarea name="answer" id="answerTextarea" rows="4" class="w-full border rounded p-2" placeholder="Escribe tu respuesta..."></textarea>
+            
+            <div class="mt-4 flex justify-end">
+                <button type="button" onclick="cerrarModal()" class="mr-2 px-4 py-2 bg-gray-300 rounded">Cancelar</button>
+                <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded">Enviar</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    function openModal(id, nombre, email, telefono, asunto, mensaje, answer, created_at) {
+        // Mostrar el modal
+        document.getElementById('respuestaModal').classList.remove('hidden');
+        
+        // Asignar valores a los campos del modal
+        document.getElementById('contact_id').value = id;
+        document.getElementById('nombreUsuario').innerText = 'Nombre: ' + nombre;
+        document.getElementById('emailUsuario').innerText = 'Email: ' + email;
+        document.getElementById('telefonoUsuario').innerText = 'Teléfono: ' + telefono;
+        document.getElementById('asuntoUsuario').innerText = 'Asunto: ' + asunto;
+        document.getElementById('mensajeUsuario').innerText = 'Mensaje: ' + mensaje;
+        document.getElementById('fechaCreacion').innerText = 'Fecha y hora del mensaje: ' + created_at;
+        
+        // Rellenar el campo de respuesta si ya existe
+        document.getElementById('answerTextarea').value = answer ? answer : '';
+    }
+
+    function cerrarModal() {
+        // Ocultar el modal
+        document.getElementById('respuestaModal').classList.add('hidden');
+    }
+</script>
+
+
+
 @endsection

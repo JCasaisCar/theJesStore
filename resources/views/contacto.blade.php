@@ -112,19 +112,19 @@
                         <div class="w-20 h-1 bg-blue-600 mb-6"></div>
                         <p class="text-gray-600 mb-6">{{ __('formulario_descripcion') }}</p>
 
-                        <form action="" method="POST" class="space-y-6">
-                            @csrf
+                        <form action="{{ route('contact.store') }}" method="POST" class="space-y-6">
+                        @csrf
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <!-- Nombre -->
                                 <div>
                                     <label for="nombre" class="block text-sm font-medium text-gray-700 mb-1">{{ __('nombre') }} <span class="text-red-500">*</span></label>
-                                    <input type="text" id="nombre" name="nombre" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-transparent transition" required>
+                                    <input type="text" id="nombre" name="nombre" value="{{ auth()->user()->name ?? old('nombre') }}" class="w-full px-4 py-2 border rounded-lg" required>
                                 </div>
 
                                 <!-- Email -->
                                 <div>
                                     <label for="email" class="block text-sm font-medium text-gray-700 mb-1">{{ __('email') }} <span class="text-red-500">*</span></label>
-                                    <input type="email" id="email" name="email" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-transparent transition" required>
+                                    <input type="email" id="email" name="email" value="{{ auth()->user()->email ?? old('email') }}" class="w-full px-4 py-2 border rounded-lg" required>
                                 </div>
                             </div>
 
@@ -162,6 +162,13 @@
                                 </button>
                             </div>
                         </form>
+                        @if(auth()->check())
+                            <div class="mt-6 text-center">
+                                <button onclick="openMessagesModal()" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded">
+                                {{ __('mensajes_enviados') }}
+                                </button>
+                            </div>
+                        @endif
                     </div>
                 </div>
             </div>
@@ -266,5 +273,58 @@
             icon.style.transform = 'rotate(180deg)';
         }
     }
+</script>
+
+
+
+
+<!-- Modal para ver mensajes -->
+<div id="messagesModal" class="fixed inset-0 z-50 hidden bg-black bg-opacity-50 flex items-center justify-center">
+    <div class="bg-white rounded-lg shadow-lg w-full max-w-2xl p-6 relative">
+        <button onclick="closeMessagesModal()" class="absolute top-2 right-2 text-gray-500 hover:text-gray-800 text-xl">&times;</button>
+        <h2 class="text-2xl font-bold mb-4 text-gray-800">Tus mensajes</h2>
+        <div id="messagesContent" class="space-y-4 max-h-[60vh] overflow-y-auto">
+            <p>Cargando mensajes...</p>
+        </div>
+    </div>
+</div>
+
+<script>
+function openMessagesModal() {
+    const modal = document.getElementById('messagesModal');
+    const content = document.getElementById('messagesContent');
+    modal.classList.remove('hidden');
+    content.innerHTML = '<p>Cargando mensajes...</p>';
+
+    fetch('{{ url('/mis-mensajes') }}')
+        .then(response => response.json())
+        .then(data => {
+            if (data.length === 0) {
+                content.innerHTML = '<p class="text-gray-600">No has enviado ningún mensaje todavía.</p>';
+                return;
+            }
+
+            content.innerHTML = data.map(msg => `
+                <div class="border p-4 rounded-lg bg-gray-50">
+                    <p><strong>Asunto:</strong> ${msg.asunto}</p>
+                    <p><strong>Mensaje:</strong> ${msg.mensaje}</p>
+                    <p>
+                    <strong>Respuesta:</strong> 
+                    ${msg.answer 
+                        ? `${msg.answer} <br><small class="text-gray-500">Respondido el: ${new Date(msg.updated_at).toLocaleString()}</small>` 
+                        : '<em>Aún sin respuesta</em>'}
+                    </p>                    
+                    <p class="text-sm text-gray-500 mt-2">Enviado el: ${new Date(msg.created_at).toLocaleString()}</p>
+                </div>
+            `).join('');
+        })
+        .catch(() => {
+            content.innerHTML = '<p class="text-red-500">Hubo un error al cargar los mensajes.</p>';
+        });
+}
+
+function closeMessagesModal() {
+    document.getElementById('messagesModal').classList.add('hidden');
+}
 </script>
 @endsection

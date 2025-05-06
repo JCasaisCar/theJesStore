@@ -48,11 +48,11 @@ Route::get('/privacy', [PrivacyController::class, 'index'])->name('privacy');
 Route::get('/cookies', [CookiesController::class, 'index'])->name('cookies');
 Route::get('/addres', [AddresController::class, 'index'])->name('addres');
 Route::get('/pay', [PayController::class, 'index'])->name('pay');
-// Route::get('/confirm', [ConfirmController::class, 'index'])->name('confirm');
-Route::get('/admin', [AdminController::class, 'index'])->name('admin');
 Route::get('/privacidad')->name('privacidad');
 Route::get('/soporte')->name('soporte');
 Route::get('/categoria/{slug}')->name('categoria');
+Route::post('/newsletter', [HomeController::class, 'newsletter'])->name('newsletter.subscribe');
+
 
 // 🧾 Rutas de autenticación Fortify (invitados)
 Route::middleware('guest')->group(function () {
@@ -86,12 +86,16 @@ Route::middleware(['auth'])->group(function () {
 // 🔒 Rutas autenticadas y verificadas
 Route::middleware(['auth', 'verified'])->group(function () {
 
+    
+
+
     Route::get('/logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
 
     // Contacto (user y restaurant)
-    Route::middleware(['check.roles:user,restaurant'])->group(function () {
+    Route::middleware(['check.roles:user'])->group(function () {
         Route::get('/contacto', [ContactoController::class, 'index'])->name('contacto');
-        Route::post('/contacto/enviar', [ContactoController::class, 'enviarMensaje'])->name('contacto.enviar');
+        Route::post('/contacto', [ContactoController::class, 'store'])->name('contact.store');
+        Route::get('/mis-mensajes', [ContactoController::class, 'userMessages'])->middleware('auth');
     });
 
     // Lista de deseos (user)
@@ -112,6 +116,13 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // Panel Admin (admin)
     Route::middleware(['check.roles:admin'])->group(function () {
         Route::get('/admin', [AdminController::class, 'index'])->name('admin');
+        Route::get('/admin/ventas/mensuales', [AdminController::class, 'mensuales']);
+        Route::get('/admin/ventas/trimestrales', [AdminController::class, 'trimestrales']);
+        Route::get('/admin/ventas/anuales', [AdminController::class, 'anuales']);
+        Route::get('/admin/productos-stock', [AdminController::class, 'productosPorStock']);
+        Route::post('/admin/contact/answer', [ContactoController::class, 'answer'])->name('contact.answer');
+
+
 
 
     // Rutas específicas para productos
@@ -149,10 +160,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
         // Obtener modelos para el formulario dinámico
         Route::get('/modelos/listar', [ProductController::class, 'getModels'])->name('admin.productos.modelos');
 
-        Route::put('/{product}/stock', [ProductController::class, 'updateStock'])->name('admin.productos.updateStock');
+        Route::put('/{producto}/stock', [ProductController::class, 'updateStock'])->name('admin.productos.updateStock');
             
         Route::patch('/{product}/status', [ProductController::class, 'toggleStatus'])->name('admin.productos.toggleStatus');
 
+        
     });
     });
 });
@@ -180,3 +192,8 @@ Route::get('/paypal/redirect', [PaypalController::class, 'redirect'])->name('pay
 Route::get('/confirm/success', [ConfirmController::class, 'success'])->name('confirm.success');
 Route::get('/confirm', [ConfirmController::class, 'index'])->name('confirm');
 Route::post('/paypal/pay', [PaypalController::class, 'pay'])->name('paypal.pay');
+
+
+
+Route::get('/admin/pedidos/todos', [AdminController::class, 'getAllOrders'])->name('admin.pedidos.todos');
+Route::put('/admin/pedidos/{id}/actualizar', [AdminController::class, 'updateOrder'])->name('admin.pedidos.actualizar');
