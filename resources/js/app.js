@@ -42,6 +42,8 @@ import './cart.js';
 
 import './addres.js';
 
+import './contacto.js';
+
 
 import { toggleStatus } from './toggleStatus.js';
 
