@@ -40,6 +40,8 @@ import './admin.js';
 
 import './cart.js';
 
+import './addres.js';
+
 
 import { toggleStatus } from './toggleStatus.js';
 
