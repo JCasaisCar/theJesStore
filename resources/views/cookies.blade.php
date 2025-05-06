@@ -1,6 +1,7 @@
 @extends('layouts.app')
 @section('title', __('política_cookies'))
 @section('content')
+<body id="cookiesPage">
 <!-- Cabecera de la página -->
 <div class="bg-gradient-to-r from-blue-900 to-blue-700 text-white py-12">
     <div class="container mx-auto px-4">
@@ -203,35 +204,5 @@
         </div>
     </div>
 </div>
-
-<script>
-    // Funcionalidad para el banner de cookies
-    document.addEventListener('DOMContentLoaded', function() {
-        const cookieBanner = document.getElementById('cookie-banner');
-        const acceptButton = document.getElementById('accept-cookies');
-        const rejectButton = document.getElementById('reject-cookies');
-        const customizeButton = document.getElementById('customize-cookies');
-        
-        // Comprobar si ya se han aceptado las cookies
-        const cookiesAccepted = localStorage.getItem('cookies-accepted');
-        
-        if (cookiesAccepted) {
-            cookieBanner.classList.add('hidden');
-        }
-        
-        acceptButton.addEventListener('click', function() {
-            localStorage.setItem('cookies-accepted', 'true');
-            cookieBanner.classList.add('hidden');
-        });
-        
-        rejectButton.addEventListener('click', function() {
-            localStorage.setItem('cookies-accepted', 'necessary');
-            cookieBanner.classList.add('hidden');
-        });
-        
-        customizeButton.addEventListener('click', function() {
-            window.location.href = "{{ route('cookies') }}";
-        });
-    });
-</script>
+</body>
 @endsection

@@ -44,6 +44,8 @@ import './addres.js';
 
 import './contacto.js';
 
+import './cookies.js';
+
 
 import { toggleStatus } from './toggleStatus.js';
 
