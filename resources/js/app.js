@@ -36,6 +36,9 @@ import './modal.js'; // Importa el archivo que creaste para los modales
 
 import './arriba.js';
 
+import './admin.js';
+
+
 import { toggleStatus } from './toggleStatus.js';
 
 // Activar botones de cambio de estado

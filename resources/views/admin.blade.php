@@ -2,6 +2,7 @@
 @section('title', __('admin.panel_control'))
 
 @section('content')
+<body id="admin-page">
 <!-- Header del Panel de Administración -->
 <div class="bg-gradient-to-r from-blue-900 to-blue-700 shadow-lg">
     <div class="container mx-auto px-6 py-6">
@@ -288,156 +289,6 @@
     </div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script>
-    // Variable global para almacenar la instancia del gráfico
-    let salesChart;
-    
-    // Función para inicializar el gráfico
-    function initChart() {
-        const ctx = document.getElementById('salesChart').getContext('2d');
-        
-        // Destruir el gráfico anterior si existe
-        if (salesChart) {
-            salesChart.destroy();
-        }
-        
-        // Crear el gráfico con datos mensuales por defecto
-        cargarDatosMensuales();
-    }
-    
-    // Función para cargar datos mensuales
-    function cargarDatosMensuales() {
-        // Mostrar carga
-        document.getElementById('chart-container').innerHTML = '<div class="text-center"><i class="fas fa-spinner fa-spin text-blue-500 text-2xl"></i><p class="text-gray-500 mt-2">Cargando datos...</p></div>';
-        
-        // Llamada AJAX para obtener datos
-        fetch('/admin/ventas/mensuales')
-            .then(response => response.json())
-            .then(data => {
-                crearGrafico('mensual', data);
-                actualizarBotones('btn-mensual');
-            })
-            .catch(error => {
-                console.error('Error al cargar datos mensuales:', error);
-                document.getElementById('chart-container').innerHTML = '<div class="text-center"><i class="fas fa-exclamation-circle text-red-500 text-2xl"></i><p class="text-gray-500 mt-2">Error al cargar datos</p></div>';
-            });
-    }
-    
-    // Función para cargar datos trimestrales
-    function cargarDatosTrimestrales() {
-        // Mostrar carga
-        document.getElementById('chart-container').innerHTML = '<div class="text-center"><i class="fas fa-spinner fa-spin text-blue-500 text-2xl"></i><p class="text-gray-500 mt-2">Cargando datos...</p></div>';
-        
-        // Llamada AJAX para obtener datos
-        fetch('/admin/ventas/trimestrales')
-            .then(response => response.json())
-            .then(data => {
-                crearGrafico('trimestral', data);
-                actualizarBotones('btn-trimestral');
-            })
-            .catch(error => {
-                console.error('Error al cargar datos trimestrales:', error);
-                document.getElementById('chart-container').innerHTML = '<div class="text-center"><i class="fas fa-exclamation-circle text-red-500 text-2xl"></i><p class="text-gray-500 mt-2">Error al cargar datos</p></div>';
-            });
-    }
-    
-    // Función para cargar datos anuales
-    function cargarDatosAnuales() {
-        // Mostrar carga
-        document.getElementById('chart-container').innerHTML = '<div class="text-center"><i class="fas fa-spinner fa-spin text-blue-500 text-2xl"></i><p class="text-gray-500 mt-2">Cargando datos...</p></div>';
-        
-        // Llamada AJAX para obtener datos
-        fetch('/admin/ventas/anuales')
-            .then(response => response.json())
-            .then(data => {
-                crearGrafico('anual', data);
-                actualizarBotones('btn-anual');
-            })
-            .catch(error => {
-                console.error('Error al cargar datos anuales:', error);
-                document.getElementById('chart-container').innerHTML = '<div class="text-center"><i class="fas fa-exclamation-circle text-red-500 text-2xl"></i><p class="text-gray-500 mt-2">Error al cargar datos</p></div>';
-            });
-    }
-    
-    // Función para crear o actualizar el gráfico con los datos recibidos
-    function crearGrafico(periodo, datos) {
-        // Recrear el canvas para evitar problemas
-        document.getElementById('chart-container').innerHTML = '<canvas id="salesChart"></canvas>';
-        const ctx = document.getElementById('salesChart').getContext('2d');
-        
-        // Configuración del gráfico según el período
-        let config = {
-            type: 'line',
-            data: {
-                labels: datos.labels,
-                datasets: [{
-                    label: 'Ventas',
-                    data: datos.values,
-                    backgroundColor: 'rgba(59, 130, 246, 0.2)',
-                    borderColor: 'rgba(59, 130, 246, 1)',
-                    borderWidth: 2,
-                    tension: 0.4,
-                    pointBackgroundColor: 'rgba(59, 130, 246, 1)',
-                    pointRadius: 4
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        ticks: {
-                            callback: function(value) {
-                                return '€' + value;
-                            }
-                        }
-                    }
-                },
-                plugins: {
-                    tooltip: {
-                        callbacks: {
-                            label: function(context) {
-                                return 'Ventas: €' + context.parsed.y;
-                            }
-                        }
-                    },
-                    legend: {
-                        display: false
-                    }
-                }
-            }
-        };
-        
-        // Crear el gráfico
-        salesChart = new Chart(ctx, config);
-    }
-    
-    // Función para actualizar apariencia de botones
-    function actualizarBotones(activeBtnId) {
-        // Quitar clase activa de todos los botones
-        document.querySelectorAll('.periodo-btn').forEach(btn => {
-            btn.classList.remove('active', 'bg-blue-100', 'text-blue-700');
-            btn.classList.add('text-gray-500', 'hover:bg-gray-100');
-        });
-        
-        // Agregar clase activa al botón seleccionado
-        document.getElementById(activeBtnId).classList.remove('text-gray-500', 'hover:bg-gray-100');
-        document.getElementById(activeBtnId).classList.add('active', 'bg-blue-100', 'text-blue-700');
-    }
-    
-    // Asignar eventos a los botones
-    document.addEventListener('DOMContentLoaded', function() {
-        // Inicializar gráfico con datos mensuales
-        initChart();
-        
-        // Asignar eventos a los botones
-        document.getElementById('btn-mensual').addEventListener('click', cargarDatosMensuales);
-        document.getElementById('btn-trimestral').addEventListener('click', cargarDatosTrimestrales);
-        document.getElementById('btn-anual').addEventListener('click', cargarDatosAnuales);
-    });
-</script>
 
 
 
@@ -468,31 +319,5 @@
         </form>
     </div>
 </div>
-
-<script>
-    function openModal(id, nombre, email, telefono, asunto, mensaje, answer, created_at) {
-        // Mostrar el modal
-        document.getElementById('respuestaModal').classList.remove('hidden');
-        
-        // Asignar valores a los campos del modal
-        document.getElementById('contact_id').value = id;
-        document.getElementById('nombreUsuario').innerText = 'Nombre: ' + nombre;
-        document.getElementById('emailUsuario').innerText = 'Email: ' + email;
-        document.getElementById('telefonoUsuario').innerText = 'Teléfono: ' + telefono;
-        document.getElementById('asuntoUsuario').innerText = 'Asunto: ' + asunto;
-        document.getElementById('mensajeUsuario').innerText = 'Mensaje: ' + mensaje;
-        document.getElementById('fechaCreacion').innerText = 'Fecha y hora del mensaje: ' + created_at;
-        
-        // Rellenar el campo de respuesta si ya existe
-        document.getElementById('answerTextarea').value = answer ? answer : '';
-    }
-
-    function cerrarModal() {
-        // Ocultar el modal
-        document.getElementById('respuestaModal').classList.add('hidden');
-    }
-</script>
-
-
-
+</body>
 @endsection
