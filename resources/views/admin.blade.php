@@ -277,17 +277,17 @@
                         <td class="py-2">{{ $pedido->user->name ?? 'Sin cliente' }}</td>
                         <td class="py-2">
                             <select onchange="marcarCambio({{ $pedido->id }})" id="status-{{ $pedido->id }}" class="border rounded px-2 py-1">
-                                <option value="pendiente" {{ $pedido->status == 'pendiente' ? 'selected' : '' }}>Pendiente</option>
-                                <option value="completado" {{ $pedido->status == 'completado' ? 'selected' : '' }}>Completado</option>
-                                <option value="cancelado" {{ $pedido->status == 'cancelado' ? 'selected' : '' }}>Cancelado</option>
+                                <option value="Pendiente" {{ $pedido->status == 'Pendiente' ? 'selected' : '' }}>Pendiente</option>
+                                <option value="Completado" {{ $pedido->status == 'Completado' ? 'selected' : '' }}>Completado</option>
+                                <option value="Cancelado" {{ $pedido->status == 'Cancelado' ? 'selected' : '' }}>Cancelado</option>
                             </select>
                         </td>
                         <td class="py-2">
                             <select onchange="marcarCambio({{ $pedido->id }})" id="tracking-{{ $pedido->id }}" class="border rounded px-2 py-1">
-                                <option value="pending" {{ $pedido->tracking == 'pending' ? 'selected' : '' }}>Pendiente</option>
-                                <option value="preparation" {{ $pedido->tracking == 'preparation' ? 'selected' : '' }}>En preparación</option>
-                                <option value="shipped" {{ $pedido->tracking == 'shipped' ? 'selected' : '' }}>Enviado</option>
-                                <option value="delivered" {{ $pedido->tracking == 'delivered' ? 'selected' : '' }}>Entregado</option>
+                                <option value="Pendiente" {{ $pedido->tracking == 'Pendiente' ? 'selected' : '' }}>Pendiente</option>
+                                <option value="En preparación" {{ $pedido->tracking == 'En preparación' ? 'selected' : '' }}>En preparación</option>
+                                <option value="Enviado" {{ $pedido->tracking == 'Enviado' ? 'selected' : '' }}>Enviado</option>
+                                <option value="Entregado" {{ $pedido->tracking == 'Entregado' ? 'selected' : '' }}>Entregado</option>
                             </select>
                         </td>
                         <td class="py-2">€{{ $pedido->total }}</td>

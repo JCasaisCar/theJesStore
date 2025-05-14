@@ -10,6 +10,7 @@ use App\Models\Contact;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use App\Models\ContactMessage;
+use Illuminate\Support\Facades\Log;
 
 class AdminController extends Controller
 {
@@ -31,12 +32,12 @@ class AdminController extends Controller
 
     $totalContactos = Contact::count();
 
-    $ultimosPedidos = Order::latest()->take(5)->get();
+    
     $ultimosContactos = ContactMessage::with('user')->latest()->paginate(5);
 
     $pedidosEnPreparacion = Order::where('tracking', 'preparation')->count();
 
-    $ultimosPedidos = Order::latest()->paginate(5);
+    $ultimosPedidos = Order::with(['user', 'details.product'])->latest()->paginate(5);
 
     $totalPedidos = Order::count();
 
@@ -71,6 +72,8 @@ class AdminController extends Controller
 
 public function updateOrder(Request $request, $id)
 {
+    Log::info('Datos recibidos', $request->all());
+
     $order = Order::findOrFail($id);
 
     $data = [];
