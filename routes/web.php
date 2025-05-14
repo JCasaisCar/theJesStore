@@ -26,7 +26,8 @@ use App\Http\Controllers\{
     PrivacyController,
     TermsController,
     WishlistController,
-    AdminUserController
+    AdminUserController,
+    OrdersUsersController
 };
 use Laravel\Fortify\Http\Controllers\{
     AuthenticatedSessionController,
@@ -202,3 +203,8 @@ Route::post('/paypal/pay', [PaypalController::class, 'pay'])->name('paypal.pay')
 
 Route::get('/admin/pedidos/todos', [AdminController::class, 'getAllOrders'])->name('admin.pedidos.todos');
 Route::put('/admin/pedidos/{id}/actualizar', [AdminController::class, 'updateOrder'])->name('admin.pedidos.actualizar');
+
+
+
+
+Route::get('/mis-pedidos', [OrdersUsersController::class, 'index'])->name('orders.index');

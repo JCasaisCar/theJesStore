@@ -91,7 +91,7 @@
                                         <!-- Imagen del producto -->
                                         <div class="mb-4 sm:mb-0 sm:mr-6">
                                             <div class="w-24 h-24 bg-gray-100 rounded-lg overflow-hidden flex items-center justify-center">
-                                                <img src="{{ asset('img/products/' . $item->product->image) }}" alt="{{ $item->product->name }}" class="object-cover w-full h-full">
+                                                <img src="{{ asset('storage/products/' . $item->product->image) }}" alt="{{ $item->product->name }}" class="object-cover w-full h-full">
                                             </div>
                                         </div>
 

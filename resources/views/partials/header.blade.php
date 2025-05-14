@@ -51,6 +51,9 @@
           <i class="fas fa-shopping-cart"></i> <span>{{ __('carrito') }}</span>
           <span class="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">0</span>
         </a>
+        <a class="bg-green-600 hover:bg-green-700 text-white py-1.5 px-3 rounded-full text-xs flex items-center gap-1 transition transform hover:scale-105 shadow-md" href="{{ route('orders.index') }}">
+          <i class="fas fa-box"></i> <span>Mis Pedidos</span>
+        </a>
         <div class="h-8 border-r border-blue-400 mx-1"></div>
         <a class="bg-red-500 hover:bg-red-600 text-white py-1.5 px-4 rounded-lg text-xs flex items-center gap-1 transition transform hover:scale-105 shadow-md" href="{{ route('logout') }}"
           onclick="event.preventDefault(); document.getElementById('logout-form').submit();">

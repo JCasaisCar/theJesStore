@@ -30,7 +30,7 @@
                     <td class="py-3">{{ $product->name }}</td>
                     <td class="py-3">
                         @if($product->image)
-                            <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}" class="w-16 h-16 object-cover">
+                            <img src="{{ asset('storage/products/' . $product->image) }}" alt="{{ $product->name }}" class="w-16 h-16 object-cover">
                         @else
                             <span>No disponible</span>
                         @endif
@@ -62,8 +62,8 @@
 </div>
 
 <!-- Modal de añadir nuevo producto -->
-<div id="createModal" class="fixed inset-0 flex items-center justify-center bg-gray-500 bg-opacity-50 hidden">
-    <div class="bg-white p-6 rounded-lg w-1/3">
+<div id="createModal" class="fixed inset-0 z-50 flex items-center justify-center bg-gray-500 bg-opacity-50 overflow-y-auto py-10 px-4 hidden">
+    <div class="bg-white rounded-lg w-full max-w-2xl mx-auto max-h-[90vh] overflow-y-auto p-6">
         <h3 class="text-xl font-semibold mb-4">Añadir Nuevo Producto</h3>
         
         <!-- Mensaje de respuesta -->
@@ -103,7 +103,8 @@
             <!-- Imagen del producto -->
             <div class="mb-4">
                 <label for="image" class="block text-sm font-medium text-gray-700">Imagen</label>
-                <input type="file" name="image" id="image" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm" accept="image/*">
+                <input type="file" name="image" id="image" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm" accept="image/*" onchange="previewNewImage(event)">
+                <div id="newImagePreview" class="mt-2"></div>
             </div>
 
             <!-- Marca del dispositivo -->
@@ -157,8 +158,8 @@
 
 
 <!-- Modal para editar -->
-<div id="editModal" class="fixed inset-0 flex items-center justify-center bg-gray-500 bg-opacity-50 hidden">
-    <div class="bg-white p-6 rounded-lg w-1/3">
+<div id="editModal" class="fixed inset-0 z-50 flex items-center justify-center bg-gray-500 bg-opacity-50 overflow-y-auto py-10 px-4 hidden">
+    <div class="bg-white rounded-lg w-full max-w-2xl mx-auto max-h-[90vh] overflow-y-auto p-6">
         <h3 class="text-xl font-semibold mb-4">Editar Producto</h3>
         <form id="editForm" action="{{ route('admin.productos.update', ':id') }}" method="POST" enctype="multipart/form-data">
             @csrf
@@ -234,6 +235,18 @@
                 </select>
             </div>
 
+            <!-- Imagen actual y nueva -->
+            <div class="mb-4">
+                <label class="block text-sm font-medium text-gray-700">Imagen Actual</label>
+                <img id="editImagePreview" src="" alt="Vista previa" class="mt-2 w-32 h-32 object-cover rounded border border-gray-300">
+            </div>
+
+            <div class="mb-4">
+                <label for="editImage" class="block text-sm font-medium text-gray-700">Cambiar Imagen</label>
+                <input type="file" name="image" id="editImage" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm" accept="image/*" onchange="previewEditImage(this)">
+            </div>
+
+
 
             <div class="flex justify-end">
                 <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded">Actualizar Producto</button>
@@ -245,8 +258,8 @@
 </div>
 
 <!-- Modal de cambio de estado -->
-<div id="statusModal" class="fixed inset-0 flex items-center justify-center bg-gray-500 bg-opacity-50 hidden">
-    <div class="bg-white p-6 rounded-lg w-1/3">
+<div id="statusModal" class="fixed inset-0 z-50 flex items-center justify-center bg-gray-500 bg-opacity-50 overflow-y-auto py-10 px-4 hidden">
+    <div class="bg-white rounded-lg w-full max-w-md mx-auto max-h-[90vh] overflow-y-auto p-6">
         <h3 class="text-xl font-semibold mb-4">Confirmar cambio de estado</h3>
         <p>¿Estás seguro de que deseas cambiar el estado del producto?</p>
         <form id="statusForm" method="POST" class="mt-4">
@@ -260,8 +273,8 @@
 </div>
 
 <!-- Modal de eliminación -->
-<div id="deleteModal" class="fixed inset-0 flex items-center justify-center bg-gray-500 bg-opacity-50 hidden">
-    <div class="bg-white p-6 rounded-lg w-1/3">
+<div id="deleteModal" class="fixed inset-0 z-50 flex items-center justify-center bg-gray-500 bg-opacity-50 overflow-y-auto py-10 px-4 hidden">
+    <div class="bg-white rounded-lg w-full max-w-md mx-auto max-h-[90vh] overflow-y-auto p-6">
         <h3 class="text-xl font-semibold mb-4">Eliminar Producto</h3>
         <p>¿Estás seguro de que deseas eliminar este producto? Esta acción no puede deshacerse.</p>
         <form id="deleteForm" method="POST" class="mt-4">

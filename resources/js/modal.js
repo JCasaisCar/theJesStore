@@ -20,21 +20,23 @@ document.addEventListener('DOMContentLoaded', () => {
                 document.getElementById('editStatus').value = data.status;
                 document.getElementById('editStock').value = data.stock;
 
-                // Si tienes un campo de selección de modelo
                 if (document.getElementById('editModel')) {
                     document.getElementById('editModel').value = data.model_id;
                 }
 
-                // Si tienes un campo de selección de marca (opcional)
                 if (document.getElementById('editBrand')) {
                     document.getElementById('editBrand').value = data.brand_id;
                 }
 
-                // Reemplazar :id en la acción del formulario
+                if (data.image && document.getElementById('editImagePreview')) {
+                    const imageUrl = `/storage/products/${data.image}`;
+                    const imagePreview = document.getElementById('editImagePreview');
+                    imagePreview.src = imageUrl;
+                }
+
                 const form = document.getElementById('editForm');
                 form.action = `/admin/productos/${productId}`;
 
-                // Mostrar el modal
                 document.getElementById('editModal').classList.remove('hidden');
             })
             .catch(error => {
@@ -43,70 +45,79 @@ document.addEventListener('DOMContentLoaded', () => {
             });
     };
 
-    // Abrir el modal de cambio de estado
-    window.openStatusModal = function (productId, currentStatus) {
-        // Alternar el estado (activo/inactivo)
-        document.getElementById('statusInput').value = currentStatus === 1 ? 0 : 1;
-        document.getElementById('statusForm').action = `/admin/productos/${productId}/status`;
-        document.getElementById('statusModal').classList.remove('hidden');
-    };
-
-    // Abrir el modal de creación
-    window.openCreateModal = function () {
-        document.getElementById('createModal').classList.remove('hidden');
-    };
-
-    // Función para cerrar cualquier modal
-    window.closeModal = function (modalId) {
-        document.getElementById(modalId).classList.add('hidden');
-    };
-
-    // Vista previa de la imagen al seleccionar un archivo
-    window.previewImage = function (event) {
-        const imagePreview = document.getElementById('imagePreview');
-        const file = event.target.files[0];
+    // ✅ Vista previa para imagen en edición
+    window.previewEditImage = function (input) {
+        const file = input.files[0];
+        const imagePreview = document.getElementById('editImagePreview');
         if (file) {
             const reader = new FileReader();
-            reader.onload = function () {
-                imagePreview.innerHTML = `<img src="${reader.result}" alt="Vista previa" class="w-32 h-32 object-cover mt-2">`;
+            reader.onload = function (e) {
+                imagePreview.src = e.target.result;
             };
             reader.readAsDataURL(file);
         }
     };
 
+    // ✅ Vista previa para imagen en creación
+    window.previewNewImage = function (event) {
+        const file = event.target.files[0];
+        const preview = document.getElementById('newImagePreview');
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                preview.innerHTML = `<img src="${e.target.result}" alt="Vista previa" class="w-32 h-32 object-cover mt-2">`;
+            };
+            reader.readAsDataURL(file);
+        } else {
+            preview.innerHTML = '';
+        }
+    };
 
+    // Modal de cambio de estado
+    window.openStatusModal = function (productId, currentStatus) {
+        document.getElementById('statusInput').value = currentStatus === 1 ? 0 : 1;
+        document.getElementById('statusForm').action = `/admin/productos/${productId}/status`;
+        document.getElementById('statusModal').classList.remove('hidden');
+    };
 
+    // Modal de creación
+    window.openCreateModal = function () {
+        document.getElementById('createModal').classList.remove('hidden');
+    };
 
+    // Cerrar cualquier modal
+    window.closeModal = function (modalId) {
+        document.getElementById(modalId).classList.add('hidden');
+    };
 
-    //Admin
-        // Modal de pedidos
-        window.abrirModalPedidos = function () {
-            document.getElementById('modalPedidos').classList.remove('hidden');
-        };
-    
-        window.cerrarModalPedidos = function () {
-            document.getElementById('modalPedidos').classList.add('hidden');
-        };
-    
-        window.guardarCambios = function (orderId) {
-            const status = document.getElementById(`status-${orderId}`).value;
-            const tracking = document.getElementById(`tracking-${orderId}`).value;
-    
-            fetch(`/admin/pedidos/${orderId}/actualizar`, {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                },
-                body: JSON.stringify({ status, tracking })
-            })
-            .then(res => res.json())
-            .then(data => {
-                alert(data.message);
-            })
-            .catch(error => {
-                alert('Error al actualizar el pedido.');
-                console.error(error);
-            });
-        };    
+    // Admin: Modales de pedidos
+    window.abrirModalPedidos = function () {
+        document.getElementById('modalPedidos').classList.remove('hidden');
+    };
+
+    window.cerrarModalPedidos = function () {
+        document.getElementById('modalPedidos').classList.add('hidden');
+    };
+
+    window.guardarCambios = function (orderId) {
+        const status = document.getElementById(`status-${orderId}`).value;
+        const tracking = document.getElementById(`tracking-${orderId}`).value;
+
+        fetch(`/admin/pedidos/${orderId}/actualizar`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+            },
+            body: JSON.stringify({ status, tracking })
+        })
+        .then(res => res.json())
+        .then(data => {
+            alert(data.message);
+        })
+        .catch(error => {
+            alert('Error al actualizar el pedido.');
+            console.error(error);
+        });
+    };
 });

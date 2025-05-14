@@ -79,7 +79,7 @@
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
             @forelse($products as $product)
                 <div class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition">
-                    <img src="{{ asset('img/products/' . $product->image) }}" alt="{{ $product->name }}" class="w-full h-64 object-cover">
+                    <img src="{{ asset('storage/products/' . $product->image) }}" alt="{{ $product->name }}" class="w-full h-64 object-cover">
                     <div class="p-4">
                         <h3 class="font-bold text-gray-800 text-lg">{{ $product->name }}</h3>
                         <p class="text-sm text-gray-500 mb-2">{{ $product->brand->name ?? '' }}</p>

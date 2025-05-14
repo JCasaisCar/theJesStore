@@ -204,7 +204,7 @@
                                 <div class="flex justify-between py-2 border-b border-gray-100">
                                     <div class="flex items-center">
                                         <div class="w-12 h-12 bg-gray-100 rounded mr-3 overflow-hidden">
-                                        <img src="{{ asset('img/products/' . $item->product->image) }}" alt="{{ $item->product->name }}" class="object-cover w-full h-full">
+                                        <img src="{{ asset('storage/products/' . $item->product->image) }}" alt="{{ $item->product->name }}" class="object-cover w-full h-full">
                                         </div>
                                         <div>
                                             <p class="font-medium text-gray-800">{{ $item->product->name }}</p>
