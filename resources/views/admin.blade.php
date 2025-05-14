@@ -251,8 +251,8 @@
 
 
 <!-- Modal de Pedidos -->
-<div id="modalPedidos" class="fixed inset-0 z-50 bg-black bg-opacity-50 hidden justify-center items-center overflow-y-auto">
-    <div class="bg-white w-11/12 max-w-6xl rounded-xl shadow-lg p-6 max-h-[90vh] overflow-y-auto">
+<div id="modalPedidos" class="fixed inset-0 z-50 flex items-center justify-center bg-gray-500 bg-opacity-50 overflow-y-auto py-10 px-4 hidden">
+    <div class="bg-white rounded-lg w-full max-w-2xl mx-auto max-h-[90vh] overflow-y-auto p-6">
         <div class="flex justify-between items-center mb-4">
             <h2 class="text-xl font-bold text-gray-800">Todos los Pedidos</h2>
             <button onclick="cerrarModalPedidos()" class="text-gray-600 hover:text-red-600 text-2xl">&times;</button>
@@ -359,8 +359,8 @@
 
 
 <!-- Modal para responder mensajes -->
-<div id="respuestaModal" class="hidden fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
-    <div class="bg-white p-6 rounded shadow w-full max-w-lg">
+<div id="respuestaModal" class="fixed inset-0 z-50 flex items-center justify-center bg-gray-500 bg-opacity-50 overflow-y-auto py-10 px-4 hidden">
+    <div class="bg-white rounded-lg w-full max-w-2xl mx-auto max-h-[90vh] overflow-y-auto p-6">
         <h2 class="text-xl font-bold mb-4">Responder mensaje</h2>
         <form method="POST" action="{{ route('contact.answer') }}">
             @csrf
