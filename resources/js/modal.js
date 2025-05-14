@@ -51,12 +51,6 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('statusModal').classList.remove('hidden');
     };
 
-    // Abrir el modal de eliminación
-    window.openDeleteModal = function (productId) {
-        document.getElementById('deleteForm').action = `/admin/productos/${productId}`;
-        document.getElementById('deleteModal').classList.remove('hidden');
-    };
-
     // Abrir el modal de creación
     window.openCreateModal = function () {
         document.getElementById('createModal').classList.remove('hidden');

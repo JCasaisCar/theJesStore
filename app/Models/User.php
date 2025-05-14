@@ -7,6 +7,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use App\Models\ShippingAddress;
+use App\Notifications\CustomVerifyEmail;
 
 
 
@@ -52,4 +53,11 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->hasOne(Product::class, 'user_id');
     }
+
+
+
+    public function sendEmailVerificationNotification()
+{
+    $this->notify(new CustomVerifyEmail($this));
+}
 }

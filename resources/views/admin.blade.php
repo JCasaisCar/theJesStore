@@ -62,6 +62,15 @@
                     <p class="text-sm text-green-500">
     <i class="fas fa-user-plus mr-1"></i>+ {{ $nuevosUsuarios }} {{ __('admin.nuevos') }}
 </p>
+
+
+
+<a href="{{ route('admin.users.index') }}" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md shadow-sm text-sm font-medium transition">
+                    {{ __('admin.gestionar') }}
+                    <i class="fas fa-arrow-right ml-2"></i>
+                    </a>
+
+
                 </div>
                 <div class="rounded-full bg-purple-100 p-3">
                     <i class="fas fa-users text-purple-500 text-xl"></i>
@@ -78,6 +87,10 @@
                     <p class="text-sm text-amber-500">
                         <i class="fas fa-exclamation-triangle mr-1"></i>{{ __('admin.productos_inactivos') }}: {{ $productosInactivos }}
                     </p>
+                    <a href="{{ route('admin.productos') }}" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md shadow-sm text-sm font-medium transition">
+                    {{ __('admin.gestionar') }}
+                    <i class="fas fa-arrow-right ml-2"></i>
+                    </a>
                 </div>
                 <div class="rounded-full bg-red-100 p-3">
                     <i class="fas fa-mobile-alt text-red-500 text-xl"></i>
@@ -217,7 +230,7 @@
             <div class="ml-5 w-0 flex-1">
                 <dl>
                     <dt class="text-sm font-medium text-gray-500 truncate">
-                        {{ __('admin.productos_totales') }}
+                        {{ __('admin.cupones_de_descuento') }}
                     </dt>
                     <dd>
                         <div class="text-lg font-bold text-gray-900">

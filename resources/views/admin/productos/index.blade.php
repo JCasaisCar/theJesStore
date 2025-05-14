@@ -17,6 +17,7 @@
                 <tr class="border-b">
                     <th class="py-3 text-left">ID</th>
                     <th class="py-3 text-left">Producto</th>
+                    <th class="py-3 text-left">Imagen</th>
                     <th class="py-3 text-left">Stock</th>
                     <th class="py-3 text-left">Estado</th>
                     <th class="py-3 text-left">Acciones</th>
@@ -27,6 +28,13 @@
                 <tr class="hover:bg-gray-50">
                     <td class="py-3">{{ $product->id }}</td>
                     <td class="py-3">{{ $product->name }}</td>
+                    <td class="py-3">
+                        @if($product->image)
+                            <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}" class="w-16 h-16 object-cover">
+                        @else
+                            <span>No disponible</span>
+                        @endif
+                    </td>
                     <td class="py-3">
                     <form action="{{ route('admin.productos.updateStock', $product) }}" method="POST">
                     @csrf
@@ -45,7 +53,6 @@
                     </td>
                     <td class="py-3">
                         <button onclick="openEditModal({{ $product->id }})" class="text-blue-600 hover:text-blue-500">Editar</button>
-                        <button onclick="openDeleteModal({{ $product->id }})" class="text-red-600 hover:text-red-500 ml-4">Eliminar</button>
                     </td>
                 </tr>
                 @endforeach

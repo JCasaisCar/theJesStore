@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class ModelDevice extends Model
 {
+    protected $table = 'model_devices';
     protected $fillable = ['brand_id', 'name'];
 
     public function brand()

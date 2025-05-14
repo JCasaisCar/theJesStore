@@ -25,7 +25,8 @@ use App\Http\Controllers\{
     PayController,
     PrivacyController,
     TermsController,
-    WishlistController
+    WishlistController,
+    AdminUserController
 };
 use Laravel\Fortify\Http\Controllers\{
     AuthenticatedSessionController,
@@ -121,6 +122,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/admin/ventas/anuales', [AdminController::class, 'anuales']);
         Route::get('/admin/productos-stock', [AdminController::class, 'productosPorStock']);
         Route::post('/admin/contact/answer', [ContactoController::class, 'answer'])->name('contact.answer');
+        //Ruta para activar/desactivar un usuario
+        Route::post('/admin/users/{id}/toggle', [AdminController::class, 'toggleUserStatus'])->name('admin.users.toggle');
+        Route::get('/admin/users', [AdminUserController::class, 'index'])->name('admin.users.index');
+        Route::post('/admin/users/toggle/{user}', [AdminUserController::class, 'toggle'])->name('admin.users.toggle');
 
 
 

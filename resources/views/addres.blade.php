@@ -234,7 +234,7 @@
                                 @foreach ($cart->items as $item)
                                     <div class="flex items-center">
                                         <div class="w-10 h-10 bg-gray-100 rounded-md overflow-hidden mr-3">
-                                            <img src="{{ $item->product->image }}" alt="{{ $item->product->name }}" class="w-full h-full object-cover">
+                                        <img src="{{ asset('img/products/' . $item->product->image) }}" alt="{{ $item->product->name }}" class="object-cover w-full h-full">
                                         </div>
                                         <div class="flex-1 text-sm">
                                             <p class="text-gray-800 truncate">{{ $item->product->name }}</p>

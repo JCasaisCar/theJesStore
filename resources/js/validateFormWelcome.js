@@ -47,9 +47,9 @@ document.addEventListener('DOMContentLoaded', function () {
             const ubicationRegex = /^[a-zA-Z0-9\s,.-]+$/; // Regex para validar la ubicación
             const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // Regex para validar el correo electrónico
 
-            if (name && (!nameRegex.test(name.value) || name.value.length < 3)) {
+            if (name && name.value.length < 3) {
                 valido = false;
-                errores.push("El nombre debe tener al menos 3 caracteres y solo puede contener letras, números y espacios."); // Mensaje de error si el nombre no es válido
+                errores.push("El nombre debe tener al menos 3 caracteres"); // Mensaje de error si el nombre no es válido
             }
             if (form.querySelector('[name="categories_id"]') && !category) {
                 valido = false;

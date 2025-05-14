@@ -29,33 +29,41 @@ class FortifyServiceProvider extends ServiceProvider
      * Bootstrap any application services.
      */
     public function boot(): void
-    {
+{
+    Fortify::requestPasswordResetLinkView(function () {
+        return View::make('auth.forgot-password'); 
+    });
 
-        Fortify::requestPasswordResetLinkView(function () {
-            // Devuelve la vista forgot-password
-            return View::make('auth.forgot-password'); 
-        });
-    
-        Fortify::resetPasswordView(function () {
-            // Devuelve la vista reset-password
-            return View::make('auth.reset-password'); 
-        });
+    Fortify::resetPasswordView(function () {
+        return View::make('auth.reset-password'); 
+    });
 
-        Fortify::createUsersUsing(CreateNewUser::class);
-        Fortify::updateUserProfileInformationUsing(UpdateUserProfileInformation::class);
-        Fortify::updateUserPasswordsUsing(UpdateUserPassword::class);
-        Fortify::resetUserPasswordsUsing(ResetUserPassword::class);
+    Fortify::createUsersUsing(CreateNewUser::class);
+    Fortify::updateUserProfileInformationUsing(UpdateUserProfileInformation::class);
+    Fortify::updateUserPasswordsUsing(UpdateUserPassword::class);
+    Fortify::resetUserPasswordsUsing(ResetUserPassword::class);
 
-        RateLimiter::for('login', function (Request $request) {
-            $throttleKey = Str::transliterate(Str::lower($request->input(Fortify::username())).'|'.$request->ip());
+    RateLimiter::for('login', function (Request $request) {
+        $throttleKey = Str::transliterate(Str::lower($request->input(Fortify::username())).'|'.$request->ip());
+        return Limit::perMinute(5)->by($throttleKey);
+    });
 
-            // Devuelve el límite de 5 intentos máximos por minuto
-            return Limit::perMinute(5)->by($throttleKey);
-        });
+    RateLimiter::for('two-factor', function (Request $request) {
+        return Limit::perMinute(5)->by($request->session()->get('login.id'));
+    });
 
-        RateLimiter::for('two-factor', function (Request $request) {
-            // Devuelve el límite de 5 intentos máximos por minuto
-            return Limit::perMinute(5)->by($request->session()->get('login.id'));
-        });
-    }
+    // 👉 Aquí se valida que el usuario esté activo antes de permitir el login
+    Fortify::authenticateUsing(function ($request) {
+        $user = \App\Models\User::where('email', $request->email)->first();
+
+        if ($user &&
+            \Illuminate\Support\Facades\Hash::check($request->password, $user->password) &&
+            $user->active) {
+            return $user;
+        }
+
+        return null;
+    });
+}
+
 }

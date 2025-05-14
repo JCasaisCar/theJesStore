@@ -23,9 +23,9 @@ document.addEventListener('DOMContentLoaded', function () {
         const ubicationRegex = /^[a-zA-Z0-9\s,.-]+$/; // Regex para validar la ubicación
 
         // Validar nombre
-        if (!nameRegex.test(name.value) || name.value.length < 3) {
+        if (name.value.length < 3) {
             valido = false;
-            errores.push("El nombre debe tener al menos 3 caracteres y solo puede contener letras, números y espacios.");
+            errores.push("El nombre debe tener al menos 3 caracteres");
         }
 
         // Validar categoría seleccionada

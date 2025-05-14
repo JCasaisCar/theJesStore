@@ -140,7 +140,7 @@
                                                 <td class="py-4 px-4">
                                                     <div class="flex items-center">
                                                         <div class="w-12 h-12 bg-gray-100 rounded mr-3 overflow-hidden">
-                                                            <img src="{{ $detail->product->image }}" alt="{{ $detail->product->name }}" class="w-full h-full object-cover">
+                                                        <img src="{{ asset('img/products/' . $detail->product->image) }}" alt="{{ $detail->product->name }}" class="object-cover w-full h-full">
                                                         </div>
                                                         <div>
                                                             <p class="font-medium text-gray-800">{{ $detail->product->name }}</p>
@@ -308,31 +308,6 @@
                                 </a>
                             </div>
                         </div>
-                    </div>
-                </div>
-                
-                <!-- Productos recomendados -->
-                <div class="bg-white rounded-xl shadow-lg overflow-hidden mt-6">
-                    <div class="bg-gray-50 p-4 border-b">
-                        <h2 class="font-bold text-lg text-gray-800">{{ __('recomendados') }}</h2>
-                    </div>
-                    
-                    <div class="p-4 space-y-4">
-                        
-                        <div class="flex space-x-3 pb-3 border-b border-gray-100">
-                            <div class="w-16 h-16 bg-gray-100 rounded overflow-hidden">
-                                <img src="" alt="" class="w-full h-full object-cover">
-                            </div>
-                            <div class="flex-1">
-                                <h3 class="font-medium text-gray-800 mb-1"></h3>
-                                <p class="text-blue-600 font-medium"></p>
-                            </div>
-                        </div>
-                        
-                        
-                        <a href="/tienda" class="block text-center text-blue-600 hover:text-blue-800 text-sm font-medium mt-2">
-                            {{ __('ver_mas_productos') }}
-                        </a>
                     </div>
                 </div>
             </div>
