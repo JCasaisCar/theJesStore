@@ -251,13 +251,13 @@
 
 
 <!-- Modal de Pedidos -->
-<div id="modalPedidos" class="fixed inset-0 z-50 bg-black bg-opacity-50 hidden justify-center items-center">
-    <div class="bg-white w-11/12 max-w-6xl rounded-xl shadow-lg p-6 overflow-auto max-h-[90vh]">
+<div id="modalPedidos" class="fixed inset-0 z-50 bg-black bg-opacity-50 hidden justify-center items-center overflow-y-auto">
+    <div class="bg-white w-11/12 max-w-6xl rounded-xl shadow-lg p-6 max-h-[90vh] overflow-y-auto">
         <div class="flex justify-between items-center mb-4">
             <h2 class="text-xl font-bold text-gray-800">Todos los Pedidos</h2>
-            <button onclick="cerrarModalPedidos()" class="text-gray-600 hover:text-red-600">&times;</button>
+            <button onclick="cerrarModalPedidos()" class="text-gray-600 hover:text-red-600 text-2xl">&times;</button>
         </div>
-        <table class="min-w-full text-sm">
+        <table class="min-w-full text-sm mb-6">
             <thead>
                 <tr class="border-b text-gray-600 uppercase text-xs">
                     <th>ID</th>
@@ -267,6 +267,7 @@
                     <th>Total</th>
                     <th>Fecha</th>
                     <th>Acción</th>
+                    <th>Detalles</th>
                 </tr>
             </thead>
             <tbody>
@@ -295,12 +296,63 @@
                             <button onclick="guardarCambios({{ $pedido->id }})"
                                 class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded text-xs">Guardar</button>
                         </td>
+                        <td class="py-2">
+                            <button onclick="toggleDetallesPedido({{ $pedido->id }})" class="text-blue-600 hover:underline text-xs">Ver detalles</button>
+                        </td>
+                    </tr>
+                    <tr id="detalles-pedido-{{ $pedido->id }}" class="hidden">
+                        <td colspan="8" class="bg-gray-50 px-4 py-4">
+                            <table class="w-full text-xs text-left text-gray-700">
+                                <thead>
+                                    <tr class="border-b text-gray-600">
+                                        <th class="py-1">Imagen</th>
+                                        <th class="py-1">Producto</th>
+                                        <th class="py-1">Cantidad</th>
+                                        <th class="py-1">Precio</th>
+                                        <th class="py-1">Total</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($pedido->details as $detail)
+                                        <tr class="border-b">
+                                            <td class="py-1 pr-2">
+                                                @if($detail->product && $detail->product->image)
+                                                    <img src="{{ asset('storage/products/' . $detail->product->image) }}"
+                                                        alt="{{ $detail->product->name }}"
+                                                        class="w-12 h-12 object-cover rounded border">
+                                                @else
+                                                    <span class="text-gray-400 italic">Sin imagen</span>
+                                                @endif
+                                            </td>
+                                            <td class="py-1">{{ $detail->product->name ?? 'Producto eliminado' }}</td>
+                                            <td class="py-1">{{ $detail->quantity }}</td>
+                                            <td class="py-1">{{ number_format($detail->price, 2) }} €</td>
+                                            <td class="py-1">{{ number_format($detail->price * $detail->quantity, 2) }} €</td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                            <div class="text-right mt-3 space-y-1 text-sm">
+                                <p>Subtotal: <strong>{{ number_format($pedido->subtotal, 2) }} €</strong></p>
+                                <p>IVA: <strong>{{ number_format($pedido->iva, 2) }} €</strong></p>
+                                <p>Total: <strong>{{ number_format($pedido->total, 2) }} €</strong></p>
+                                <p>Método de pago: <strong>{{ ucfirst($pedido->payment_method) }}</strong></p>
+                            </div>
+                        </td>
                     </tr>
                 @endforeach
             </tbody>
         </table>
     </div>
 </div>
+
+<script>
+    function toggleDetallesPedido(id) {
+        const fila = document.getElementById(`detalles-pedido-${id}`);
+        fila.classList.toggle('hidden');
+    }
+</script>
+
 
 
 
