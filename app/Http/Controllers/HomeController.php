@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Product;
 use App\Models\Category;
 use App\Models\Newsletter;
+use App\Notifications\NewsletterWelcomeNotification;
+use Illuminate\Support\Facades\Notification;
 
 class HomeController extends Controller
 {
@@ -20,10 +22,9 @@ class HomeController extends Controller
     public function newsletter(Request $request)
 {
     $request->validate([
-        'email' => 'required|email|email',
+        'email' => 'required|email',
     ]);
 
-    // Comprobar si ya existe el correo
     if (Newsletter::where('email', $request->email)->exists()) {
         return back()->with('error', '¡Ya estás suscrito!');
     }
@@ -31,6 +32,10 @@ class HomeController extends Controller
     Newsletter::create([
         'email' => $request->email,
     ]);
+
+    // 📧 Enviar notificación (a un Notifiable genérico anónimo)
+    Notification::route('mail', $request->email)
+        ->notify(new NewsletterWelcomeNotification($request->email));
 
     return back()->with('success', '¡Gracias por suscribirte!');
 }

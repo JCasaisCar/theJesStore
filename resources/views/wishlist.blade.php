@@ -48,9 +48,6 @@
                         <p class="text-gray-500 text-sm mb-4">{{ Str::limit($item->product->description, 60) }}</p>
                         <div class="flex justify-between items-center">
                             <span class="font-bold text-lg text-blue-700">{{ number_format($item->product->price, 2) }}€</span>
-                            <a href="{{ route('tienda') }}" class="bg-blue-700 hover:bg-blue-800 text-white py-2 px-4 rounded-lg text-sm transition transform hover:scale-105">
-                                {{ __('ver_detalles') }}
-                            </a>
                         </div>
                     </div>
                 </div>

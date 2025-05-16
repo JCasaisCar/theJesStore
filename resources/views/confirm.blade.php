@@ -210,7 +210,7 @@
 
                         <!-- Botones de acción -->
                         <div class="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4">
-                            <a href="/mi-cuenta/pedidos" class="flex-1 bg-white border border-gray-300 hover:bg-gray-50 text-gray-700 font-medium py-3 px-6 rounded-lg transition focus:outline-none focus:ring-4 focus:ring-blue-300 text-center">
+                            <a href="{{ route('orders.index') }}" class="flex-1 bg-white border border-gray-300 hover:bg-gray-50 text-gray-700 font-medium py-3 px-6 rounded-lg transition focus:outline-none focus:ring-4 focus:ring-blue-300 text-center">
                                 <i class="fas fa-clipboard-list mr-2"></i> {{ __('ver_mis_pedidos') }}
                             </a>
                             <a href="/tienda" class="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-6 rounded-lg transition focus:outline-none focus:ring-4 focus:ring-blue-300 text-center">
@@ -264,11 +264,15 @@
     <span class="font-medium text-gray-800">{{ number_format($order->iva, 2) }} €</span>
 </div>
 
-<!-- Descuento aplicado -->
+@if($order->subtotal + $order->iva > $order->total)
+@php
+    $descuento = ($order->subtotal + $order->iva) - $order->total;
+@endphp
 <div class="flex justify-between py-2">
-                                <span class="text-green-600">{{ __('descuento') }}</span>
-                                <span class="font-medium text-green-600">-</span>
-                            </div>
+    <span class="text-green-600">{{ __('descuento') }}</span>
+    <span class="font-medium text-green-600">-{{ number_format($descuento, 2) }} €</span>
+</div>
+@endif
 
 <!-- Total -->
 <div class="flex justify-between py-3 border-t border-gray-200 mt-2">
@@ -285,7 +289,7 @@
                         
                         <!-- Factura -->
                         <div class="pt-4 border-t border-gray-100">
-                            <a href="#" class="text-blue-600 hover:text-blue-800 flex items-center justify-center w-full py-3 border border-blue-600 rounded-lg transition-colors">
+                            <a href="{{ route('invoice.download', $order->id) }}" class="text-blue-600 hover:text-blue-800 flex items-center justify-center w-full py-3 border border-blue-600 rounded-lg transition-colors">
                                 <i class="fas fa-file-invoice mr-2"></i>
                                 {{ __('descargar_factura') }}
                             </a>

@@ -10,21 +10,27 @@ use App\Models\ShippingMethod;
 class AddresController extends Controller
 {
     public function index()
-    {
-        $user = Auth::user();
-        $cart = \App\Models\Cart::with('items.product')->where('user_id', $user->id)->first();
+{
+    $user = Auth::user();
+    $cart = \App\Models\Cart::with('items.product')->where('user_id', $user->id)->first();
 
-        $totalConIVA = $cart->items->sum(fn($item) => $item->product->price * $item->quantity);
+    $totalConIVA = $cart->items->sum(fn($item) => $item->product->price * $item->quantity);
 
-        $subtotal = round($totalConIVA / 1.21, 2);
-        $iva = round($totalConIVA - $subtotal, 2);
+    $subtotal = round($totalConIVA / 1.21, 2);
+    $iva = round($totalConIVA - $subtotal, 2);
 
-        $shippingMethods = ShippingMethod::orderBy('precio')->get();
-        $envio = optional($shippingMethods->first())->precio ?? 0;
-        $total = round($totalConIVA + $envio, 2);
+    $shippingMethods = ShippingMethod::orderBy('precio')->get();
+    $envio = optional($shippingMethods->first())->precio ?? 0;
 
-        return view('addres', compact('cart', 'subtotal', 'iva', 'envio', 'total', 'shippingMethods'));
-    }
+    // Lógica del cupón
+    $codigo = session('cupon_codigo');
+    $cupon = \App\Models\DiscountCode::where('code', $codigo)->first();
+    $descuento = $cupon ? round($totalConIVA * $cupon->percentage / 100, 2) : 0;
+
+    $total = round($totalConIVA + $envio - $descuento, 2);
+
+    return view('addres', compact('cart', 'subtotal', 'iva', 'envio', 'total', 'shippingMethods', 'descuento', 'codigo'));
+}
 
     public function store(Request $request)
     {

@@ -40,8 +40,6 @@ import './admin.js';
 
 import './cart.js';
 
-import './addres.js';
-
 import './contacto.js';
 
 import './cookies.js';

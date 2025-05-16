@@ -193,19 +193,6 @@
                                     @endforeach
                                 </div>
                             </div>
-                            
-                            <!-- Notas adicionales -->
-                            <div class="mb-8">
-                                <h3 class="text-md font-semibold text-gray-700 mb-4 flex items-center">
-                                    <i class="fas fa-sticky-note mr-2 text-blue-600"></i>
-                                    {{ __('notas_adicionales') }}
-                                </h3>
-                                
-                                <div>
-                                    <label for="notas" class="block text-sm font-medium text-gray-700 mb-1">{{ __('notas_pedido') }}</label>
-                                    <textarea id="notas" name="notas" rows="3" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-blue-600 transition" placeholder="{{ __('instrucciones_entrega') }}"></textarea>
-                                </div>
-                            </div>
                         </form>
                     </div>
                     
@@ -247,23 +234,31 @@
                         
                         <!-- Subtotal, envío, descuentos -->
                         <div class="space-y-3 mb-6">
-                            <div class="flex justify-between">
-                                <span class="text-gray-600">{{ __('subtotal') }}</span>
-                                <span class="font-medium">{{ number_format($subtotal, 2) }} €</span>
-                            </div>
-                            <div class="flex justify-between">
-                                <span class="text-gray-600">{{ __('envio') }}</span>
-                                <span class="font-medium">{{ number_format($envio, 2) }} €</span>
-                            </div>
-                            <div class="flex justify-between">
-                                <span class="text-gray-600">{{ __('impuestos') }}</span>
-                                <span class="font-medium">{{ number_format($iva, 2) }} €</span>
-                            </div>
-                            <div class="pt-3 border-t border-gray-200 flex justify-between">
-                                <span class="font-bold text-gray-800">{{ __('total') }}</span>
-                                <span class="font-bold text-blue-600">{{ number_format($total, 2) }} €</span>
-                            </div>
-                        </div>
+    <div class="flex justify-between">
+        <span class="text-gray-600">{{ __('subtotal') }}</span>
+        <span class="font-medium">{{ number_format($subtotal, 2) }} €</span>
+    </div>
+    <div class="flex justify-between">
+        <span class="text-gray-600">{{ __('envio') }}</span>
+        <span class="font-medium">{{ number_format($envio, 2) }} €</span>
+    </div>
+    <div class="flex justify-between">
+        <span class="text-gray-600">{{ __('impuestos') }}</span>
+        <span class="font-medium">{{ number_format($iva, 2) }} €</span>
+    </div>
+
+    @if(isset($descuento) && $descuento > 0)
+    <div class="flex justify-between text-green-700 font-medium">
+        <span>{{ __('cupón_aplicado') }} ({{ $codigo ?? '' }})</span>
+        <span>-{{ number_format($descuento, 2) }} €</span>
+    </div>
+    @endif
+
+    <div class="pt-3 border-t border-gray-200 flex justify-between">
+        <span class="font-bold text-gray-800">{{ __('total') }}</span>
+        <span class="font-bold text-blue-600">{{ number_format($total, 2) }} €</span>
+    </div>
+</div>
                                 
                         <!-- Botón de continuar al pago -->
                         <button type="submit" form="shipping-form" class="block w-full bg-gradient-to-r from-blue-800 to-blue-600 hover:from-blue-700 hover:to-blue-500 text-white font-bold py-3 px-6 rounded-lg transition shadow-lg text-center">
@@ -284,4 +279,47 @@
     </div>
 </div>
 </body>
+
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const envioOptions = document.querySelectorAll('[name="shipping_method_id"]');
+
+    envioOptions.forEach(option => {
+        option.addEventListener('change', function () {
+            // Quitar borde azul de todos los contenedores
+            document.querySelectorAll('[data-envio-container]').forEach(container => {
+                container.classList.remove('border-blue-600');
+                container.classList.add('border-gray-300');
+            });
+
+            // Activar contenedor seleccionado
+            const container = this.closest('[data-envio-container]');
+            container.classList.remove('border-gray-300');
+            container.classList.add('border-blue-600');
+
+            // Obtener precio desde el contenedor activo
+            const precioText = container.querySelector('.font-bold.text-blue-600').textContent;
+            const precioEnvio = parseFloat(precioText.replace('€', '').trim().replace(',', '.'));
+            const subtotal = parseFloat('{{ $subtotal }}');
+            const iva = parseFloat('{{ $iva }}');
+            const total = (subtotal + iva + precioEnvio).toFixed(2);
+
+            // Actualizar resumen
+            document.querySelectorAll('.space-y-3.mb-6 .font-medium')[1].textContent = precioEnvio.toFixed(2) + ' €';
+            document.querySelector('.space-y-3.mb-6 .font-bold.text-blue-600').textContent = total + ' €';
+        });
+    });
+
+    // Clic en contenedor para seleccionar radio
+    document.querySelectorAll('[data-envio-container]').forEach(container => {
+        container.addEventListener('click', function () {
+            const input = container.querySelector('input[type="radio"]');
+            input.checked = true;
+            input.dispatchEvent(new Event('change'));
+        });
+    });
+});
+
+</script>
 @endsection

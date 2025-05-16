@@ -8,73 +8,95 @@ use App\Models\Cart;
 use App\Models\Order;
 use App\Models\ShippingAddress;
 use App\Models\ShippingMethod;
+use App\Models\DiscountCode;
+use PDF;
+use Illuminate\Support\Facades\Storage;
+use App\Notifications\OrderConfirmedNotification;
 
 class ConfirmController extends Controller
 {
     public function success(Request $request)
-{
-    $user = Auth::user();
-    $paymentMethod = $request->query('method', 'desconocido');
+    {
+        $user = Auth::user();
+        $paymentMethod = $request->query('method', 'desconocido');
 
-    // Obtener el carrito y datos de envío
-    $cart = Cart::with('items.product')->where('user_id', $user->id)->first();
-    $shippingAddress = ShippingAddress::find(session('shipping_address_id'));
-    $shippingMethod = ShippingMethod::find(session('shipping_method_id'));
-    $shippingPrice = session('shipping_price', 0);
+        $cart = Cart::with('items.product')->where('user_id', $user->id)->first();
+        $shippingAddress = ShippingAddress::find(session('shipping_address_id'));
+        $shippingMethod = ShippingMethod::find(session('shipping_method_id'));
+        $shippingPrice = session('shipping_price', 0);
 
-    // Total con IVA solo de productos
-    $totalConIVA = $cart->items->sum(fn($item) => floatval($item->product->price) * $item->quantity);
+        $totalConIVA = $cart->items->sum(fn($item) => $item->product->price * $item->quantity);
+        $subtotal = round($totalConIVA / 1.21, 2);
+        $iva = round($totalConIVA - $subtotal, 2);
 
-    // Subtotal e IVA solo sobre productos
-    $subtotal = round($totalConIVA / 1.21, 2);
-    $iva = round($totalConIVA - $subtotal, 2);
+        $discountAmount = 0;
+        $discountCode = null;
 
-    // Total final: productos (con IVA) + envío (sin IVA)
-    $total = round($totalConIVA + $shippingPrice, 2);
+        if (session()->has('cupon_codigo')) {
+            $code = session('cupon_codigo');
+            $cupon = DiscountCode::where('code', $code)->first();
 
-    // Crear pedido
-    $order = Order::create([
-        'user_id' => $user->id,
-        'shipping_address_id' => $shippingAddress->id,
-        'shipping_method_id' => $shippingMethod->id,
-        'subtotal' => $subtotal,
-        'iva' => $iva,
-        'total' => $total,
-        'status' => 'confirmado',
-        'payment_method' => $paymentMethod,
-    ]);
+            if ($cupon && $cupon->is_active) {
+                $discountAmount = round($totalConIVA * ($cupon->percentage / 100), 2);
+                $discountCode = $cupon;
 
-    // Crear detalles del pedido y actualizar stock
-    foreach ($cart->items as $item) {
-        // Verificar que haya suficiente stock antes de proceder
-        $product = $item->product;
-        if ($product->stock < $item->quantity) {
-            return redirect()->back()->with('error', 'No hay suficiente stock para algunos productos.');
+                $cupon->users()->updateExistingPivot($user->id, ['used' => true]);
+                session()->forget('cupon_codigo');
+            }
         }
 
-        // Crear detalles del pedido
-        $order->details()->create([
-            'product_id' => $item->product_id,
-            'quantity' => $item->quantity,
-            'price' => $item->product->price,
+        $total = round($totalConIVA - $discountAmount + $shippingPrice, 2);
+
+        $order = Order::create([
+            'user_id' => $user->id,
+            'shipping_address_id' => $shippingAddress->id,
+            'shipping_method_id' => $shippingMethod->id,
+            'subtotal' => $subtotal,
+            'iva' => $iva,
+            'total' => $total,
+            'status' => 'confirmado',
+            'payment_method' => $paymentMethod,
+            'discount_code_id' => $discountCode?->id,
         ]);
 
-        // Reducir el stock del producto
-        $product->stock -= $item->quantity;
-        $product->save();
+        foreach ($cart->items as $item) {
+            $product = $item->product;
+            if ($product->stock < $item->quantity) {
+                return redirect()->back()->with('error', 'No hay suficiente stock para algunos productos.');
+            }
+
+            $order->details()->create([
+                'product_id' => $item->product_id,
+                'quantity' => $item->quantity,
+                'price' => $item->product->price,
+            ]);
+
+            $product->stock -= $item->quantity;
+            $product->save();
+        }
+
+        $pdf = PDF::loadView('invoices.invoice', [
+            'order' => $order,
+            'shippingAddress' => $shippingAddress,
+            'shippingMethod' => $shippingMethod,
+            'shippingPrice' => $shippingPrice,
+        ]);
+
+        Storage::disk('public')->makeDirectory('facturas');
+        Storage::disk('public')->put("facturas/factura_pedido_{$order->id}.pdf", $pdf->output());
+
+        // Enviar notificación al usuario con detalles del pedido y link a la factura
+        $invoiceUrl = asset("storage/facturas/factura_pedido_{$order->id}.pdf");
+        $user->notify(new OrderConfirmedNotification($order->load('details.product'), $invoiceUrl));
+
+        $cart->items()->delete();
+        $cart->delete();
+
+        session()->forget(['shipping_address_id', 'shipping_method_id', 'shipping_price']);
+        session()->put('order_id', $order->id);
+
+        return redirect()->route('confirm');
     }
-
-    // Vaciar carrito
-    $cart->items()->delete();
-    $cart->delete();
-
-    // Guardar el ID del pedido en sesión y redirigir a vista limpia
-    session()->forget(['shipping_address_id', 'shipping_method_id', 'shipping_price']);
-    session()->put('order_id', $order->id);
-
-    return redirect()->route('confirm');
-}
-
 
     public function index()
     {

@@ -11,6 +11,8 @@ use Illuminate\Http\Request;
 use Carbon\Carbon;
 use App\Models\ContactMessage;
 use Illuminate\Support\Facades\Log;
+use App\Models\DiscountCode;
+use App\Models\Newsletter;
 
 class AdminController extends Controller
 {
@@ -47,6 +49,12 @@ class AdminController extends Controller
                                     ->limit(5)
                                     ->get();
 
+
+    $cuponesActivos = DiscountCode::where('is_active', true)->count();
+    $cuponesInactivos = DiscountCode::where('is_active', false)->count();
+
+    $newsletterCount = Newsletter::count();
+
     return view('admin', compact(
         'totalProductos',
         'productosActivos',
@@ -66,7 +74,10 @@ class AdminController extends Controller
         'ultimosPedidos',
         'totalPedidos',
         'totalVentas',
-        'productosConStockBajo'
+        'productosConStockBajo',
+        'cuponesActivos',
+        'cuponesInactivos', 
+        'newsletterCount'
     ));
 }
 

@@ -36,4 +36,9 @@ public function shippingMethod()
 {
     return $this->belongsTo(ShippingMethod::class);
 }
+
+public function discountCode()
+{
+    return $this->belongsTo(\App\Models\DiscountCode::class);
+}
 }

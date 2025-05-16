@@ -11,11 +11,9 @@
         <div class="mt-6">
           <h5 class="text-white font-semibold mb-2">{{ __('metodos_pago') }}</h5>
           <div class="flex justify-center md:justify-start space-x-3">
-            <i class="fab fa-cc-visa text-2xl text-gray-300 hover:text-white transition"></i>
-            <i class="fab fa-cc-mastercard text-2xl text-gray-300 hover:text-white transition"></i>
-            <i class="fab fa-cc-paypal text-2xl text-gray-300 hover:text-white transition"></i>
-            <i class="fab fa-cc-apple-pay text-2xl text-gray-300 hover:text-white transition"></i>
-          </div>
+  <i class="fab fa-cc-paypal text-2xl text-gray-300 hover:text-white transition" title="PayPal"></i>
+  <i class="fab fa-stripe text-2xl text-gray-300 hover:text-white transition" title="Stripe"></i>
+</div>
         </div>
       </div>
 

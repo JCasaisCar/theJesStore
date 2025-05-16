@@ -8,29 +8,69 @@ use App\Models\CartItem;
 use App\Models\ShippingMethod;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Product;
+use App\Models\DiscountCode;
 
 class CartController extends Controller
 {
-    public function index()
-    {
-        $cart = Cart::firstOrCreate(['user_id' => Auth::id()]);
-        $items = $cart->items()->with('product')->get();
+    public function index(Request $request)
+{
+    $cart = Cart::firstOrCreate(['user_id' => Auth::id()]);
+    $items = $cart->items()->with('product')->get();
 
-        $totalConIVA = 0;
-        foreach ($items as $item) {
-            $totalConIVA += $item->product->price * $item->quantity;
+    $totalConIVA = $items->sum(fn($item) => $item->product->price * $item->quantity);
+    $subtotalSinIVA = round($totalConIVA / 1.21, 2);
+    $iva = round($totalConIVA - $subtotalSinIVA, 2);
+
+    $envioMetodo = ShippingMethod::orderBy('precio')->first();
+    $envio = $envioMetodo ? $envioMetodo->precio : 0;
+
+    // Aplicar cupón si existe
+    $descuento = 0;
+    $codigo = session('cupon_codigo');
+    if ($codigo) {
+        $cupon = DiscountCode::where('code', $codigo)
+            ->where('is_active', true)
+            ->where(function ($query) {
+                $query->whereDoesntHave('users')
+                      ->orWhereHas('users', fn($q) => $q->where('users.id', Auth::id()));
+            })
+            ->whereDoesntHave('orders', fn($q) => $q->where('user_id', Auth::id()))
+            ->first();
+
+        if ($cupon) {
+            $descuento = round($totalConIVA * $cupon->percentage / 100, 2);
+        } else {
+            session()->forget('cupon_codigo');
         }
-
-        $subtotalSinIVA = round($totalConIVA * 100 / 121, 2);
-        $iva = round($totalConIVA - $subtotalSinIVA, 2);
-
-        $envioMetodo = ShippingMethod::orderBy('precio', 'asc')->first();
-        $envio = $envioMetodo ? $envioMetodo->precio : 0;
-
-        $totalFinal = round($totalConIVA + $envio, 2);
-
-        return view('cart', compact('items', 'subtotalSinIVA', 'iva', 'envio', 'totalFinal'));
     }
+
+    $totalFinal = round($totalConIVA + $envio - $descuento, 2);
+
+    return view('cart', compact('items', 'subtotalSinIVA', 'iva', 'envio', 'totalFinal', 'descuento', 'codigo'));
+}
+
+public function applyCoupon(Request $request)
+{
+    $codigo = $request->input('coupon');
+
+    $cupon = DiscountCode::where('code', $codigo)
+        ->where('is_active', true)
+        ->where(function ($query) {
+            $query->whereDoesntHave('users') // cupón global
+                  ->orWhereHas('users', function ($q) {
+                      $q->where('users.id', Auth::id())
+                        ->where('discount_code_user.used', false); // <-- esta línea es la clave
+                  });
+        })
+        ->first();
+
+    if ($cupon) {
+        session(['cupon_codigo' => $codigo]);
+        return redirect()->route('cart')->with('success', 'Cupón aplicado correctamente.');
+    }
+
+    return redirect()->route('cart')->with('error', 'Cupón inválido o ya utilizado.');
+}
 
     public function add(Request $request)
 {

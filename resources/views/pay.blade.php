@@ -219,33 +219,32 @@
                         </div>
 
                         <div class="pt-2">
-                            <div class="flex justify-between py-2">
-                                <span class="text-gray-600">{{ __('subtotal') }}</span>
-                                <span class="font-medium text-gray-800">{{ number_format($subtotal, 2) }} €</span>
-                            </div>
-                            <div class="flex justify-between py-2">
-                                <span class="text-gray-600">{{ __('envio') }}</span>
-                                <span class="font-medium text-gray-800">{{ number_format($shippingPrice, 2) }} €</span>
-                            </div>
-                            <div class="flex justify-between py-2">
-                                <span class="text-gray-600">{{ __('impuestos') }}</span>
-                                <span class="font-medium text-gray-800">{{ number_format($iva, 2) }} €</span>
-                            </div>
-                            <div class="flex justify-between py-3 border-t border-gray-200 mt-2">
-                                <span class="font-bold text-gray-800">{{ __('total') }}</span>
-                                <span class="font-bold text-blue-600 text-xl">{{ number_format($total, 2) }} €</span>
-                            </div>
-                        </div>
+    <div class="flex justify-between py-2">
+        <span class="text-gray-600">{{ __('subtotal') }}</span>
+        <span class="font-medium text-gray-800">{{ number_format($subtotal, 2) }} €</span>
+    </div>
+    <div class="flex justify-between py-2">
+        <span class="text-gray-600">{{ __('envio') }}</span>
+        <span class="font-medium text-gray-800">{{ number_format($shippingPrice, 2) }} €</span>
+    </div>
+    <div class="flex justify-between py-2">
+        <span class="text-gray-600">{{ __('impuestos') }}</span>
+        <span class="font-medium text-gray-800">{{ number_format($iva, 2) }} €</span>
+    </div>
+
+    @if(isset($descuento) && $descuento > 0)
+    <div class="flex justify-between py-2 text-green-700 font-medium">
+        <span>{{ __('cupón_aplicado') }} ({{ $codigo ?? '' }})</span>
+        <span>-{{ number_format($descuento, 2) }} €</span>
+    </div>
+    @endif
+
+    <div class="flex justify-between py-3 border-t border-gray-200 mt-2">
+        <span class="font-bold text-gray-800">{{ __('total') }}</span>
+        <span class="font-bold text-blue-600 text-xl">{{ number_format($total, 2) }} €</span>
+    </div>
+</div>
                         
-                        <!-- Código de promoción -->
-                        <div class="pt-2">
-                            <div class="relative">
-                                <input type="text" id="cupon" name="cupon" placeholder="{{ __('codigo_promocional') }}" class="w-full p-3 pr-16 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
-                                <button class="absolute right-0 top-0 h-full px-4 bg-gray-100 text-gray-600 hover:bg-gray-200 rounded-r-lg transition">
-                                    {{ __('aplicar') }}
-                                </button>
-                            </div>
-                        </div>
                         
                         <!-- Enlaces de ayuda -->
                         <div class="pt-4 border-t border-gray-100">

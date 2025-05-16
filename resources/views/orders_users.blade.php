@@ -54,12 +54,19 @@
                             </tbody>
                         </table>
 
-                        <div class="mt-4 text-right space-y-1 text-sm">
-                            <p>Subtotal: <span class="font-medium">{{ number_format($order->subtotal, 2) }} €</span></p>
-                            <p>IVA: <span class="font-medium">{{ number_format($order->iva, 2) }} €</span></p>
-                            <p>Total: <span class="font-bold text-lg">{{ number_format($order->total, 2) }} €</span></p>
-                            <p>Método de pago: <span class="font-medium">{{ ucfirst($order->payment_method) }}</span></p>
-                        </div>
+                        @php
+    $descuento = ($order->subtotal + $order->iva) - $order->total;
+@endphp
+
+<div class="mt-4 text-right space-y-1 text-sm">
+    <p>Subtotal: <span class="font-medium">{{ number_format($order->subtotal, 2) }} €</span></p>
+    <p>IVA: <span class="font-medium">{{ number_format($order->iva, 2) }} €</span></p>
+    @if ($descuento > 0)
+        <p class="text-green-700">Descuento: <span class="font-medium">-{{ number_format($descuento, 2) }} €</span></p>
+    @endif
+    <p>Total: <span class="font-bold text-lg">{{ number_format($order->total, 2) }} €</span></p>
+    <p>Método de pago: <span class="font-medium">{{ ucfirst($order->payment_method) }}</span></p>
+</div>
                     </div>
                 </div>
             @endforeach

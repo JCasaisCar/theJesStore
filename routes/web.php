@@ -8,6 +8,12 @@ use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use App\Http\Controllers\StripeController;
 use App\Http\Controllers\PaypalController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\DiscountCodeController;
+use App\Models\Newsletter;
+use App\Http\Controllers\NewsletterAdminController;
+use App\Notifications\NewsletterUnsubscribedNotification;
+use Illuminate\Support\Facades\Notification;
+
 
 use App\Models\Category;
 use App\Http\Controllers\{
@@ -27,7 +33,8 @@ use App\Http\Controllers\{
     TermsController,
     WishlistController,
     AdminUserController,
-    OrdersUsersController
+    OrdersUsersController,
+    InvoiceController
 };
 use Laravel\Fortify\Http\Controllers\{
     AuthenticatedSessionController,
@@ -208,3 +215,49 @@ Route::put('/admin/pedidos/{id}/actualizar', [AdminController::class, 'updateOrd
 
 
 Route::get('/mis-pedidos', [OrdersUsersController::class, 'index'])->name('orders.index');
+
+// Rutas para códigos de descuento (admin)
+Route::prefix('discount_codes')->name('discount_codes.')->group(function () {
+    Route::get('/', [DiscountCodeController::class, 'index'])->name('index');
+    Route::get('/create', [DiscountCodeController::class, 'create'])->name('create');
+    Route::post('/', [DiscountCodeController::class, 'store'])->name('store');
+    Route::get('/{discountCode}/edit', [DiscountCodeController::class, 'edit'])->name('edit');
+    Route::put('/{discountCode}', [DiscountCodeController::class, 'update'])->name('update');
+    Route::patch('/{discountCode}/toggle', [DiscountCodeController::class, 'toggle'])->name('toggle');
+});
+
+
+Route::post('/cart/apply-coupon', [CartController::class, 'applyCoupon'])->name('cart.applyCoupon');
+
+
+
+Route::get('/factura/{order}', [InvoiceController::class, 'download'])->name('invoice.download')->middleware('auth');
+
+
+
+
+
+Route::get('/newsletter/unsubscribe', function (Request $request) {
+    $email = $request->query('email');
+
+    $suscriptor = Newsletter::where('email', $email)->first();
+
+    if ($suscriptor) {
+        $suscriptor->delete();
+
+        // 👉 Enviar notificación de confirmación de baja
+        Notification::route('mail', $email)->notify(
+            new NewsletterUnsubscribedNotification($email)
+        );
+
+        return view('newsletter.unsubscribe-confirmed', ['email' => $email]);
+    }
+
+    return view('newsletter.unsubscribe-notfound', ['email' => $email]);
+})->name('newsletter.unsubscribe');
+
+
+
+
+Route::get('/admin/newsletter/send', [NewsletterAdminController::class, 'form'])->name('admin.newsletter.form');
+    Route::post('/admin/newsletter/send', [NewsletterAdminController::class, 'send'])->name('admin.newsletter.send');

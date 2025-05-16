@@ -11,14 +11,14 @@
       <!-- Search Bar -->
       @if ((!Auth::check() || (Auth::check() && Auth::user()->role !== 'admin')) && !Route::is('tienda'))
       <div class="w-1/3 mx-4">
-        <form action="" method="GET" class="relative">
-          <input type="text" name="q" placeholder="{{ __('Buscar productos, modelos, accesorios...') }}"
-            class="w-full px-5 py-2 rounded-full border-2 border-blue-300 focus:outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-300 shadow-md text-gray-800 text-sm transition duration-300">
-          <button type="submit"
-            class="absolute right-1 top-1 bottom-1 my-auto px-4 bg-blue-500 hover:bg-blue-600 text-white rounded-full transition duration-300 flex items-center justify-center">
-            <i class="fas fa-search"></i>
-          </button>
-        </form>
+        <form action="{{ route('tienda') }}" method="GET" class="relative">
+  <input type="text" name="search" placeholder="{{ __('Buscar productos, modelos, accesorios...') }}"
+    class="w-full px-5 py-2 rounded-full border-2 border-blue-300 focus:outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-300 shadow-md text-gray-800 text-sm transition duration-300">
+  <button type="submit"
+    class="absolute right-1 top-1 bottom-1 my-auto px-4 bg-blue-500 hover:bg-blue-600 text-white rounded-full transition duration-300 flex items-center justify-center">
+    <i class="fas fa-search"></i>
+  </button>
+</form>
       </div>
       @endif
 
@@ -90,14 +90,14 @@
       <!-- Search Bar -->
       @if (!Auth::check() || (Auth::check() && Auth::user()->role !== 'admin'))
       <div class="mb-4">
-        <form action="" method="GET" class="relative">
-          <input type="text" name="q" placeholder="{{ __('Buscar productos, modelos, accesorios...') }}"
-            class="w-full px-5 py-2 rounded-full border-2 border-blue-300 focus:outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-300 shadow-md text-gray-800 text-sm">
-          <button type="submit"
-            class="absolute right-1 top-1 bottom-1 my-auto px-4 bg-blue-500 hover:bg-blue-600 text-white rounded-full transition duration-300 flex items-center justify-center">
-            <i class="fas fa-search"></i>
-          </button>
-        </form>
+        <form action="{{ route('tienda') }}" method="GET" class="relative">
+  <input type="text" name="search" placeholder="{{ __('Buscar productos, modelos, accesorios...') }}"
+    class="w-full px-5 py-2 rounded-full border-2 border-blue-300 focus:outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-300 shadow-md text-gray-800 text-sm">
+  <button type="submit"
+    class="absolute right-1 top-1 bottom-1 my-auto px-4 bg-blue-500 hover:bg-blue-600 text-white rounded-full transition duration-300 flex items-center justify-center">
+    <i class="fas fa-search"></i>
+  </button>
+</form>
       </div>
       @endif
 

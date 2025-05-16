@@ -221,30 +221,44 @@
 
     </div>
 
-    <!-- Productos Totales -->
-    <div class="bg-white rounded-xl shadow-md overflow-hidden mt-8">
-        <div class="flex items-center p-6">
-            <div class="flex items-center justify-center h-12 w-12 rounded-full bg-blue-100 text-blue-600">
-                <i class="fas fa-box-open text-xl"></i>
+    <!-- Cupones de Descuento -->
+        <div class="bg-white rounded-xl shadow-md p-6 border-l-4 border-green-500">
+            <div class="flex justify-between items-start">
+                <div>
+                    <p class="text-gray-500 text-sm">Cupones Activos</p>
+                    <h3 class="text-2xl font-bold text-gray-800">{{ $cuponesActivos }}</h3>
+                    <p class="text-sm text-red-500">
+                        Inactivos: {{ $cuponesInactivos }}
+                    </p>
+                    <a href="{{ route('discount_codes.index') }}" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md shadow-sm text-sm font-medium transition">
+                        {{ __('admin.gestionar') }}
+                        <i class="fas fa-arrow-right ml-2"></i>
+                    </a>
+                </div>
+                <div class="rounded-full bg-green-100 p-3">
+                    <i class="fas fa-percent text-green-500 text-xl"></i>
+                </div>
             </div>
-            <div class="ml-5 w-0 flex-1">
-                <dl>
-                    <dt class="text-sm font-medium text-gray-500 truncate">
-                        {{ __('admin.cupones_de_descuento') }}
-                    </dt>
-                    <dd>
-                        <div class="text-lg font-bold text-gray-900">
-                            {{ $totalProductos }}
-                        </div>
-                    </dd>
-                </dl>
-            </div>
-            <div class="ml-4 flex-shrink-0">
-                <a href="{{ route('admin.productos') }}" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md shadow-sm text-sm font-medium transition">
-                    {{ __('admin.gestionar') }}
-                    <i class="fas fa-arrow-right ml-2"></i>
-                </a>
-            </div>
+        </div>
+</div>
+
+
+<!-- Suscriptores Newsletter -->
+<div class="bg-white rounded-xl shadow-md p-6 border-l-4 border-indigo-500">
+    <div class="flex justify-between items-start">
+        <div>
+            <p class="text-gray-500 text-sm">Suscriptores Newsletter</p>
+            <h3 class="text-2xl font-bold text-gray-800">{{ $newsletterCount }}</h3>
+            <p class="text-sm text-indigo-500">
+                <i class="fas fa-envelope mr-1"></i>{{ __('admin.total_suscriptores') }}
+            </p>
+            <a href="{{ route('admin.newsletter.form') }}" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-md shadow-sm text-sm font-medium transition mt-2 inline-block">
+                Enviar correo
+                <i class="fas fa-paper-plane ml-2"></i>
+            </a>
+        </div>
+        <div class="rounded-full bg-indigo-100 p-3">
+            <i class="fas fa-newspaper text-indigo-500 text-xl"></i>
         </div>
     </div>
 </div>

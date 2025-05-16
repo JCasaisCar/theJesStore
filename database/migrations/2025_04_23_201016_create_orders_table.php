@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('status')->default('pendiente');
             $table->string('tracking')->default('preparation');
             $table->string('payment_method');
+            $table->foreignId('discount_code_id')->nullable()->constrained()->nullOnDelete();
             $table->timestamps();
         });
     }
