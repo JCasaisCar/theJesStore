@@ -8,6 +8,10 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\App;
 
+use Illuminate\Support\Facades\View;
+use Illuminate\Support\Facades\Auth;
+use App\Models\Cart;
+
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -53,5 +57,16 @@ class AppServiceProvider extends ServiceProvider
             // Devuelve la vista reset-password
             return view('auth.reset-password');
         });
+
+        View::composer('*', function ($view) {
+        $count = 0;
+
+        if (Auth::check()) {
+            $cart = Cart::where('user_id', Auth::id())->first();
+            $count = $cart ? $cart->items()->sum('quantity') : 0;
+        }
+
+        $view->with('cartItemCount', $count);
+    });
     }
 }

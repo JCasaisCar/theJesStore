@@ -3,7 +3,13 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use App\Models\ContactMessage;
+use App\Mail\ContactUserConfirmation;
+use App\Mail\ContactAdminNotification;
+use App\Mail\ContactUserResponse;
+use Illuminate\Support\Facades\Log;
 
 class ContactoController extends Controller
 {
@@ -13,54 +19,65 @@ class ContactoController extends Controller
     }
 
     public function store(Request $request)
-{
-    $request->validate([
-        'nombre' => 'required|string|max:255',
-        'email' => 'required|email|max:255',
-        'telefono' => 'nullable|string|max:20',
-        'asunto' => 'required|string|max:255',
-        'mensaje' => 'required|string',
-        'privacidad' => 'accepted',
-    ]);
+    {
+        $request->validate([
+            'nombre' => 'required|string|max:255',
+            'email' => 'required|email|max:255',
+            'telefono' => 'nullable|string|max:20',
+            'asunto' => 'required|string|max:255',
+            'mensaje' => 'required|string',
+            'privacidad' => 'accepted',
+        ]);
 
-    ContactMessage::create([
-        'user_id' => \Illuminate\Support\Facades\Auth::check() ? \Illuminate\Support\Facades\Auth::id() : null,
-        'nombre' => $request->nombre,
-        'email' => $request->email,
-        'telefono' => $request->telefono,
-        'asunto' => $request->asunto,
-        'mensaje' => $request->mensaje,
-    ]);
+        $contact = ContactMessage::create([
+            'user_id' => Auth::check() ? Auth::id() : null,
+            'nombre' => $request->nombre,
+            'email' => $request->email,
+            'telefono' => $request->telefono,
+            'asunto' => $request->asunto,
+            'mensaje' => $request->mensaje,
+        ]);
 
-    return back()->with('success', 'Tu mensaje ha sido enviado correctamente.');
-}
+        // Enviar email al usuario confirmando recepción
+        Mail::to($contact->email)->send(new ContactUserConfirmation($contact));
 
+        // Enviar email al administrador con el mensaje
+        Mail::to('adminthejesstore@yopmail.com')->send(new ContactAdminNotification($contact));
 
+        return back()->with('success', 'Tu mensaje ha sido enviado correctamente.');
+    }
 
-public function answer(Request $request)
-{
-    $request->validate([
-        'contact_id' => 'required|exists:contacts,id',
-        'answer' => 'required|string|max:1000',
-    ]);
+    public function answer(Request $request)
+    {
+        Log::info('Respuesta recibida', $request->all());
 
-    $contact = ContactMessage::findOrFail($request->contact_id);
-    $contact->answer = $request->answer;
-    $contact->save();
+        $request->validate([
+'contact_id' => 'required|exists:contact_messages,id',
+'answer' => 'required|string|max:1000',
+        ]);
 
-    // Opcional: enviar por email aquí si quieres
+        $contact = ContactMessage::findOrFail($request->contact_id);
+        $contact->answer = $request->answer;
+        $contact->save();
 
-    return redirect()->back()->with('success', 'Respuesta enviada correctamente.');
-}
+        Log::info('Enviando respuesta al contacto', [
+    'contact_id' => $contact->id,
+    'email' => $contact->email,
+    'respuesta' => $request->answer,
+]);
 
+        // Enviar email al usuario con la respuesta
+        Mail::to($contact->email)->send(new ContactUserResponse($contact));
 
+        return redirect()->back()->with('success', 'Respuesta enviada correctamente.');
+    }
 
-public function userMessages()
-{
-    $messages = ContactMessage::where('user_id', \Illuminate\Support\Facades\Auth::check() ? \Illuminate\Support\Facades\Auth::id() : null)
-        ->latest()
-        ->get();
+    public function userMessages()
+    {
+        $messages = ContactMessage::where('user_id', Auth::check() ? Auth::id() : null)
+            ->latest()
+            ->get();
 
-    return response()->json($messages);
-}
+        return response()->json($messages);
+    }
 }

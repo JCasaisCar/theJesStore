@@ -27,7 +27,9 @@
         <div class="flex flex-col md:flex-row justify-between items-center mb-8">
             <div>
                 <h2 class="text-2xl font-bold text-gray-800">{{ __('tus_productos_guardados') }}</h2>
-                <p class="text-gray-600">{{ __('tienes_x_productos_en_tu_lista', ['count' => 3]) }}</p>
+<p class="text-gray-600">
+    {{ __('tienes_x_productos_en_tu_lista', ['count' => $wishlist->count()]) }}
+</p>
             </div>
             <div class="mt-4 md:mt-0">
                 <a href="{{ route('tienda') }}" class="bg-blue-700 hover:bg-blue-800 text-white font-bold py-2 px-4 rounded-lg transition transform hover:scale-105">
@@ -39,23 +41,64 @@
         <!-- Lista de productos -->
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             @forelse($wishlist as $item)
-                <div class="bg-white rounded-xl shadow-md overflow-hidden transform transition hover:shadow-lg">
-                    <div class="relative">
-                        <img src="{{ asset('img/products/' . $item->product->image) }}" alt="{{ $item->product->name }}" class="w-full h-48 object-cover">
-                    </div>
-                    <div class="p-4">
-                        <h3 class="font-bold text-gray-800 text-lg">{{ $item->product->name }}</h3>
-                        <p class="text-gray-500 text-sm mb-4">{{ Str::limit($item->product->description, 60) }}</p>
-                        <div class="flex justify-between items-center">
-                            <span class="font-bold text-lg text-blue-700">{{ number_format($item->product->price, 2) }}€</span>
-                        </div>
-                    </div>
-                </div>
-            @empty
-                <div class="col-span-3 text-center text-gray-600">
-                    {{ __('lista_deseos_vacia') }}
-                </div>
-            @endforelse
+    @php
+        $product = $item->product;
+    @endphp
+    <div class="bg-white rounded-xl shadow-md overflow-hidden transform transition hover:shadow-lg">
+        <div class="relative">
+            <img src="{{ asset('img/products/' . $product->image) }}" alt="{{ $product->name }}" class="w-full h-48 object-cover">
+        </div>
+        <div class="p-4">
+            <h3 class="font-bold text-gray-800 text-lg">{{ $product->name }}</h3>
+            <p class="text-gray-500 text-sm mb-2">{{ $product->brand->name ?? '' }}</p>
+            <p class="text-gray-600 text-sm mb-2">{{ Str::limit($product->description, 60) }}</p>
+            <div class="flex justify-between items-center mb-2">
+                <span class="font-bold text-lg text-blue-700">{{ number_format($product->price, 2) }}€</span>
+            </div>
+
+            <!-- Mostrar el stock -->
+            <p class="text-sm text-gray-600">
+                @if($product->stock > 0)
+                    {{ __('stock_disponible') }}: {{ $product->stock }}
+                @else
+                    <span class="text-red-600">{{ __('sin_stock') }}</span>
+                @endif
+            </p>
+
+            <!-- Acciones -->
+            <div class="mt-4 flex gap-2">
+                <!-- Añadir al carrito -->
+                @if($product->stock > 0)
+                    <form action="{{ route('cart.add') }}" method="POST" class="w-full">
+                        @csrf
+                        <input type="hidden" name="product_id" value="{{ $product->id }}">
+                        <input type="hidden" name="quantity" value="1">
+                        <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg w-full flex items-center justify-center">
+                            <i class="fas fa-shopping-cart mr-1"></i> {{ __('añadir') }}
+                        </button>
+                    </form>
+                @else
+                    <button type="button" class="bg-gray-400 text-white font-medium py-2 px-4 rounded-lg w-full flex items-center justify-center cursor-not-allowed" disabled>
+                        <i class="fas fa-shopping-cart mr-1"></i> {{ __('sin_stock') }}
+                    </button>
+                @endif
+
+                <!-- Botón para quitar de la wishlist (opcional) -->
+                <form action="{{ route('wishlist.remove', $product->id) }}" method="POST" class="w-full">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="bg-red-500 hover:bg-red-600 text-white font-medium py-2 px-4 rounded-lg w-full flex items-center justify-center">
+                        <i class="fas fa-times mr-1"></i> {{ __('quitar') }}
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+@empty
+    <div class="col-span-3 text-center text-gray-600">
+        {{ __('lista_deseos_vacia') }}
+    </div>
+@endforelse
         </div>
 
         <!-- Lista vacía (condicional) -->

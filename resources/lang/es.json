@@ -285,7 +285,7 @@
   "deseos": "deseos",
   "guarda_tus_productos_favoritos": "Guarda tus productos favoritos para más tarde",
   "tus_productos_guardados": "Tus productos guardados",
-  "tienes_x_productos_en_tu_lista": "Tienes {{count}} productos en tu lista",
+  "tienes_x_productos_en_tu_lista": "Tienes :count producto(s) en tu lista de deseos",
   "seguir_comprando": "Seguir comprando",
   "ver_detalles": "Ver detalles",
   "tambien_podria_gustarte": "También podría gustarte",

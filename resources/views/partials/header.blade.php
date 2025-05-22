@@ -49,8 +49,10 @@
         </a>
         <a class="bg-blue-500 hover:bg-blue-600 text-white py-1.5 px-3 rounded-full text-xs flex items-center gap-1 transition transform hover:scale-105 shadow-md relative" href="{{ route('cart') }}">
           <i class="fas fa-shopping-cart"></i> <span>{{ __('carrito') }}</span>
-          <span class="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">0</span>
-        </a>
+<span class="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+    {{ $cartItemCount }}
+</span>        
+</a>
         <a class="bg-green-600 hover:bg-green-700 text-white py-1.5 px-3 rounded-full text-xs flex items-center gap-1 transition transform hover:scale-105 shadow-md" href="{{ route('orders.index') }}">
           <i class="fas fa-box"></i> <span>Mis Pedidos</span>
         </a>

@@ -30,4 +30,15 @@ class WishlistController extends Controller
 
         return redirect()->back()->with('success', __('Producto añadido a tu lista de deseos'));
     }
+
+
+
+    public function remove(Product $product)
+{
+    Wishlist::where('user_id', Auth::id())
+        ->where('product_id', $product->id)
+        ->delete();
+
+    return redirect()->back()->with('success', __('Producto eliminado de la lista de deseos'));
+}
 }

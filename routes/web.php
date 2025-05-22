@@ -261,3 +261,10 @@ Route::get('/newsletter/unsubscribe', function (Request $request) {
 
 Route::get('/admin/newsletter/send', [NewsletterAdminController::class, 'form'])->name('admin.newsletter.form');
     Route::post('/admin/newsletter/send', [NewsletterAdminController::class, 'send'])->name('admin.newsletter.send');
+
+
+
+
+
+
+    Route::delete('/wishlist/{product}', [WishlistController::class, 'remove'])->name('wishlist.remove');

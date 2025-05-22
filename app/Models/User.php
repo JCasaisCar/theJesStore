@@ -60,4 +60,9 @@ class User extends Authenticatable implements MustVerifyEmail
 {
     $this->notify(new CustomVerifyEmail($this));
 }
+
+public function wishlist()
+{
+    return $this->hasMany(Wishlist::class); // o belongsToMany si es tabla intermedia
+}
 }
