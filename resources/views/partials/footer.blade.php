@@ -39,6 +39,9 @@
           <li><a href="{{ route('cookies') }}" class="hover:text-blue-300 transition flex items-center justify-center md:justify-start">
             <i class="fas fa-chevron-right text-xs mr-2 text-blue-400"></i> {{ __('cookies') }}
           </a></li>
+          <li><a href="{{ route('contacto') }}" class="hover:text-blue-300 transition flex items-center justify-center md:justify-start">
+            <i class="fas fa-chevron-right text-xs mr-2 text-blue-400"></i> {{ __('contacto') }}
+          </a></li>
         </ul>
       </div>
 
@@ -53,25 +56,19 @@
             <div class="w-8 h-8 bg-blue-800 rounded-full flex items-center justify-center mr-3">
               <i class="fa-solid fa-location-dot text-blue-300"></i>
             </div>
-            <span>Sevilla, España</span>
-          </li>
-          <li class="flex items-center justify-center md:justify-start">
-            <div class="w-8 h-8 bg-blue-800 rounded-full flex items-center justify-center mr-3">
-              <i class="fa-solid fa-phone text-blue-300"></i>
-            </div>
-            <span>+34 612 345 678</span>
+            <span>{{ __('sevilla') }}</span>
           </li>
           <li class="flex items-center justify-center md:justify-start">
             <div class="w-8 h-8 bg-blue-800 rounded-full flex items-center justify-center mr-3">
               <i class="fa-solid fa-envelope text-blue-300"></i>
             </div>
-            <span>contacto@thejesstore.com</span>
+            <span>{{ __('mail') }}</span>
           </li>
           <li class="flex items-center justify-center md:justify-start">
             <div class="w-8 h-8 bg-blue-800 rounded-full flex items-center justify-center mr-3">
               <i class="fa-solid fa-clock text-blue-300"></i>
             </div>
-            <span>Lun-Vie: 9:00-20:00</span>
+            <span>{{ __('horario') }}</span>
           </li>
         </ul>
       </div>

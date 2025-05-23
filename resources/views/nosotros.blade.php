@@ -1,21 +1,42 @@
 @extends('layouts.app')
 @section('title', __('sobre_nosotros'))
 @section('content')
-<!-- Hero Banner de Sobre Nosotros -->
-<div class="relative bg-gradient-to-r from-blue-900 to-blue-700 overflow-hidden">
-    <div class="container mx-auto px-4 py-16 md:py-20">
-        <div class="text-center text-white z-10 relative">
-            <h1 class="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 animate__animated animate__fadeInUp">
-                {{ __('conoce') }} <span class="text-blue-300">{{ __('thejesstore') }}</span>
+<!-- Cabecera Premium -->
+<div class="relative bg-gradient-to-br from-slate-900 via-blue-900 to-indigo-900 overflow-hidden">
+    <!-- Animated Background Elements -->
+    <div class="absolute inset-0 opacity-20">
+        <div class="absolute top-20 left-10 w-96 h-96 bg-blue-500 rounded-full mix-blend-multiply filter blur-xl animate-pulse"></div>
+        <div class="absolute top-40 right-20 w-80 h-80 bg-cyan-500 rounded-full mix-blend-multiply filter blur-xl animate-pulse animation-delay-2000"></div>
+        <div class="absolute bottom-10 left-1/3 w-72 h-72 bg-indigo-500 rounded-full mix-blend-multiply filter blur-xl animate-pulse animation-delay-4000"></div>
+    </div>
+
+    <!-- Grid Pattern Overlay -->
+    <div class="absolute inset-0 bg-[url('data:image/svg+xml,%3csvg width="40" height="40" xmlns="http://www.w3.org/2000/svg"%3e%3cdefs%3e%3cpattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse"%3e%3cpath d="m 40 0 l 0 40 m -40 0 l 40 0" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="1"/%3e%3c/pattern%3e%3c/defs%3e%3crect width="100%25" height="100%25" fill="url(%23grid)" /%3e%3c/svg%3e')] opacity-30"></div>
+
+    <div class="container mx-auto px-4 py-20 relative z-10">
+        <div class="max-w-4xl mx-auto text-center">
+            <!-- Icon -->
+            <div class="w-24 h-24 mx-auto bg-gradient-to-br from-blue-500 to-cyan-500 rounded-3xl flex items-center justify-center mb-8 shadow-2xl">
+                <i class="fas fa-users text-white text-3xl"></i>
+            </div>
+
+            <h1 class="text-4xl md:text-6xl font-black mb-6 bg-gradient-to-r from-white via-blue-200 to-cyan-200 bg-clip-text text-transparent">
+                {{ __('conoce') }} {{ __('thejesstore') }}
             </h1>
-            <p class="text-lg max-w-2xl mx-auto mb-6 text-gray-200 animate__animated animate__fadeInUp animate__delay-1s">
+            <p class="text-xl text-gray-300 mb-8 max-w-2xl mx-auto leading-relaxed">
                 {{ __('sobre_nosotros_descripcion') }}
             </p>
-        </div>
-        <!-- Decoraciones de fondo -->
-        <div class="absolute top-0 left-0 w-full h-full overflow-hidden opacity-10">
-            <div class="absolute top-0 right-0 w-1/3 h-1/3 bg-blue-400 rounded-full blur-3xl"></div>
-            <div class="absolute bottom-0 left-0 w-1/4 h-1/2 bg-purple-500 rounded-full blur-3xl"></div>
+
+            <!-- Breadcrumb Premium -->
+            <div class="flex items-center justify-center text-sm">
+                <a href="{{ route('home') }}" class="text-blue-300 hover:text-white transition-colors duration-300 font-medium flex items-center">
+                    <i class="fas fa-home mr-2"></i>{{ __('inicio') }}
+                </a>
+                <div class="mx-3 text-gray-400">
+                    <i class="fas fa-chevron-right text-xs"></i>
+                </div>
+                <span class="text-white font-medium">{{ __('sobre_nosotros') }}</span>
+            </div>
         </div>
     </div>
 </div>
@@ -33,7 +54,7 @@
             </div>
             <div class="order-1 md:order-2 relative">
                 <div class="relative z-10 rounded-lg overflow-hidden shadow-xl transform transition hover:scale-105">
-                    <img src="{{ asset('images/about/historia.jpg') }}" alt="{{ __('nuestra_historia') }}" class="w-full h-auto">
+                    <img src="{{ asset('img/historia.png') }}" alt="{{ __('nuestra_historia') }}" class="w-full h-auto">
                 </div>
                 <!-- Decoración detrás de la imagen -->
                 <div class="absolute -bottom-4 -right-4 w-3/4 h-3/4 bg-blue-100 rounded-lg -z-10"></div>
@@ -91,11 +112,11 @@
             <p class="text-gray-600 max-w-2xl mx-auto">{{ __('equipo_descripcion') }}</p>
         </div>
         
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div class="flex justify-center">
             <!-- Miembro 1 -->
             <div class="bg-white rounded-xl shadow-md overflow-hidden transform transition hover:scale-105 hover:shadow-lg">
                 <div class="relative">
-                    <img src="{{ asset('images/team/member1.jpg') }}" alt="{{ __('nombre_miembro1') }}" class="w-full h-64 object-cover">
+                    <img src="{{ asset('img/miembro1.jpeg') }}" alt="{{ __('nombre_miembro1') }}" class="w-full h-64 object-cover">
                     <div class="absolute inset-0 bg-gradient-to-t from-blue-900 to-transparent opacity-70"></div>
                 </div>
                 <div class="p-4 text-center">
@@ -103,85 +124,13 @@
                     <p class="text-blue-600 text-sm mb-2">{{ __('cargo_miembro1') }}</p>
                     <p class="text-gray-600 text-sm">{{ __('descripcion_miembro1') }}</p>
                     <div class="flex justify-center mt-4 space-x-3">
-                        <a href="#" class="text-blue-600 hover:text-blue-800">
+                        <a href="https://www.linkedin.com/in/jes%C3%BAs-casais-carrillo-jcasaiscar/" class="text-blue-600 hover:text-blue-800">
                             <i class="fab fa-linkedin"></i>
                         </a>
-                        <a href="#" class="text-blue-600 hover:text-blue-800">
-                            <i class="fab fa-twitter"></i>
-                        </a>
-                        <a href="#" class="text-blue-600 hover:text-blue-800">
-                            <i class="far fa-envelope"></i>
-                        </a>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Miembro 2 -->
-            <div class="bg-white rounded-xl shadow-md overflow-hidden transform transition hover:scale-105 hover:shadow-lg">
-                <div class="relative">
-                    <img src="{{ asset('images/team/member2.jpg') }}" alt="{{ __('nombre_miembro2') }}" class="w-full h-64 object-cover">
-                    <div class="absolute inset-0 bg-gradient-to-t from-blue-900 to-transparent opacity-70"></div>
-                </div>
-                <div class="p-4 text-center">
-                    <h3 class="font-bold text-lg text-gray-800">{{ __('nombre_miembro2') }}</h3>
-                    <p class="text-blue-600 text-sm mb-2">{{ __('cargo_miembro2') }}</p>
-                    <p class="text-gray-600 text-sm">{{ __('descripcion_miembro2') }}</p>
-                    <div class="flex justify-center mt-4 space-x-3">
-                        <a href="#" class="text-blue-600 hover:text-blue-800">
-                            <i class="fab fa-linkedin"></i>
-                        </a>
-                        <a href="#" class="text-blue-600 hover:text-blue-800">
-                            <i class="fab fa-twitter"></i>
-                        </a>
-                        <a href="#" class="text-blue-600 hover:text-blue-800">
-                            <i class="far fa-envelope"></i>
-                        </a>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Miembro 3 -->
-            <div class="bg-white rounded-xl shadow-md overflow-hidden transform transition hover:scale-105 hover:shadow-lg">
-                <div class="relative">
-                    <img src="{{ asset('images/team/member3.jpg') }}" alt="{{ __('nombre_miembro3') }}" class="w-full h-64 object-cover">
-                    <div class="absolute inset-0 bg-gradient-to-t from-blue-900 to-transparent opacity-70"></div>
-                </div>
-                <div class="p-4 text-center">
-                    <h3 class="font-bold text-lg text-gray-800">{{ __('nombre_miembro3') }}</h3>
-                    <p class="text-blue-600 text-sm mb-2">{{ __('cargo_miembro3') }}</p>
-                    <p class="text-gray-600 text-sm">{{ __('descripcion_miembro3') }}</p>
-                    <div class="flex justify-center mt-4 space-x-3">
-                        <a href="#" class="text-blue-600 hover:text-blue-800">
-                            <i class="fab fa-linkedin"></i>
-                        </a>
-                        <a href="#" class="text-blue-600 hover:text-blue-800">
-                            <i class="fab fa-twitter"></i>
-                        </a>
-                        <a href="#" class="text-blue-600 hover:text-blue-800">
-                            <i class="far fa-envelope"></i>
-                        </a>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Miembro 4 -->
-            <div class="bg-white rounded-xl shadow-md overflow-hidden transform transition hover:scale-105 hover:shadow-lg">
-                <div class="relative">
-                    <img src="{{ asset('images/team/member4.jpg') }}" alt="{{ __('nombre_miembro4') }}" class="w-full h-64 object-cover">
-                    <div class="absolute inset-0 bg-gradient-to-t from-blue-900 to-transparent opacity-70"></div>
-                </div>
-                <div class="p-4 text-center">
-                    <h3 class="font-bold text-lg text-gray-800">{{ __('nombre_miembro4') }}</h3>
-                    <p class="text-blue-600 text-sm mb-2">{{ __('cargo_miembro4') }}</p>
-                    <p class="text-gray-600 text-sm">{{ __('descripcion_miembro4') }}</p>
-                    <div class="flex justify-center mt-4 space-x-3">
-                        <a href="#" class="text-blue-600 hover:text-blue-800">
-                            <i class="fab fa-linkedin"></i>
-                        </a>
-                        <a href="#" class="text-blue-600 hover:text-blue-800">
-                            <i class="fab fa-twitter"></i>
-                        </a>
-                        <a href="#" class="text-blue-600 hover:text-blue-800">
+                        <a href="https://github.com/jcasaiscar" target="_blank" class="text-blue-600 hover:text-blue-800">
+        <i class="fab fa-github"></i>
+    </a>
+                        <a href="mailto:jesuscasacarrillo@gmail.com" class="text-blue-600 hover:text-blue-800">
                             <i class="far fa-envelope"></i>
                         </a>
                     </div>
@@ -250,7 +199,7 @@
                     <p class="text-gray-600 mb-4 italic">{{ __('testimonio_1') }}</p>
                     <div class="flex items-center">
                         <div class="w-12 h-12 rounded-full overflow-hidden mr-4">
-                            <img src="{{ asset('images/testimonials/client1.jpg') }}" alt="{{ __('cliente_nombre_1') }}" class="w-full h-full object-cover">
+                            <img src="{{ asset('img/cliente1.png') }}" alt="{{ __('cliente_nombre_1') }}" class="w-full h-full object-cover">
                         </div>
                         <div>
                             <h4 class="font-bold text-gray-800">{{ __('cliente_nombre_1') }}</h4>
@@ -275,7 +224,7 @@
                     <p class="text-gray-600 mb-4 italic">{{ __('testimonio_2') }}</p>
                     <div class="flex items-center">
                         <div class="w-12 h-12 rounded-full overflow-hidden mr-4">
-                            <img src="{{ asset('images/testimonials/client2.jpg') }}" alt="{{ __('cliente_nombre_2') }}" class="w-full h-full object-cover">
+                            <img src="{{ asset('img/cliente2.png') }}" alt="{{ __('cliente_nombre_2') }}" class="w-full h-full object-cover">
                         </div>
                         <div>
                             <h4 class="font-bold text-gray-800">{{ __('cliente_nombre_2') }}</h4>
@@ -300,7 +249,7 @@
                     <p class="text-gray-600 mb-4 italic">{{ __('testimonio_3') }}</p>
                     <div class="flex items-center">
                         <div class="w-12 h-12 rounded-full overflow-hidden mr-4">
-                            <img src="{{ asset('images/testimonials/client3.jpg') }}" alt="{{ __('cliente_nombre_3') }}" class="w-full h-full object-cover">
+                            <img src="{{ asset('img/cliente3.png') }}" alt="{{ __('cliente_nombre_3') }}" class="w-full h-full object-cover">
                         </div>
                         <div>
                             <h4 class="font-bold text-gray-800">{{ __('cliente_nombre_3') }}</h4>

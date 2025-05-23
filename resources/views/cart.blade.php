@@ -2,20 +2,41 @@
 @section('title', __('carrito_compra'))
 @section('content')
 <body id="cartPage">
-<!-- Hero Banner del Carrito -->
-<div class="relative bg-gradient-to-r from-blue-900 to-blue-700 overflow-hidden">
-    <div class="container mx-auto px-4 py-12 md:py-16">
-        <div class="text-center text-white z-10 relative">
-            <h1 class="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 animate__animated animate__fadeInUp">
-                {{ __('tu_carrito') }} <span class="text-blue-300">{{ __('de_compra') }}</span>
+<!-- Cabecera Premium -->
+<div class="relative bg-gradient-to-br from-slate-900 via-blue-900 to-indigo-900 overflow-hidden">
+    <!-- Animated Background Elements -->
+    <div class="absolute inset-0 opacity-20">
+        <div class="absolute top-20 left-10 w-96 h-96 bg-blue-500 rounded-full mix-blend-multiply filter blur-xl animate-pulse"></div>
+        <div class="absolute top-40 right-20 w-80 h-80 bg-cyan-500 rounded-full mix-blend-multiply filter blur-xl animate-pulse animation-delay-2000"></div>
+        <div class="absolute bottom-10 left-1/3 w-72 h-72 bg-indigo-500 rounded-full mix-blend-multiply filter blur-xl animate-pulse animation-delay-4000"></div>
+    </div>
+    <!-- Grid Pattern Overlay -->
+    <div class="absolute inset-0 bg-[url('data:image/svg+xml,%3csvg width="40" height="40" xmlns="http://www.w3.org/2000/svg"%3e%3cdefs%3e%3cpattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse"%3e%3cpath d="m 40 0 l 0 40 m -40 0 l 40 0" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="1"/%3e%3c/pattern%3e%3c/defs%3e%3crect width="100%25" height="100%25" fill="url(%23grid)" /%3e%3c/svg%3e')] opacity-30"></div>
+
+    <div class="container mx-auto px-4 py-20 relative z-10">
+        <div class="max-w-4xl mx-auto text-center">
+            <!-- Icon -->
+            <div class="w-24 h-24 mx-auto bg-gradient-to-br from-blue-500 to-cyan-500 rounded-3xl flex items-center justify-center mb-8 shadow-2xl">
+                <i class="fas fa-shopping-cart text-white text-3xl"></i>
+            </div>
+
+            <h1 class="text-4xl md:text-6xl font-black mb-6 bg-gradient-to-r from-white via-blue-200 to-cyan-200 bg-clip-text text-transparent">
+                {{ __('tu_carrito') }} <span class="text-blue-100">{{ __('de_compra') }}</span>
             </h1>
-            <p class="text-lg max-w-2xl mx-auto mb-6 text-gray-200 animate__animated animate__fadeInUp animate__delay-1s">
+            <p class="text-xl text-gray-300 mb-8 max-w-2xl mx-auto leading-relaxed">
                 {{ __('carrito_descripcion') }}
             </p>
-        </div>
-        <div class="absolute top-0 left-0 w-full h-full overflow-hidden opacity-10">
-            <div class="absolute top-0 right-0 w-1/3 h-1/3 bg-blue-400 rounded-full blur-3xl"></div>
-            <div class="absolute bottom-0 left-0 w-1/4 h-1/2 bg-purple-500 rounded-full blur-3xl"></div>
+
+            <!-- Breadcrumb Premium -->
+            <div class="flex items-center justify-center text-sm">
+                <a href="{{ route('home') }}" class="text-blue-300 hover:text-white transition-colors duration-300 font-medium flex items-center">
+                    <i class="fas fa-home mr-2"></i>{{ __('inicio') }}
+                </a>
+                <div class="mx-3 text-gray-400">
+                    <i class="fas fa-chevron-right text-xs"></i>
+                </div>
+                <span class="text-white font-medium">{{ __('carrito') }}</span>
+            </div>
         </div>
     </div>
 </div>

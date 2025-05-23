@@ -3,13 +3,59 @@
 @section('title', 'Gestionar Productos')
 
 @section('content')
-<div class="container mx-auto px-6 py-6">
-    <h2 class="text-2xl font-semibold text-gray-800">Gestionar Productos</h2>
 
-    <!-- Botón para abrir el modal de añadir producto -->
-<a href="javascript:void(0);" onclick="openCreateModal()" class="text-blue-600 hover:text-blue-500 font-medium transition mt-4">
-    <i class="fas fa-plus mr-1"></i> Añadir Nuevo Producto
-</a>
+<!-- Cabecera Premium -->
+<div class="relative bg-gradient-to-br from-slate-900 via-purple-900 to-indigo-900 overflow-hidden">
+  <div class="absolute inset-0 opacity-20">
+    <div class="absolute top-20 left-10 w-96 h-96 bg-purple-500 rounded-full mix-blend-multiply filter blur-xl animate-pulse"></div>
+    <div class="absolute top-40 right-20 w-80 h-80 bg-pink-500 rounded-full mix-blend-multiply filter blur-xl animate-pulse animation-delay-2000"></div>
+    <div class="absolute bottom-10 left-1/3 w-72 h-72 bg-indigo-500 rounded-full mix-blend-multiply filter blur-xl animate-pulse animation-delay-4000"></div>
+  </div>
+  <div class="container mx-auto px-6 py-20 relative z-10 text-center">
+    <div class="max-w-4xl mx-auto">
+      <div class="w-24 h-24 mx-auto bg-gradient-to-br from-emerald-500 to-green-500 rounded-3xl flex items-center justify-center mb-8 shadow-2xl animate-bounce-slow">
+        <i class="fas fa-box-open text-white text-3xl"></i>
+      </div>
+      <h1 class="text-4xl md:text-6xl font-black mb-4 bg-gradient-to-r from-white via-green-200 to-emerald-200 bg-clip-text text-transparent">
+        Gestionar <span class="bg-gradient-to-r from-green-300 to-emerald-300 bg-clip-text text-transparent">Productos</span>
+      </h1>
+      <p class="text-gray-300 text-xl max-w-2xl mx-auto">Administra todos los productos disponibles en la tienda</p>
+    </div>
+  </div>
+</div>
+
+<!-- Estilos Animados Premium -->
+<style>
+.animation-delay-2000 {
+  animation-delay: 2s;
+}
+.animation-delay-4000 {
+  animation-delay: 4s;
+}
+@keyframes bounce-slow {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+.animate-bounce-slow {
+  animation: bounce-slow 3s infinite;
+}
+html {
+  scroll-behavior: smooth;
+}
+</style>
+
+<div class="bg-gradient-to-br from-gray-50 via-white to-gray-50 py-16">
+  <div class="container mx-auto px-6">
+    <div class="flex justify-between items-center mb-6">
+      <h2 class="text-3xl font-black text-gray-800">Gestionar Productos</h2>
+      <a href="javascript:void(0);" onclick="openCreateModal()" class="bg-gradient-to-r from-emerald-600 to-green-600 hover:from-emerald-700 hover:to-green-700 text-white font-bold py-2 px-4 rounded-2xl transition-all duration-300 transform hover:scale-105 hover:shadow-2xl">
+        <i class="fas fa-plus mr-2"></i>Añadir Nuevo Producto
+      </a>
+    </div>
 
     <div class="mt-6">
         <table class="min-w-full table-auto">
