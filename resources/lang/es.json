@@ -764,5 +764,21 @@
     "consulta_faq": "Consulta nuestro FAQ",
     "sobre_nuestra_newsletter": "Sobre nuestra newsletter",
     "contenido_calidad": "Contenido de calidad",
-    "envios_semanales": "Envíos semanales"
+    "envios_semanales": "Envíos semanales",
+
+"auth.failed": "Email o contraseña incorrectos.",
+  "auth.throttle": "Demasiados intentos de inicio de sesión. Por favor, inténtalo de nuevo en :seconds segundos.",
+  "auth.verification_sent": "Correo de verificación enviado. Por favor, revisa tu bandeja de entrada.",
+  "auth.verification_required": "Tu cuenta necesita ser verificada antes de continuar.",
+  "auth.verification_success": "Tu cuenta ha sido verificada exitosamente.",
+  "auth.password_reset_link_sent": "Enlace para restablecer la contraseña enviado a tu correo electrónico.",
+  "auth.password_reset_success": "Tu contraseña ha sido restablecida exitosamente.",
+  "auth.account_created": "Cuenta creada exitosamente. Bienvenido/a!",
+  "auth.account_updated": "Cuenta actualizada exitosamente.",
+  "auth.account_deleted": "Cuenta eliminada exitosamente.",
+  "auth.email_already_exists": "El correo electrónico ya está registrado.",
+  "auth.invalid_credentials": "Credenciales inválidas. Por favor, inténtalo de nuevo.",
+  "failed": "Estas credenciales no coinciden con nuestros registros.",
+    "password": "La contraseña proporcionada es incorrecta.",
+    "throttle": "Demasiados intentos. Por favor intenta de nuevo en :seconds segundos."
 }
