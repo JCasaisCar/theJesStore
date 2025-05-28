@@ -751,7 +751,8 @@
     "consulta_faq": "Check our FAQ",
     "sobre_nuestra_newsletter": "About our newsletter",
     "contenido_calidad": "Quality content",
-    "envios_semanales": "Weekly emails"
+    "envios_semanales": "Weekly emails",
+    "validation.unique": "The email is already registered"
 
 
 }
