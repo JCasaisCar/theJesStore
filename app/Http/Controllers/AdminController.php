@@ -35,7 +35,7 @@ class AdminController extends Controller
     $totalContactos = Contact::count();
 
     
-    $ultimosContactos = ContactMessage::with('user')->latest()->paginate(5);
+    $ultimosContactos = ContactMessage::with('user')->latest()->paginate(3);
 
     $pedidosEnPreparacion = Order::where('tracking', 'preparation')->count();
 

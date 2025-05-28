@@ -94,6 +94,9 @@
                             @endforeach
                         </tbody>
                     </table>
+                    <div class="px-4 py-6">
+    {{ $codes->links() }}
+</div>
                 </div>
             </div>
         </div>

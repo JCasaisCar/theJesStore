@@ -250,6 +250,9 @@
                         </div>
                     </div>
                     @endforeach
+                    <div class="mt-10">
+    {{ $orders->withQueryString()->links() }}
+</div>
                 </div>
                 @endif
             </div>

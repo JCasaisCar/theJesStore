@@ -629,6 +629,9 @@
                             </tbody>
                         </table>
                     </div>
+                    <div class="mt-6 px-4">
+                        {{ $ultimosPedidos->links() }}
+                    </div>
                 </div>
             </div>
         </div>

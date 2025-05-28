@@ -34,7 +34,7 @@ class NuestraTiendaController extends Controller
         $query->orderBy('price', $request->price);
     }
 
-    $products = $query->paginate(12);
+    $products = $query->paginate(8);
 
     $categories = Category::all();
     $brands = Brand::all();

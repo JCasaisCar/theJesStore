@@ -10,8 +10,8 @@ class DiscountCodeController extends Controller
 {
     public function index()
     {
-        $codes = DiscountCode::with('users')->latest()->get();
-        return view('admin.discount_codes.index', compact('codes'));
+    $codes = DiscountCode::with('users')->latest()->paginate(5);        
+    return view('admin.discount_codes.index', compact('codes'));
     }
 
     public function create()

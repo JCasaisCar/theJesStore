@@ -10,10 +10,13 @@ use Illuminate\Support\Facades\Auth;
 class WishlistController extends Controller
 {
     public function index()
-    {
-        $wishlist = Wishlist::where('user_id', Auth::id())->with('product')->get();
-        return view('wishlist', compact('wishlist'));
-    }
+{
+    $wishlist = Wishlist::where('user_id', Auth::id())
+        ->with('product.brand') // Incluye la relación de marca si la usas en la vista
+        ->paginate(6);
+
+    return view('wishlist', compact('wishlist'));
+}
 
     public function add(Product $product)
     {

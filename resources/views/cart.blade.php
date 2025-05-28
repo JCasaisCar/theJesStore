@@ -114,6 +114,9 @@
                                         </div>
                                     </div>
                                     @endforeach
+                                    <div class="mt-8">
+    {{ $items->withQueryString()->links() }}
+</div>
                                 </div>
                                 <div class="bg-gray-50 p-4 sm:p-6 flex flex-wrap gap-3 justify-between items-center">
                                     <a href="{{ route('tienda') }}" class="inline-flex items-center text-blue-600 hover:text-blue-800 transition">

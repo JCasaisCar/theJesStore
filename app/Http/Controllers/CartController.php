@@ -15,7 +15,7 @@ class CartController extends Controller
     public function index(Request $request)
 {
     $cart = Cart::firstOrCreate(['user_id' => Auth::id()]);
-    $items = $cart->items()->with('product')->get();
+    $items = $cart->items()->with('product')->paginate(4);
 
     $totalConIVA = $items->sum(fn($item) => $item->product->price * $item->quantity);
     $subtotalSinIVA = round($totalConIVA / 1.21, 2);

@@ -116,6 +116,9 @@
                 {{ __('lista_deseos_vacia') }}
             </div>
             @endforelse
+            <div class="mt-12 flex justify-center">
+    {{ $wishlist->withQueryString()->links() }}
+</div>
         </div>
 
         {{-- Mensaje adicional cuando la lista está vacía --}}
