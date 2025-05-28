@@ -36,6 +36,11 @@ import './discount-codes.js';
 
 import './pay.js';
 
+import './forgot-password.js';
+
+import './register.js';
+
+import './reset-password.js';
 
 import { toggleStatus } from './toggleStatus.js';
 
