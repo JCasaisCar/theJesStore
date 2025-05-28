@@ -5,19 +5,16 @@
     <div class="flex justify-center">
         <div class="w-full max-w-2xl">
             <div class="bg-white shadow rounded-lg">
-                <!-- Encabezado del Card -->
                 <div class="px-4 py-3 border-b border-gray-200 font-bold">
                     {{ __('iniciar_sesion') }}
                 </div>
                 <div class="p-4">
-                    <!-- Mensaje de alerta (warning) -->
                     @if (session('message'))
                         <div class="bg-yellow-100 border border-yellow-400 text-yellow-700 px-4 py-3 rounded mb-4">
                             {{ session('message') }}
                         </div>
                     @endif
 
-                    <!-- Alerta para cuenta no verificada -->
                     @if (Auth::check() && !Auth::user()->hasVerifiedEmail())
                         <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
                             {{ __('cuenta_no_verificada') }}
@@ -30,10 +27,8 @@
                         </div>
                     @endif
 
-                    <!-- Formulario de Inicio de Sesión -->
                     <form method="POST" action="{{ route('login') }}">
                         @csrf
-                        <!-- Campo Correo Electrónico -->
                         <div class="mb-4 flex flex-wrap items-center">
                             <label for="email" class="w-full md:w-1/3 text-right md:pr-4 text-sm font-medium text-gray-700">
                                 {{ __('correo_electronico') }}
@@ -48,7 +43,6 @@
                             </div>
                         </div>
 
-                        <!-- Campo Contraseña -->
                         <div class="mb-4 flex flex-wrap items-center">
                             <label for="password" class="w-full md:w-1/3 text-right md:pr-4 text-sm font-medium text-gray-700">
                                 {{ __('contrasena') }}
@@ -63,7 +57,6 @@
                             </div>
                         </div>
 
-                        <!-- Botón de Envío y Enlace Olvidé Contraseña -->
                         <div class="mb-0 flex flex-wrap items-center">
                             <div class="w-full md:w-2/3 md:ml-1 md:pl-4">
                                 <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">
@@ -77,7 +70,6 @@
                             </div>
                         </div>
                     </form>
-                    <!-- Fin del formulario -->
                 </div>
             </div>
         </div>

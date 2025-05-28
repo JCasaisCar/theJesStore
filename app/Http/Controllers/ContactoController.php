@@ -38,13 +38,11 @@ class ContactoController extends Controller
             'mensaje' => $request->mensaje,
         ]);
 
-        // Enviar email al usuario confirmando recepción
         Mail::to($contact->email)->send(new ContactUserConfirmation($contact));
 
-        // Enviar email al administrador con el mensaje
         Mail::to('adminthejesstore@yopmail.com')->send(new ContactAdminNotification($contact));
 
-        return back()->with('success', 'Tu mensaje ha sido enviado correctamente.');
+        return back()->with('success', __('contacto.mensaje_enviado'));
     }
 
     public function answer(Request $request)
@@ -66,10 +64,9 @@ class ContactoController extends Controller
     'respuesta' => $request->answer,
 ]);
 
-        // Enviar email al usuario con la respuesta
         Mail::to($contact->email)->send(new ContactUserResponse($contact));
 
-        return redirect()->back()->with('success', 'Respuesta enviada correctamente.');
+        return redirect()->back()->with('success', __('respuesta_enviada_correctamente'));
     }
 
     public function userMessages()

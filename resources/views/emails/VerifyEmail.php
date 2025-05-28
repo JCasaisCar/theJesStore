@@ -23,7 +23,7 @@ class VerifyEmail extends Mailable
         $this->user = $user;
         $this->verificationUrl = URL::temporarySignedRoute(
             'verification.verify',
-            now()->addMinutes(60), // Expira en 60 minutos
+            now()->addMinutes(60),
             ['id' => $this->user->id, 'hash' => sha1($this->user->email)]
         );
     }

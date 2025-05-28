@@ -12,7 +12,6 @@
                     <form method="POST" action="{{ route('register') }}">
                         @csrf
 
-                        <!-- Campo Nombre -->
                         <div class="mb-4 flex flex-wrap">
                             <label for="name" class="w-full md:w-1/3 text-right md:pr-4 text-sm font-medium text-gray-700">
                                 {{ __('nombre') }}
@@ -27,7 +26,6 @@
                             </div>
                         </div>
 
-                        <!-- Campo Correo Electrónico -->
                         <div class="mb-4 flex flex-wrap">
                             <label for="email" class="w-full md:w-1/3 text-right md:pr-4 text-sm font-medium text-gray-700">
                                 {{ __('correo_electronico') }}
@@ -42,7 +40,6 @@
                             </div>
                         </div>
 
-                        <!-- Campo Contraseña -->
                         <div class="mb-4 flex flex-wrap">
                             <label for="password" class="w-full md:w-1/3 text-right md:pr-4 text-sm font-medium text-gray-700">
                                 {{ __('contrasena') }}
@@ -57,7 +54,6 @@
                             </div>
                         </div>
 
-                        <!-- Campo Confirmar Contraseña -->
                         <div class="mb-4 flex flex-wrap">
                             <label for="password-confirm" class="w-full md:w-1/3 text-right md:pr-4 text-sm font-medium text-gray-700">
                                 {{ __('confirmar_contrasena') }}
@@ -67,7 +63,6 @@
                             </div>
                         </div>
 
-                        <!-- Botón Enviar -->
                         <div class="flex justify-end">
                             <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">
                                 {{ __('registrarse') }}

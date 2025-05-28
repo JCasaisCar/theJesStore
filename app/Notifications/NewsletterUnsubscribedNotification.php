@@ -21,10 +21,13 @@ class NewsletterUnsubscribedNotification extends Notification
 
     public function toMail($notifiable)
     {
+                    $style = file_get_contents(public_path('css/style.css'));
+
         return (new MailMessage)
             ->subject('Confirmación de baja de la newsletter')
             ->view('emails.newsletter-unsubscribed', [
                 'email' => $this->email,
+            'style' => $style,
             ]);
     }
 }

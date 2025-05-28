@@ -85,7 +85,6 @@ class ConfirmController extends Controller
         Storage::disk('public')->makeDirectory('facturas');
         Storage::disk('public')->put("facturas/factura_pedido_{$order->id}.pdf", $pdf->output());
 
-        // Enviar notificación al usuario con detalles del pedido y link a la factura
         $invoiceUrl = asset("storage/facturas/factura_pedido_{$order->id}.pdf");
         $user->notify(new OrderConfirmedNotification($order->load('details.product'), $invoiceUrl));
 

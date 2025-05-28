@@ -98,7 +98,7 @@ class ProductController extends Controller
             'active' => $request->status,
         ]);
 
-        return redirect()->route('admin.productos')->with('success', 'Producto creado correctamente.');
+        return redirect()->route('admin.productos')->with('success', __('producto_creado'));
     }
 
     public function update(Request $request, $id)
@@ -158,7 +158,7 @@ class ProductController extends Controller
 
         $product->save();
 
-        return redirect()->route('admin.productos')->with('success', 'Producto actualizado correctamente.');
+        return redirect()->route('admin.productos')->with('success', __('producto_actualizado'));
     }
 
     public function destroy(Product $producto)
@@ -200,7 +200,7 @@ class ProductController extends Controller
             'stock' => $request->stock
         ]);
 
-        return redirect()->route('admin.productos')->with('success', 'Stock actualizado correctamente.');
+        return redirect()->route('admin.productos')->with('success', __('stock_actualizado'));
     }
 
     public function toggleStatus(Product $product)
@@ -208,7 +208,7 @@ class ProductController extends Controller
         $product->active = !$product->active;
         $product->save();
 
-        return redirect()->route('admin.productos')->with('status', 'Estado del producto actualizado correctamente.');
+        return redirect()->route('admin.productos')->with('success', __('estado_producto_actualizado'));
     }
 
     public function edit(Product $producto)

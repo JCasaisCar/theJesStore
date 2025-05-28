@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Cart;
 use App\Models\ShippingAddress;
 use App\Models\ShippingMethod;
+use App\Models\DiscountCode;
 
 class PayController extends Controller
 {
@@ -23,9 +24,8 @@ class PayController extends Controller
     $subtotal = round($totalConIVA / 1.21, 2);
     $iva = round($totalConIVA - $subtotal, 2);
 
-    // Lógica del cupón
     $codigo = session('cupon_codigo');
-    $cupon = \App\Models\DiscountCode::where('code', $codigo)->first();
+    $cupon = DiscountCode::where('code', $codigo)->first();
     $descuento = $cupon ? round($totalConIVA * $cupon->percentage / 100, 2) : 0;
 
     $total = round($totalConIVA + $shippingPrice - $descuento, 2);

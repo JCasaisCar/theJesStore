@@ -1,6 +1,5 @@
 "use strict";
 
-// Botón volver arriba
 const volverArriba = document.getElementById('volver-arriba');
   
 window.addEventListener('scroll', () => {

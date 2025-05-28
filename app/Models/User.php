@@ -39,9 +39,7 @@ class User extends Authenticatable implements MustVerifyEmail
         });
     }
 
-    /**
- * @property \Illuminate\Database\Eloquent\Collection|\App\Models\ShippingAddress[] $shippingAddresses
- */
+    
 
     public function shippingAddresses()
 {

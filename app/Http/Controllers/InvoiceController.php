@@ -14,7 +14,6 @@ class InvoiceController extends Controller
             abort(403);
         }
 
-        // Ruta al archivo dentro del disco 'public'
         $relativePath = "facturas/factura_pedido_{$order->id}.pdf";
         $fullPath = Storage::disk('public')->path($relativePath);
 

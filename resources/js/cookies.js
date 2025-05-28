@@ -6,7 +6,6 @@ if (document.body.id === 'cookiesPage') {
         const rejectButton = document.getElementById('reject-cookies');
         const customizeButton = document.getElementById('customize-cookies');
         
-        // Comprobar si ya se han aceptado las cookies
         const cookiesAccepted = localStorage.getItem('cookies-accepted');
         
         if (cookiesAccepted) {

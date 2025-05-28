@@ -5,17 +5,14 @@
   <div class="flex justify-center">
     <div class="w-full max-w-2xl">
       <div class="bg-white shadow rounded-lg">
-        <!-- Encabezado -->
         <div class="px-4 py-3 border-b border-gray-200 font-bold">
           {{ __('Reset Password') }}
         </div>
-        <!-- Cuerpo del Card -->
         <div class="p-4">
           <form method="POST" action="{{ route('password.update') }}">
             @csrf
             <input type="hidden" name="token" value="{{ $token }}">
             
-            <!-- Campo Email -->
             <div class="flex flex-wrap mb-4">
               <label for="email" class="w-full md:w-1/3 text-right md:pr-4 text-sm font-medium text-gray-700">
                 {{ __('Email Address') }}
@@ -30,7 +27,6 @@
               </div>
             </div>
             
-            <!-- Campo Contraseña -->
             <div class="flex flex-wrap mb-4">
               <label for="password" class="w-full md:w-1/3 text-right md:pr-4 text-sm font-medium text-gray-700">
                 {{ __('Password') }}
@@ -45,7 +41,6 @@
               </div>
             </div>
             
-            <!-- Campo Confirmar Contraseña -->
             <div class="flex flex-wrap mb-4">
               <label for="password-confirm" class="w-full md:w-1/3 text-right md:pr-4 text-sm font-medium text-gray-700">
                 {{ __('Confirm Password') }}
@@ -55,7 +50,6 @@
               </div>
             </div>
             
-            <!-- Botón Enviar -->
             <div class="flex justify-end">
               <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">
                 {{ __('Reset Password') }}

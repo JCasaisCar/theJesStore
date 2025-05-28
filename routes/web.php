@@ -95,7 +95,7 @@ Route::middleware(['auth'])->group(function () {
 // 🔒 Rutas autenticadas y verificadas
 Route::middleware(['auth', 'verified'])->group(function () {
 
-    
+
 
 
     Route::get('/logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
@@ -138,47 +138,45 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
 
 
-    // Rutas específicas para productos
-    Route::prefix('admin/productos')->group(function () {
-        // Vista principal de gestión de productos
-        Route::get('/', [ProductController::class, 'index'])->name('admin.productos');
-        
-        // Formulario para crear un nuevo producto
-        Route::get('/crear', [ProductController::class, 'create'])->name('admin.productos.create');
-        
-        // Guardar un nuevo producto
-        Route::post('/', [ProductController::class, 'store'])->name('admin.productos.store');
-        
-        // Obtener datos de productos para AJAX
-        Route::get('/listar', [ProductController::class, 'getProducts'])->name('admin.productos.listar');
-        
-        // Ver detalles de un producto específico
-        Route::get('/{producto}', [ProductController::class, 'show'])->name('admin.productos.show');
-        
-        // Formulario para editar un producto
-        Route::get('/{producto}/edit', [ProductController::class, 'edit'])->name('admin.productos.edit');
-        
-        // Actualizar un producto existente
-        Route::put('/{producto}', [ProductController::class, 'update'])->name('admin.productos.update');
-        
-        // Eliminar un producto
-        Route::delete('/{producto}', [ProductController::class, 'destroy'])->name('admin.productos.destroy');
-        
-        // Cambiar rápidamente el estado de un producto (activar/desactivar)
-        Route::patch('/{producto}/estado', [ProductController::class, 'updateStatus'])->name('admin.productos.status');
-        
-        // Obtener categorías para el formulario dinámico
-        Route::get('/categorias/listar', [ProductController::class, 'getCategories'])->name('admin.productos.categorias');
-        
-        // Obtener modelos para el formulario dinámico
-        Route::get('/modelos/listar', [ProductController::class, 'getModels'])->name('admin.productos.modelos');
+        // Rutas específicas para productos
+        Route::prefix('admin/productos')->group(function () {
+            // Vista principal de gestión de productos
+            Route::get('/', [ProductController::class, 'index'])->name('admin.productos');
 
-        Route::put('/{producto}/stock', [ProductController::class, 'updateStock'])->name('admin.productos.updateStock');
-            
-        Route::patch('/{product}/status', [ProductController::class, 'toggleStatus'])->name('admin.productos.toggleStatus');
+            // Formulario para crear un nuevo producto
+            Route::get('/crear', [ProductController::class, 'create'])->name('admin.productos.create');
 
-        
-    });
+            // Guardar un nuevo producto
+            Route::post('/', [ProductController::class, 'store'])->name('admin.productos.store');
+
+            // Obtener datos de productos para AJAX
+            Route::get('/listar', [ProductController::class, 'getProducts'])->name('admin.productos.listar');
+
+            // Ver detalles de un producto específico
+            Route::get('/{producto}', [ProductController::class, 'show'])->name('admin.productos.show');
+
+            // Formulario para editar un producto
+            Route::get('/{producto}/edit', [ProductController::class, 'edit'])->name('admin.productos.edit');
+
+            // Actualizar un producto existente
+            Route::put('/{producto}', [ProductController::class, 'update'])->name('admin.productos.update');
+
+            // Eliminar un producto
+            Route::delete('/{producto}', [ProductController::class, 'destroy'])->name('admin.productos.destroy');
+
+            // Cambiar rápidamente el estado de un producto (activar/desactivar)
+            Route::patch('/{producto}/estado', [ProductController::class, 'updateStatus'])->name('admin.productos.status');
+
+            // Obtener categorías para el formulario dinámico
+            Route::get('/categorias/listar', [ProductController::class, 'getCategories'])->name('admin.productos.categorias');
+
+            // Obtener modelos para el formulario dinámico
+            Route::get('/modelos/listar', [ProductController::class, 'getModels'])->name('admin.productos.modelos');
+
+            Route::put('/{producto}/stock', [ProductController::class, 'updateStock'])->name('admin.productos.updateStock');
+
+            Route::patch('/{product}/status', [ProductController::class, 'toggleStatus'])->name('admin.productos.toggleStatus');
+        });
     });
 });
 
@@ -260,11 +258,11 @@ Route::get('/newsletter/unsubscribe', function (Request $request) {
 
 
 Route::get('/admin/newsletter/send', [NewsletterAdminController::class, 'form'])->name('admin.newsletter.form');
-    Route::post('/admin/newsletter/send', [NewsletterAdminController::class, 'send'])->name('admin.newsletter.send');
+Route::post('/admin/newsletter/send', [NewsletterAdminController::class, 'send'])->name('admin.newsletter.send');
 
 
 
 
 
 
-    Route::delete('/wishlist/{product}', [WishlistController::class, 'remove'])->name('wishlist.remove');
+Route::delete('/wishlist/{product}', [WishlistController::class, 'remove'])->name('wishlist.remove');

@@ -6,13 +6,14 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\ShippingAddress;
 use App\Models\ShippingMethod;
+use App\Models\Cart;
 
 class AddresController extends Controller
 {
     public function index()
 {
     $user = Auth::user();
-    $cart = \App\Models\Cart::with('items.product')->where('user_id', $user->id)->first();
+    $cart = Cart::with('items.product')->where('user_id', $user->id)->first();
 
     $totalConIVA = $cart->items->sum(fn($item) => $item->product->price * $item->quantity);
 
@@ -22,7 +23,6 @@ class AddresController extends Controller
     $shippingMethods = ShippingMethod::orderBy('precio')->get();
     $envio = optional($shippingMethods->first())->precio ?? 0;
 
-    // Lógica del cupón
     $codigo = session('cupon_codigo');
     $cupon = \App\Models\DiscountCode::where('code', $codigo)->first();
     $descuento = $cupon ? round($totalConIVA * $cupon->percentage / 100, 2) : 0;
@@ -71,6 +71,6 @@ class AddresController extends Controller
             'shipping_price' => $shippingMethod->precio,
         ]);
 
-        return redirect()->route('pay')->with('success', 'Dirección guardada correctamente.');
-    }
+return redirect()->route('pay')->with('success', __('direccion_guardada_correctamente'));    
+}
 }

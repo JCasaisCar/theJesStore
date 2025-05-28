@@ -98,12 +98,12 @@ public function updateOrder(Request $request, $id)
     }
 
     if (empty($data)) {
-        return response()->json(['message' => 'No se enviaron cambios.'], 422);
+        return response()->json(['message' => __('sin_cambios_enviados')], 422);
     }
 
     $order->update($data);
 
-    return response()->json(['message' => 'Pedido actualizado correctamente.']);
+    return response()->json(['message' => __('pedido_actualizado')]);
 }
 
 public function getAllOrders()
@@ -116,37 +116,29 @@ public function getAllOrders()
 
 
 
-// Gráfico de ventas
-/**
-     * Devuelve los datos de ventas mensuales en formato JSON
-     */
+
     public function mensuales()
     {
-        // Obtener el mes actual
         $mesActual = Carbon::now();
         $inicio = $mesActual->copy()->startOfMonth();
         $fin = $mesActual->copy()->endOfMonth();
         
-        // Obtener datos de ventas diarias del mes actual
         $ventas = Order::selectRaw('DATE(created_at) as fecha, SUM(total) as total')
-            ->where('status', 'completado') // Solo pedidos completados
+            ->where('status', 'completado')
             ->whereBetween('created_at', [$inicio, $fin])
             ->groupBy('fecha')
             ->orderBy('fecha')
             ->get();
         
-        // Preparar arrays para etiquetas y valores
         $labels = [];
         $values = [];
         
-        // Inicializar array con todos los días del mes (con valores en 0)
         for ($dia = 1; $dia <= $fin->day; $dia++) {
             $fecha = $inicio->copy()->addDays($dia - 1);
-            $labels[] = $dia; // Solo el número del día
-            $values[] = 0;    // Valor inicial 0
+            $labels[] = $dia; 
+            $values[] = 0;   
         }
         
-        // Rellenar valores reales de ventas
         foreach ($ventas as $venta) {
             $diaDelMes = Carbon::parse($venta->fecha)->day;
             $values[$diaDelMes - 1] = (float) $venta->total;
@@ -158,25 +150,20 @@ public function getAllOrders()
         ]);
     }
     
-    /**
-     * Devuelve los datos de ventas trimestrales en formato JSON
-     */
+   
     public function trimestrales()
     {
-        // Obtener el trimestre actual
         $fechaActual = Carbon::now();
         $inicioTrimestre = $fechaActual->copy()->startOfQuarter();
         $finTrimestre = $fechaActual->copy()->endOfQuarter();
         
-        // Obtener datos de ventas mensuales del trimestre actual
         $ventas = Order::selectRaw('MONTH(created_at) as mes, SUM(total) as total')
-            ->where('status', 'completado') // Solo pedidos completados
+            ->where('status', 'completado') 
             ->whereBetween('created_at', [$inicioTrimestre, $finTrimestre])
             ->groupBy('mes')
             ->orderBy('mes')
             ->get();
         
-        // Preparar arrays para etiquetas y valores
         $mesesDelTrimestre = [
             $inicioTrimestre->month,
             $inicioTrimestre->copy()->addMonth()->month,
@@ -192,13 +179,11 @@ public function getAllOrders()
         $labels = [];
         $values = [];
         
-        // Inicializar array con los tres meses del trimestre
         foreach ($mesesDelTrimestre as $mes) {
             $labels[] = $nombresMeses[$mes];
-            $values[] = 0; // Valor inicial 0
+            $values[] = 0;
         }
         
-        // Rellenar valores reales de ventas
         foreach ($ventas as $venta) {
             $indiceMes = array_search($venta->mes, $mesesDelTrimestre);
             if ($indiceMes !== false) {
@@ -212,36 +197,30 @@ public function getAllOrders()
         ]);
     }
     
-    /**
-     * Devuelve los datos de ventas anuales en formato JSON
-     */
+    
     public function anuales()
     {
-        // Obtener el año actual
         $añoActual = Carbon::now()->year;
         $inicio = Carbon::createFromDate($añoActual, 1, 1)->startOfDay();
         $fin = Carbon::createFromDate($añoActual, 12, 31)->endOfDay();
         
-        // Obtener datos de ventas mensuales del año actual
         $ventas = Order::selectRaw('MONTH(created_at) as mes, SUM(total) as total')
-            ->where('status', 'completado') // Solo pedidos completados
+            ->where('status', 'completado') 
             ->whereBetween('created_at', [$inicio, $fin])
             ->groupBy('mes')
             ->orderBy('mes')
             ->get();
         
-        // Preparar arrays para etiquetas y valores
         $nombresMeses = [
             'Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun',
             'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'
         ];
         
         $labels = $nombresMeses;
-        $values = array_fill(0, 12, 0); // Inicializar 12 meses con valor 0
+        $values = array_fill(0, 12, 0);
         
-        // Rellenar valores reales de ventas
         foreach ($ventas as $venta) {
-            $indiceMes = $venta->mes - 1; // Restamos 1 porque los arrays empiezan en 0
+            $indiceMes = $venta->mes - 1;
             $values[$indiceMes] = (float) $venta->total;
         }
         

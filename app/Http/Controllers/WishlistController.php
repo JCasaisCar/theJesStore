@@ -28,7 +28,7 @@ class WishlistController extends Controller
             ]);
         }
 
-        return redirect()->back()->with('success', __('Producto añadido a tu lista de deseos'));
+    return redirect()->back()->with('success', __('wishlist.agregado'));
     }
 
 
@@ -39,6 +39,6 @@ class WishlistController extends Controller
         ->where('product_id', $product->id)
         ->delete();
 
-    return redirect()->back()->with('success', __('Producto eliminado de la lista de deseos'));
+    return redirect()->back()->with('success', __('wishlist.eliminado'));
 }
 }

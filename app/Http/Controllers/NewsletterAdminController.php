@@ -29,6 +29,6 @@ class NewsletterAdminController extends Controller
     );
 }
 
-    return back()->with('success', 'Correo enviado a todos los suscriptores.');
+        return back()->with('success', __('newsletter.correo_enviado'));
 }
 }

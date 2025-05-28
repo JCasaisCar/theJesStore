@@ -21,10 +21,13 @@ class NewsletterWelcomeNotification extends Notification
 
     public function toMail($notifiable)
     {
+                    $style = file_get_contents(public_path('css/style.css'));
+
         return (new MailMessage)
             ->subject('¡Gracias por suscribirte a TheJesStore!')
             ->view('emails.newsletter-welcome', [
                 'email' => $this->email,
+            'style' => $style,
             ]);
     }
 }

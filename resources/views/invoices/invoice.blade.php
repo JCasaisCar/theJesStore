@@ -1,58 +1,13 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <title>Factura #{{ $order->id }}</title>
-    <style>
-        body {
-            font-family: 'Arial', sans-serif;
-            color: #1F2937; /* text-gray-800 */
-            padding: 2rem;
-            font-size: 14px;
-        }
-        .header {
-            border-bottom: 2px solid #3B82F6; /* blue-500 */
-            margin-bottom: 2rem;
-            padding-bottom: 1rem;
-        }
-        .section {
-            margin-bottom: 1.5rem;
-        }
-        .section-title {
-            color: #2563EB; /* blue-600 */
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-        }
-        .table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 1rem;
-        }
-        .table th, .table td {
-            border: 1px solid #E5E7EB; /* gray-200 */
-            padding: 0.5rem;
-            text-align: left;
-        }
-        .table th {
-            background-color: #F3F4F6; /* gray-100 */
-            font-weight: bold;
-        }
-        .total-line {
-            font-weight: bold;
-            border-top: 2px solid #E5E7EB;
-        }
-        .text-right {
-            text-align: right;
-        }
-        .text-blue {
-            color: #2563EB;
-        }
-        .text-green {
-            color: #16A34A;
-        }
-    </style>
+    <link rel="stylesheet" href="{{ public_path('css/style.css') }}">
 </head>
-<body>
+
+<body id="invoice">
     <div class="header">
         <h1 class="text-blue">Factura #{{ $order->id }}</h1>
         <p>Fecha: {{ $order->created_at->format('d/m/Y') }}</p>
@@ -129,4 +84,5 @@
         <p class="text-sm text-gray-500">Gracias por tu compra. Esta factura ha sido generada automáticamente.</p>
     </div>
 </body>
+
 </html>

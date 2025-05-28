@@ -18,10 +18,15 @@ class ContactoMailable extends Mailable
     }
 
     public function build()
-    {
-        // Devolvuelve el asunto, la vista del cuerpo del correo y los datos
-        return $this->subject($this->datos['asunto'])
-            ->view('emails.contacto')
-            ->with('datos', $this->datos);
-    }
+{
+    // Cargar el contenido del archivo style.css
+    $style = file_get_contents(public_path('css/style.css'));
+
+    return $this->subject($this->datos['asunto'])
+        ->view('emails.contact.admin') // asegúrate de que sea la vista correcta
+        ->with([
+            'datos' => $this->datos,
+            'style' => $style, // Pasamos el contenido CSS como variable
+        ]);
+}
 }

@@ -12,7 +12,6 @@ export function toggleStatus(productId, currentStatus, buttonElement) {
     .then(response => response.json())
     .then(data => {
         if (data.status === 'success') {
-            // Cambia el estado del botón sin recargar
             buttonElement.textContent = newStatus ? 'Activo' : 'Inactivo';
             buttonElement.classList.toggle('text-green-600', newStatus);
             buttonElement.classList.toggle('text-red-600', !newStatus);

@@ -856,3 +856,1405 @@ html, body {
 .hf {
     display: none; /* No mostrar */
 }
+
+
+
+
+
+
+
+/* Para el panel de admin */
+
+#admin-page .animation-delay-2000 {
+    animation-delay: 2s;
+}
+
+#admin-page .animation-delay-4000 {
+    animation-delay: 4s;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.5;
+    }
+}
+
+#admin-page .animate-pulse {
+    animation: pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* Scrollbar personalizado solo para elementos dentro del admin */
+#admin-page .overflow-y-auto::-webkit-scrollbar {
+    width: 6px;
+}
+
+#admin-page .overflow-y-auto::-webkit-scrollbar-track {
+    background: #f1f5f9;
+    border-radius: 10px;
+}
+
+#admin-page .overflow-y-auto::-webkit-scrollbar-thumb {
+    background: linear-gradient(to bottom, #3b82f6, #06b6d4);
+    border-radius: 10px;
+}
+
+#admin-page .overflow-y-auto::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(to bottom, #2563eb, #0891b2);
+}
+
+
+
+
+
+
+/* Para la tienda */
+#tienda-page .animation-delay-2000 {
+    animation-delay: 2s;
+}
+
+#tienda-page .animation-delay-4000 {
+    animation-delay: 4s;
+}
+
+@keyframes bounce {
+    0%, 20%, 53%, 80%, 100% {
+        animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+        transform: translate3d(0, 0, 0);
+    }
+    40%, 43% {
+        animation-timing-function: cubic-bezier(0.755, 0.05, 0.855, 0.06);
+        transform: translate3d(0, -5px, 0);
+    }
+    70% {
+        animation-timing-function: cubic-bezier(0.755, 0.05, 0.855, 0.06);
+        transform: translate3d(0, -3px, 0);
+    }
+    90% {
+        transform: translate3d(0, -1px, 0);
+    }
+}
+
+#tienda-page .group:hover .group-hover\:bounce {
+    animation: bounce 1s;
+}
+
+#tienda-page .group:hover .group-hover\:pulse {
+    animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+#tienda-page .group:hover .group-hover\:rotate-12 {
+    transform: rotate(12deg);
+}
+
+
+
+
+
+
+/* Para el contacto */
+#contactoPage .animation-delay-2000 {
+    animation-delay: 2s;
+}
+
+#contactoPage .animation-delay-4000 {
+    animation-delay: 4s;
+}
+
+@keyframes bounce-slow {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+#contactoPage .animate-bounce-slow {
+    animation: bounce-slow 3s infinite;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInScale {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+#contactoPage .animate-fadeInUp {
+    animation: fadeInUp 0.6s ease-out;
+}
+
+#contactoPage .animate-fadeInScale {
+    animation: fadeInScale 0.3s ease-out;
+}
+
+#contactoPage .faq-answer {
+    transition: all 0.3s ease-in-out;
+}
+
+/* Scroll suave solo para la vista de contacto */
+#contactoPage html {
+    scroll-behavior: smooth;
+}
+
+
+
+
+
+
+/* Para las cookies */
+#cookiesPage .animation-delay-2000 {
+    animation-delay: 2s;
+}
+
+#cookiesPage .animation-delay-4000 {
+    animation-delay: 4s;
+}
+
+/* Smooth scrolling */
+#cookiesPage html {
+    scroll-behavior: smooth;
+}
+
+/* Animación fadeInUp */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+#cookiesPage .animate-fadeInUp {
+    animation: fadeInUp 0.6s ease-out;
+}
+
+/* Switch animado (si se usa peer + tailwind) */
+#cookiesPage .peer:checked ~ .peer-checked\:after\:translate-x-full:after {
+    transform: translateX(100%);
+}
+
+/* Cookie Banner Slide Up */
+@keyframes slideUp {
+    from {
+        transform: translateY(100%);
+    }
+    to {
+        transform: translateY(0);
+    }
+}
+
+#cookiesPage #cookie-banner {
+    animation: slideUp 0.5s ease-out;
+}
+
+/* Tabla: animación hover */
+#cookiesPage table tbody tr {
+    transition: all 0.3s ease;
+}
+
+#cookiesPage table tbody tr:hover {
+    transform: translateX(5px);
+}
+
+
+
+
+
+
+
+
+/* Para el orderUsers */
+#ordersUsersPage .animation-delay-2000 {
+    animation-delay: 2s;
+}
+
+#ordersUsersPage .animation-delay-4000 {
+    animation-delay: 4s;
+}
+
+/* Smooth scrolling */
+#ordersUsersPage html {
+    scroll-behavior: smooth;
+}
+
+/* Animación fadeInUp */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+#ordersUsersPage .animate-fadeInUp {
+    animation: fadeInUp 0.6s ease-out;
+}
+
+/* Efecto hover en filas de tabla */
+#ordersUsersPage table tbody tr {
+    transition: all 0.3s ease;
+}
+
+#ordersUsersPage table tbody tr:hover {
+    background-color: rgba(249, 250, 251, 1); /* bg-gray-50 */
+}
+
+
+
+
+
+/* Para privacy */
+#privacyPage .animation-delay-2000 {
+    animation-delay: 2s;
+}
+
+#privacyPage .animation-delay-4000 {
+    animation-delay: 4s;
+}
+
+/* Scroll suave */
+#privacyPage html {
+    scroll-behavior: smooth;
+}
+
+/* Animación fadeInUp */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+#privacyPage .animate-fadeInUp {
+    animation: fadeInUp 0.6s ease-out;
+}
+
+/* Efecto hover para tarjetas */
+#privacyPage .hover-lift {
+    transition: all 0.3s ease;
+}
+
+#privacyPage .hover-lift:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+}
+
+
+
+
+
+
+
+/* Para terms */
+#termsPage .animation-delay-2000 {
+    animation-delay: 2s;
+}
+
+#termsPage .animation-delay-4000 {
+    animation-delay: 4s;
+}
+
+/* Scroll suave */
+#termsPage html {
+    scroll-behavior: smooth;
+}
+
+/* Animación fadeInUp */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+#termsPage .animate-fadeInUp {
+    animation: fadeInUp 0.6s ease-out;
+}
+
+/* Hover efecto para tarjetas */
+#termsPage .hover-lift {
+    transition: all 0.3s ease;
+}
+
+#termsPage .hover-lift:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+}
+
+/* Hover para filas de tabla */
+#termsPage table tbody tr {
+    transition: all 0.3s ease;
+}
+
+#termsPage table tbody tr:hover {
+    transform: translateX(5px);
+}
+
+
+
+
+
+
+
+
+/* MAILS */
+/* Invoice */
+#invoice {
+    font-family: 'Arial', sans-serif;
+    color: #1F2937; /* text-gray-800 */
+    padding: 2rem;
+    font-size: 14px;
+}
+
+#invoice .header {
+    border-bottom: 2px solid #3B82F6; /* blue-500 */
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+}
+
+#invoice .section {
+    margin-bottom: 1.5rem;
+}
+
+#invoice .section-title {
+    color: #2563EB; /* blue-600 */
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+#invoice .table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+}
+
+#invoice .table th,
+#invoice .table td {
+    border: 1px solid #E5E7EB; /* gray-200 */
+    padding: 0.5rem;
+    text-align: left;
+}
+
+#invoice .table th {
+    background-color: #F3F4F6; /* gray-100 */
+    font-weight: bold;
+}
+
+#invoice .total-line {
+    font-weight: bold;
+    border-top: 2px solid #E5E7EB;
+}
+
+#invoice .text-right {
+    text-align: right;
+}
+
+#invoice .text-blue {
+    color: #2563EB;
+}
+
+#invoice .text-green {
+    color: #16A34A;
+}
+
+
+
+
+
+
+
+
+
+
+
+/* ======================== */
+/*   ADMIN NEWSLETTER PDF   */
+/* ======================== */
+
+#admin-newsletter {
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 0;
+  color: #333;
+  background-color: #f2f4f8;
+}
+
+#admin-newsletter .container {
+  background-color: #fff;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  margin: 30px auto;
+}
+
+#admin-newsletter .header {
+  background: linear-gradient(135deg, #273c75 0%, #5b6ead 100%);
+  text-align: center;
+  padding: 30px 20px;
+}
+
+#admin-newsletter .header h1 {
+  color: white;
+  margin: 0;
+  font-size: 24px;
+}
+
+#admin-newsletter .content {
+  padding: 30px;
+  font-size: 16px;
+  line-height: 1.7;
+}
+
+#admin-newsletter .content p {
+  margin-bottom: 16px;
+}
+
+#admin-newsletter .footer {
+  text-align: center;
+  padding: 20px;
+  font-size: 14px;
+  background-color: #f8f8f8;
+  color: #777;
+}
+
+#admin-newsletter .unsubscribe {
+  display: inline-block;
+  margin-top: 12px;
+  font-size: 12px;
+  color: #999;
+  text-decoration: none;
+  border: 1px solid #ddd;
+  padding: 6px 12px;
+  border-radius: 4px;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+#admin-newsletter .unsubscribe:hover {
+  background-color: #eee;
+  color: #555;
+}
+
+
+
+
+/* ================================ */
+/* NEWSLETTER - CONFIRMACIÓN BAJA  */
+/* ================================ */
+
+#newsletter-unsubscribed {
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 0;
+  color: #333;
+  background-color: #f2f4f8;
+}
+
+#newsletter-unsubscribed .container {
+  background-color: #fff;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  margin: 30px auto;
+}
+
+#newsletter-unsubscribed .header {
+  background: linear-gradient(135deg, #273c75 0%, #5b6ead 100%);
+  text-align: center;
+  padding: 30px 20px;
+}
+
+#newsletter-unsubscribed .header h1 {
+  color: white;
+  margin: 0;
+  font-size: 22px;
+}
+
+#newsletter-unsubscribed .content {
+  padding: 30px;
+  font-size: 16px;
+  line-height: 1.7;
+}
+
+#newsletter-unsubscribed .footer {
+  text-align: center;
+  padding: 20px;
+  font-size: 14px;
+  background-color: #f8f8f8;
+  color: #777;
+}
+
+
+
+
+
+
+
+
+
+/* ================================ */
+/* NEWSLETTER - BIENVENIDA         */
+/* ================================ */
+
+#newsletter-welcome {
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+  color: #333;
+}
+
+#newsletter-welcome .container {
+  background-color: #fff;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+#newsletter-welcome .header {
+  background: linear-gradient(135deg, #273c75 0%, #5b6ead 100%);
+  text-align: center;
+  padding: 30px 20px;
+}
+
+#newsletter-welcome .header h1 {
+  color: white;
+  margin: 0;
+  font-size: 26px;
+}
+
+#newsletter-welcome .content {
+  padding: 30px;
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+#newsletter-welcome .highlight {
+  color: #273c75;
+  font-weight: bold;
+}
+
+#newsletter-welcome .footer {
+  text-align: center;
+  padding: 20px;
+  font-size: 14px;
+  background-color: #f8f8f8;
+  color: #777;
+}
+
+
+
+
+
+
+
+
+
+/* ================================ */
+/* EMAIL - CONFIRMACIÓN DE PEDIDO  */
+/* ================================ */
+
+#order-confirmed {
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  line-height: 1.6;
+  color: #333;
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+#order-confirmed .email-container {
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+#order-confirmed .email-header {
+  background: linear-gradient(135deg, #273c75 0%, #5b6ead 100%);
+  padding: 30px 20px;
+  text-align: center;
+}
+
+#order-confirmed .email-header h1 {
+  color: white;
+  margin: 0;
+  font-size: 28px;
+  font-weight: 700;
+}
+
+#order-confirmed .email-header img {
+  width: 80px;
+  height: auto;
+  margin-bottom: 15px;
+}
+
+#order-confirmed .email-body {
+  padding: 30px 25px;
+  background-color: #fff;
+}
+
+#order-confirmed .highlight {
+  color: #273c75;
+  font-weight: bold;
+}
+
+#order-confirmed .button-container {
+  text-align: center;
+  margin: 30px 0;
+}
+
+#order-confirmed .button {
+  display: inline-block;
+  background-color: #4361ee;
+  color: white;
+  text-decoration: none;
+  padding: 12px 28px;
+  border-radius: 4px;
+  font-weight: bold;
+  font-size: 16px;
+  transition: background-color 0.3s;
+}
+
+#order-confirmed .button:hover {
+  background-color: #3a56d4;
+}
+
+#order-confirmed .divider {
+  border-top: 1px solid #eee;
+  margin: 25px 0;
+}
+
+#order-confirmed .small-text {
+  font-size: 14px;
+  color: #777;
+}
+
+#order-confirmed .email-footer {
+  background-color: #f8f8f8;
+  padding: 20px;
+  text-align: center;
+  color: #666;
+  font-size: 14px;
+}
+
+
+
+
+
+
+
+/* ================================ */
+/* EMAIL - VERIFICACIÓN DE CUENTA  */
+/* ================================ */
+
+#verify-email {
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  line-height: 1.6;
+  color: #333;
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+#verify-email .email-container {
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+#verify-email .email-header {
+  background: linear-gradient(135deg, #273c75 0%, #5b6ead 100%);
+  padding: 30px 20px;
+  text-align: center;
+}
+
+#verify-email .email-header h1 {
+  color: white;
+  margin: 0;
+  font-size: 28px;
+  font-weight: 700;
+}
+
+#verify-email .email-header img {
+  width: 80px;
+  height: auto;
+  margin-bottom: 15px;
+}
+
+#verify-email .email-body {
+  padding: 30px 25px;
+  background-color: #fff;
+}
+
+#verify-email .welcome-message {
+  font-size: 18px;
+  margin-bottom: 25px;
+  color: #444;
+}
+
+#verify-email .highlight {
+  color: #273c75;
+  font-weight: bold;
+}
+
+#verify-email .button-container {
+  text-align: center;
+  margin: 30px 0;
+}
+
+#verify-email .button {
+  display: inline-block;
+  background-color: #4361ee;
+  color: white;
+  text-decoration: none;
+  padding: 12px 28px;
+  border-radius: 4px;
+  font-weight: bold;
+  font-size: 16px;
+  transition: background-color 0.3s;
+}
+
+#verify-email .button:hover {
+  background-color: #3a56d4;
+}
+
+#verify-email .divider {
+  border-top: 1px solid #eee;
+  margin: 25px 0;
+}
+
+#verify-email .small-text {
+  font-size: 14px;
+  color: #777;
+}
+
+#verify-email .email-footer {
+  background-color: #f8f8f8;
+  padding: 20px;
+  text-align: center;
+  color: #666;
+  font-size: 14px;
+}
+
+#verify-email .social-icons {
+  margin: 15px 0;
+}
+
+#verify-email .social-icon {
+  display: inline-block;
+  width: 32px;
+  height: 32px;
+  background-color: #ddd;
+  border-radius: 50%;
+  margin: 0 5px;
+  line-height: 32px;
+  text-align: center;
+}
+
+#verify-email .product-showcase {
+  display: flex;
+  justify-content: space-around;
+  margin: 20px 0;
+  flex-wrap: wrap;
+}
+
+#verify-email .product-item {
+  text-align: center;
+  margin: 10px;
+  width: 120px;
+}
+
+#verify-email .product-item img {
+  width: 100%;
+  height: auto;
+  border-radius: 5px;
+}
+
+#verify-email .product-name {
+  font-size: 12px;
+  color: #555;
+  margin-top: 5px;
+}
+
+
+
+
+/* ===== Contact Email Styles ===== */
+#contact-admin-email {
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  line-height: 1.6;
+  color: #333;
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+#contact-admin-email .email-container {
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  overflow: hidden;
+}
+
+#contact-admin-email .email-header {
+  background: linear-gradient(135deg, #273c75 0%, #5b6ead 100%);
+  padding: 30px 20px;
+  text-align: center;
+}
+
+#contact-admin-email .email-header h1 {
+  color: white;
+  margin: 0;
+  font-size: 28px;
+  font-weight: 700;
+}
+
+#contact-admin-email .email-header img {
+  width: 80px;
+  height: auto;
+  margin-bottom: 15px;
+}
+
+#contact-admin-email .email-body {
+  padding: 30px 25px;
+  background-color: #fff;
+}
+
+#contact-admin-email .highlight {
+  color: #273c75;
+  font-weight: bold;
+}
+
+#contact-admin-email .button-container {
+  text-align: center;
+  margin: 30px 0;
+}
+
+#contact-admin-email .button {
+  display: inline-block;
+  background-color: #4361ee;
+  color: white;
+  text-decoration: none;
+  padding: 12px 28px;
+  border-radius: 4px;
+  font-weight: bold;
+  font-size: 16px;
+  transition: background-color 0.3s;
+}
+
+#contact-admin-email .button:hover {
+  background-color: #3a56d4;
+}
+
+#contact-admin-email .divider {
+  border-top: 1px solid #eee;
+  margin: 25px 0;
+}
+
+#contact-admin-email .small-text {
+  font-size: 14px;
+  color: #777;
+}
+
+#contact-admin-email .email-footer {
+  background-color: #f8f8f8;
+  padding: 20px;
+  text-align: center;
+  color: #666;
+  font-size: 14px;
+}
+
+
+
+
+
+
+
+/* === Respuesta de contacto === */
+#contact-response-email {
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  line-height: 1.6;
+  color: #333;
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+#contact-response-email .email-container {
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  overflow: hidden;
+}
+
+#contact-response-email .email-header {
+  background: linear-gradient(135deg, #273c75 0%, #5b6ead 100%);
+  padding: 30px 20px;
+  text-align: center;
+}
+
+#contact-response-email .email-header h1 {
+  color: white;
+  margin: 0;
+  font-size: 28px;
+  font-weight: 700;
+}
+
+#contact-response-email .email-header img {
+  width: 80px;
+  height: auto;
+  margin-bottom: 15px;
+}
+
+#contact-response-email .email-body {
+  padding: 30px 25px;
+  background-color: #fff;
+}
+
+#contact-response-email .highlight {
+  color: #273c75;
+  font-weight: bold;
+}
+
+#contact-response-email blockquote {
+  border-left: 4px solid #ccc;
+  padding-left: 15px;
+  margin: 15px 0;
+  color: #555;
+}
+
+#contact-response-email .button-container {
+  text-align: center;
+  margin: 30px 0;
+}
+
+#contact-response-email .button {
+  display: inline-block;
+  background-color: #4361ee;
+  color: white;
+  text-decoration: none;
+  padding: 12px 28px;
+  border-radius: 4px;
+  font-weight: bold;
+  font-size: 16px;
+  transition: background-color 0.3s;
+}
+
+#contact-response-email .button:hover {
+  background-color: #3a56d4;
+}
+
+#contact-response-email .divider {
+  border-top: 1px solid #eee;
+  margin: 25px 0;
+}
+
+#contact-response-email .small-text {
+  font-size: 14px;
+  color: #777;
+}
+
+#contact-response-email .email-footer {
+  background-color: #f8f8f8;
+  padding: 20px;
+  text-align: center;
+  color: #666;
+  font-size: 14px;
+}
+
+
+
+
+
+
+
+/* === Email de confirmación de contacto para el usuario === */
+#contact-user-email {
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  line-height: 1.6;
+  color: #333;
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+#contact-user-email .email-container {
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  overflow: hidden;
+}
+
+#contact-user-email .email-header {
+  background: linear-gradient(135deg, #273c75 0%, #5b6ead 100%);
+  padding: 30px 20px;
+  text-align: center;
+}
+
+#contact-user-email .email-header h1 {
+  color: white;
+  margin: 0;
+  font-size: 28px;
+  font-weight: 700;
+}
+
+#contact-user-email .email-header img {
+  width: 80px;
+  height: auto;
+  margin-bottom: 15px;
+}
+
+#contact-user-email .email-body {
+  padding: 30px 25px;
+  background-color: #fff;
+}
+
+#contact-user-email .highlight {
+  color: #273c75;
+  font-weight: bold;
+}
+
+#contact-user-email blockquote {
+  border-left: 4px solid #ccc;
+  padding-left: 15px;
+  margin: 15px 0;
+  color: #555;
+}
+
+#contact-user-email .button-container {
+  text-align: center;
+  margin: 30px 0;
+}
+
+#contact-user-email .button {
+  display: inline-block;
+  background-color: #4361ee;
+  color: white;
+  text-decoration: none;
+  padding: 12px 28px;
+  border-radius: 4px;
+  font-weight: bold;
+  font-size: 16px;
+  transition: background-color 0.3s;
+}
+
+#contact-user-email .button:hover {
+  background-color: #3a56d4;
+}
+
+#contact-user-email .divider {
+  border-top: 1px solid #eee;
+  margin: 25px 0;
+}
+
+#contact-user-email .small-text {
+  font-size: 14px;
+  color: #777;
+}
+
+#contact-user-email .email-footer {
+  background-color: #f8f8f8;
+  padding: 20px;
+  text-align: center;
+  color: #666;
+  font-size: 14px;
+}
+
+
+
+
+/* Newsletter_send */
+#newsletter-send .animation-delay-2000 {
+  animation-delay: 2s;
+}
+#newsletter-send .animation-delay-4000 {
+  animation-delay: 4s;
+}
+@keyframes bounce-slow {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+#newsletter-send .animate-bounce-slow {
+  animation: bounce-slow 3s infinite;
+}
+#newsletter-send html {
+  scroll-behavior: smooth;
+}
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+#newsletter-send .animate-fadeInUp {
+  animation: fadeInUp 0.6s ease-out;
+}
+
+
+
+
+/* Discount_codes_index */
+#discount-codes-index .animation-delay-2000 {
+    animation-delay: 2s;
+}
+#discount-codes-index .animation-delay-4000 {
+    animation-delay: 4s;
+}
+@keyframes bounce-slow {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+}
+#discount-codes-index .animate-bounce-slow {
+    animation: bounce-slow 3s infinite;
+}
+#discount-codes-index html {
+    scroll-behavior: smooth;
+}
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+#discount-codes-index .animate-fadeInUp {
+    animation: fadeInUp 0.6s ease-out;
+}
+
+
+
+
+
+/* Discount_codes_edit */
+#discount-codes-edit .animation-delay-2000 {
+    animation-delay: 2s;
+}
+
+#discount-codes-edit .animation-delay-4000 {
+    animation-delay: 4s;
+}
+
+@keyframes bounce-slow {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+#discount-codes-edit .animate-bounce-slow {
+    animation: bounce-slow 3s infinite;
+}
+
+#discount-codes-edit html {
+    scroll-behavior: smooth;
+}
+
+
+
+
+
+
+
+
+/* Discount_codes_create */
+#discount-codes-create .animation-delay-2000 {
+  animation-delay: 2s;
+}
+
+#discount-codes-create .animation-delay-4000 {
+  animation-delay: 4s;
+}
+
+@keyframes bounce-slow {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+#discount-codes-create .animate-bounce-slow {
+  animation: bounce-slow 3s infinite;
+}
+
+#discount-codes-create html {
+  scroll-behavior: smooth;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+#discount-codes-create .animate-fadeInUp {
+  animation: fadeInUp 0.6s ease-out;
+}
+
+#discount-codes-create .group:focus-within label {
+  color: #059669;
+}
+
+#discount-codes-create select {
+  background-image: none;
+}
+
+#discount-codes-create select[multiple] option:checked {
+  background: linear-gradient(135deg, #059669, #10b981);
+  color: white;
+}
+
+#discount-codes-create .group:hover input,
+#discount-codes-create .group:hover select {
+  border-color: #d1d5db;
+  background-color: #f9fafb;
+}
+
+#discount-codes-create button:hover,
+#discount-codes-create a:hover {
+  transform: translateY(-2px);
+}
+
+
+
+
+
+
+/* Estilos específicos para #usersPage */
+#usersPage .animation-delay-2000 {
+  animation-delay: 2s;
+}
+
+#usersPage .animation-delay-4000 {
+  animation-delay: 4s;
+}
+
+@keyframes bounce-slow {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+#usersPage .animate-bounce-slow {
+  animation: bounce-slow 3s infinite;
+}
+
+#usersPage html {
+  scroll-behavior: smooth;
+}
+
+
+
+
+
+
+/* Estilos específicos para #productosPage */
+
+#productosPage .animation-delay-2000 {
+  animation-delay: 2s;
+}
+
+#productosPage .animation-delay-4000 {
+  animation-delay: 4s;
+}
+
+@keyframes bounce-slow {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+#productosPage .animate-bounce-slow {
+  animation: bounce-slow 3s infinite;
+}
+
+#productosPage html {
+  scroll-behavior: smooth;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.mapa-ubicacion {
+    width: 100%;
+    height: 100%;
+    border: 0;
+}

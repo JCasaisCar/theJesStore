@@ -1,23 +1,21 @@
 <footer class="bg-gradient-to-b from-gray-900 to-blue-900 text-white pt-16 pb-6">
   <div class="container mx-auto px-4">
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-      <!-- Logo y información de la tienda -->
       <div class="text-center md:text-left">
         <div class="flex justify-center md:justify-start items-center mb-4">
           <img src="{{ asset('img/logo.png') }}" alt="{{ __('logoalt') }}" class="h-10 mr-2">
           <h3 class="text-xl font-bold text-white">TheJesStore</h3>
         </div>
-        <p class="text-gray-300 text-sm">{{ __('tu_tienda_tecnologia') }}.<br>{{ __('productos_móviles_accesorios') }}</p>
+        <p class="text-gray-300 text-sm">{{ __('tu_tienda_tecnologia') }}.<br>{{ __('productos_móviles_accesorios') }}.</p>
         <div class="mt-6">
           <h5 class="text-white font-semibold mb-2">{{ __('metodos_pago') }}</h5>
           <div class="flex justify-center md:justify-start space-x-3">
-  <i class="fab fa-cc-paypal text-2xl text-gray-300 hover:text-white transition" title="PayPal"></i>
-  <i class="fab fa-stripe text-2xl text-gray-300 hover:text-white transition" title="Stripe"></i>
-</div>
+            <i class="fab fa-cc-paypal text-2xl text-gray-300 hover:text-white transition" title="PayPal"></i>
+            <i class="fab fa-stripe text-2xl text-gray-300 hover:text-white transition" title="Stripe"></i>
+          </div>
         </div>
       </div>
 
-      <!-- Enlaces rápidos -->
       <div class="text-center md:text-left">
         <h4 class="text-lg font-bold mb-4 relative">
           <span class="relative z-10">{{ __('enlaces_rapidos') }}</span>
@@ -25,27 +23,26 @@
         </h4>
         <ul class="space-y-2 text-sm text-gray-300">
           <li><a href="{{ route('home') }}" class="hover:text-blue-300 transition flex items-center justify-center md:justify-start">
-            <i class="fas fa-chevron-right text-xs mr-2 text-blue-400"></i> {{ __('inicio') }}
-          </a></li>
+              <i class="fas fa-chevron-right text-xs mr-2 text-blue-400"></i> {{ __('inicio') }}
+            </a></li>
           <li><a href="{{ route('tienda') }}" class="hover:text-blue-300 transition flex items-center justify-center md:justify-start">
-            <i class="fas fa-chevron-right text-xs mr-2 text-blue-400"></i> {{ __('tienda') }}
-          </a></li>
+              <i class="fas fa-chevron-right text-xs mr-2 text-blue-400"></i> {{ __('tienda') }}
+            </a></li>
           <li><a href="{{ route('privacy') }}" class="hover:text-blue-300 transition flex items-center justify-center md:justify-start">
-            <i class="fas fa-chevron-right text-xs mr-2 text-blue-400"></i> {{ __('privacidad') }}
-          </a></li>
+              <i class="fas fa-chevron-right text-xs mr-2 text-blue-400"></i> {{ __('privacidad') }}
+            </a></li>
           <li><a href="{{ route('terms') }}" class="hover:text-blue-300 transition flex items-center justify-center md:justify-start">
-            <i class="fas fa-chevron-right text-xs mr-2 text-blue-400"></i> {{ __('terminos') }}
-          </a></li>
+              <i class="fas fa-chevron-right text-xs mr-2 text-blue-400"></i> {{ __('terminos') }}
+            </a></li>
           <li><a href="{{ route('cookies') }}" class="hover:text-blue-300 transition flex items-center justify-center md:justify-start">
-            <i class="fas fa-chevron-right text-xs mr-2 text-blue-400"></i> {{ __('cookies') }}
-          </a></li>
+              <i class="fas fa-chevron-right text-xs mr-2 text-blue-400"></i> {{ __('cookies') }}
+            </a></li>
           <li><a href="{{ route('contacto') }}" class="hover:text-blue-300 transition flex items-center justify-center md:justify-start">
-            <i class="fas fa-chevron-right text-xs mr-2 text-blue-400"></i> {{ __('contacto') }}
-          </a></li>
+              <i class="fas fa-chevron-right text-xs mr-2 text-blue-400"></i> {{ __('contacto') }}
+            </a></li>
         </ul>
       </div>
 
-      <!-- Contacto -->
       <div class="text-center md:text-left">
         <h4 class="text-lg font-bold mb-4 relative">
           <span class="relative z-10">{{ __('contacto') }}</span>
@@ -56,7 +53,7 @@
             <div class="w-8 h-8 bg-blue-800 rounded-full flex items-center justify-center mr-3">
               <i class="fa-solid fa-location-dot text-blue-300"></i>
             </div>
-            <span>{{ __('sevilla') }}</span>
+            <span>{{ __('direccion_completa') }}</span>
           </li>
           <li class="flex items-center justify-center md:justify-start">
             <div class="w-8 h-8 bg-blue-800 rounded-full flex items-center justify-center mr-3">
@@ -73,14 +70,13 @@
         </ul>
       </div>
 
-      <!-- Newsletter y redes sociales -->
       <div class="text-center md:text-left">
         <h4 class="text-lg font-bold mb-4 relative">
           <span class="relative z-10">{{ __('newsletter') }}</span>
           <span class="absolute bottom-0 left-0 w-12 h-1 bg-blue-500 z-0"></span>
         </h4>
         <p class="text-sm text-gray-300 mb-3">{{ __('suscribete_ofertas') }}</p>
-        
+
         <form action="{{ route('newsletter.subscribe') }}" method="POST" class="mb-4">
           @csrf
           <div class="flex">
@@ -93,27 +89,14 @@
         </form>
 
 
+
         
-        <h5 class="font-semibold text-white mb-3">{{ __('siguenos') }}</h5>
-        <div class="flex justify-center md:justify-start space-x-4">
-          <a href="#" class="w-9 h-9 bg-blue-800 hover:bg-blue-700 rounded-full flex items-center justify-center transition transform hover:scale-110">
-            <i class="fab fa-facebook-f text-blue-300"></i>
-          </a>
-          <a href="#" class="w-9 h-9 bg-pink-800 hover:bg-pink-700 rounded-full flex items-center justify-center transition transform hover:scale-110">
-            <i class="fab fa-instagram text-pink-300"></i>
-          </a>
-          <a href="#" class="w-9 h-9 bg-blue-800 hover:bg-blue-700 rounded-full flex items-center justify-center transition transform hover:scale-110">
-            <i class="fab fa-twitter text-blue-300"></i>
-          </a>
-          <a href="#" class="w-9 h-9 bg-red-800 hover:bg-red-700 rounded-full flex items-center justify-center transition transform hover:scale-110">
-            <i class="fab fa-youtube text-red-300"></i>
-          </a>
         </div>
       </div>
     </div>
 
     <hr class="my-8 border-gray-700">
-    
+
     <div class="flex flex-col md:flex-row justify-between items-center text-sm text-gray-400">
       <p>© 2025 TheJesStore. {{ __('todos_derechos') }}</p>
       <div class="mt-4 md:mt-0 flex space-x-6">
@@ -124,7 +107,6 @@
     </div>
   </div>
 
-  <!-- Botón volver arriba -->
   <a href="#" id="volver-arriba" class="fixed bottom-6 right-6 bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-full shadow-lg transition transform hover:scale-110 opacity-0 invisible">
     <i class="fas fa-arrow-up"></i>
   </a>

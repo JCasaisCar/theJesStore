@@ -1,12 +1,7 @@
 "use strict";
 if (document.body.id === 'contactoPage') {
-    // Obtener traducciones del DOM
     const translationsEl = document.getElementById('translations');
     const translations = translationsEl ? JSON.parse(translationsEl.dataset.json) : {};
-
-    // =======================
-    // FUNCIONES DE MODALES
-    // =======================
 
     window.toggleFAQ = function(element) {
         const answer = element.nextElementSibling;

@@ -29,13 +29,13 @@ class AdminUserController extends Controller
 
 
     public function toggle(User $user)
-    {
-        $user->active = !$user->active;
-        $user->save();
+{
+    $user->active = !$user->active;
+    $user->save();
 
-        $accion = $user->active ? 'activado' : 'desactivado';
-        $mensaje = "Has {$accion} al usuario {$user->name}.";
+    $accion = $user->active ? __('admin.activado') : __('admin.desactivado');
+    $mensaje = __('admin.usuario_toggle', ['accion' => $accion, 'name' => $user->name]);
 
-        return redirect()->back()->with('status', $mensaje);
-    }
+    return redirect()->back()->with('success', $mensaje);
+}
 }

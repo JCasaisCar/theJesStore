@@ -1,5 +1,4 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // Abrir el modal de edición con los datos del producto
     window.openEditModal = function (productId) {
         fetch(`/admin/productos/${productId}/edit`)
             .then(response => {
@@ -11,7 +10,6 @@ document.addEventListener('DOMContentLoaded', () => {
             .then(data => {
                 console.log(data);
 
-                // Asignar los valores correctos a los campos del formulario
                 document.getElementById('editProductId').value = data.id;
                 document.getElementById('editName').value = data.name;
                 document.getElementById('editDescription').value = data.description;
@@ -45,7 +43,6 @@ document.addEventListener('DOMContentLoaded', () => {
             });
     };
 
-    // ✅ Vista previa para imagen en edición
     window.previewEditImage = function (input) {
         const file = input.files[0];
         const imagePreview = document.getElementById('editImagePreview');
@@ -58,7 +55,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
-    // ✅ Vista previa para imagen en creación
     window.previewNewImage = function (event) {
         const file = event.target.files[0];
         const preview = document.getElementById('newImagePreview');
@@ -73,24 +69,20 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
-    // Modal de cambio de estado
     window.openStatusModal = function (productId, currentStatus) {
         document.getElementById('statusInput').value = currentStatus === 1 ? 0 : 1;
         document.getElementById('statusForm').action = `/admin/productos/${productId}/status`;
         document.getElementById('statusModal').classList.remove('hidden');
     };
 
-    // Modal de creación
     window.openCreateModal = function () {
         document.getElementById('createModal').classList.remove('hidden');
     };
 
-    // Cerrar cualquier modal
     window.closeModal = function (modalId) {
         document.getElementById(modalId).classList.add('hidden');
     };
 
-    // Admin: Modales de pedidos
     window.abrirModalPedidos = function () {
         document.getElementById('modalPedidos').classList.remove('hidden');
     };

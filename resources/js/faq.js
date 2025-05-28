@@ -1,10 +1,6 @@
 "use strict";
 
 if (document.body.id === 'faqPage') {
-    // ===============================
-    // FUNCIONES ACCESIBLES GLOBALMENTE
-    // ===============================
-
     window.toggleFAQ = function (element) {
         const answer = element.nextElementSibling;
         answer.classList.toggle('hidden');

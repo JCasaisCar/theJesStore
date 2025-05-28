@@ -53,12 +53,15 @@ class CustomVerifyEmail extends Notification
         ]
     );
 
+    $style = file_get_contents(public_path('css/style.css'));
+
     return (new MailMessage)
-                ->subject('Verifica tu correo electrónico')
-                ->markdown('emails.verify-email', [
-                    'user' => $this->user,
-                    'verificationUrl' => $url,
-                ]);
+        ->subject('Verifica tu correo electrónico')
+        ->markdown('emails.verify-email', [
+            'user' => $this->user,
+            'verificationUrl' => $url,
+            'style' => $style,
+        ]);
 }
 
 

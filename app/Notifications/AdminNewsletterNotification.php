@@ -25,12 +25,15 @@ class AdminNewsletterNotification extends Notification
 
     public function toMail($notifiable)
     {
+            $style = file_get_contents(public_path('css/style.css'));
+
         return (new MailMessage)
             ->subject($this->subject)
             ->view('emails.admin-newsletter', [
                 'subject' => $this->subject,
                 'body' => $this->body,
                 'email' => $this->email,
+            'style' => $style,
             ]);
     }
 }

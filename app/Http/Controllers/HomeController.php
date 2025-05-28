@@ -14,7 +14,7 @@ class HomeController extends Controller
 {
     public function index()
     {
-        $categorias = Category::all(); // o Category::take(3)->get() si solo quieres 3
+        $categorias = Category::all();
         return view('welcome', compact('categorias'));
     }
 
@@ -26,18 +26,17 @@ class HomeController extends Controller
     ]);
 
     if (Newsletter::where('email', $request->email)->exists()) {
-        return back()->with('error', '¡Ya estás suscrito!');
+            return back()->with('error', __('newsletter.ya_suscrito'));
     }
 
     Newsletter::create([
         'email' => $request->email,
     ]);
 
-    // 📧 Enviar notificación (a un Notifiable genérico anónimo)
     Notification::route('mail', $request->email)
         ->notify(new NewsletterWelcomeNotification($request->email));
 
-    return back()->with('success', '¡Gracias por suscribirte!');
+        return back()->with('success', __('newsletter.suscripcion_exitosa'));
 }
 
 

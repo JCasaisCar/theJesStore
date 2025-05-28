@@ -24,7 +24,6 @@ class CartController extends Controller
     $envioMetodo = ShippingMethod::orderBy('precio')->first();
     $envio = $envioMetodo ? $envioMetodo->precio : 0;
 
-    // Aplicar cupón si existe
     $descuento = 0;
     $codigo = session('cupon_codigo');
     if ($codigo) {
@@ -56,20 +55,21 @@ public function applyCoupon(Request $request)
     $cupon = DiscountCode::where('code', $codigo)
         ->where('is_active', true)
         ->where(function ($query) {
-            $query->whereDoesntHave('users') // cupón global
+            $query->whereDoesntHave('users')
                   ->orWhereHas('users', function ($q) {
                       $q->where('users.id', Auth::id())
-                        ->where('discount_code_user.used', false); // <-- esta línea es la clave
+                        ->where('discount_code_user.used', false);
                   });
         })
         ->first();
 
     if ($cupon) {
         session(['cupon_codigo' => $codigo]);
-        return redirect()->route('cart')->with('success', 'Cupón aplicado correctamente.');
+        return redirect()->route('cart')->with('success', __('cart.cupon_aplicado'));
+
     }
 
-    return redirect()->route('cart')->with('error', 'Cupón inválido o ya utilizado.');
+return redirect()->route('cart')->with('error', __('cart.cupon_invalido'));
 }
 
     public function add(Request $request)
@@ -78,32 +78,27 @@ public function applyCoupon(Request $request)
     $productId = $request->input('product_id');
     $quantity = $request->input('quantity', 1);
 
-    // Obtener el producto desde la base de datos
     $product = Product::findOrFail($productId);
 
-    // Verificar que la cantidad solicitada no supere el stock disponible
     $cartItem = $cart->items()->where('product_id', $productId)->first();
     $currentQuantityInCart = $cartItem ? $cartItem->quantity : 0;
-    $availableStock = $product->stock; // Suponiendo que el campo stock está en el modelo Product
+    $availableStock = $product->stock; 
 
-    // Verificar si el carrito ya tiene ese producto y la cantidad total no supere el stock
     if ($currentQuantityInCart + $quantity > $availableStock) {
-        return redirect()->back()->with('error', 'No puedes añadir más productos al carrito. El stock disponible es limitado.');
+return redirect()->back()->with('error', __('cart.stock_limitado'));
     }
 
     if ($cartItem) {
-        // Si ya hay ese producto, aumentar la cantidad
         $cartItem->quantity += $quantity;
         $cartItem->save();
     } else {
-        // Si no existe en el carrito, agregarlo
         $cart->items()->create([
             'product_id' => $productId,
             'quantity' => $quantity,
         ]);
     }
 
-    return redirect()->back()->with('success', 'Producto añadido al carrito.');
+return redirect()->back()->with('success', __('cart.producto_anadido'));
 }
 
 
@@ -114,31 +109,28 @@ public function update(Request $request, $id)
     $item = $cart->items()->where('id', $id)->first();
 
     if (!$item) {
-        return redirect()->route('cart')->with('error', 'Item no encontrado en tu carrito.');
+return redirect()->route('cart')->with('error', __('cart.item_no_encontrado'));
     }
 
     $action = $request->input('action');
-    $product = $item->product; // Obtener el producto relacionado con el item del carrito
+    $product = $item->product; 
 
-    // Obtener el stock disponible del producto
     $availableStock = $product->stock; 
 
-    // Si la acción es 'increase', verificar que no se supere el stock
     if ($action === 'increase') {
-        // Verificar que la cantidad total no supere el stock disponible
         if ($item->quantity + 1 > $availableStock) {
-            return redirect()->route('cart')->with('error', 'No puedes aumentar la cantidad del producto. El stock disponible es limitado.');
+            return redirect()->route('cart')->with('error', __('cart.stock_limitado_cantidad'));
+
         }
         $item->quantity++;
     } 
-    // Si la acción es 'decrease', verificar que la cantidad no se vuelva negativa
     elseif ($action === 'decrease' && $item->quantity > 1) {
         $item->quantity--;
     }
 
     $item->save();
 
-    return redirect()->route('cart')->with('success', 'Cantidad actualizada.');
+return redirect()->route('cart')->with('success', __('cart.cantidad_actualizada'));
 }
 
 
@@ -147,7 +139,7 @@ public function update(Request $request, $id)
         $item = CartItem::findOrFail($id);
         $item->delete();
 
-        return redirect()->route('cart')->with('success', 'Producto eliminado del carrito.');
+return redirect()->route('cart')->with('success', __('cart.producto_eliminado'));
     }
 
     public function clear()
@@ -159,6 +151,6 @@ public function update(Request $request, $id)
             $cart->items()->delete();
         }
 
-        return redirect()->route('cart')->with('success', 'Carrito vaciado correctamente.');
-    }
+return redirect()->route('cart')->with('success', __('cart.carrito_vaciado'));    
+}
 }

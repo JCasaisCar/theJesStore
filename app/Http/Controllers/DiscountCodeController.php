@@ -39,7 +39,7 @@ class DiscountCodeController extends Controller
             $code->users()->attach($users);
         }
 
-        return redirect()->route('discount_codes.index')->with('success', 'Cupón creado.');
+        return redirect()->route('discount_codes.index')->with('success', __('cupon_creado_exito', ['code' => $code->code]));
     }
 
     public function toggle(DiscountCode $discountCode)
@@ -47,7 +47,7 @@ class DiscountCodeController extends Controller
         $discountCode->is_active = !$discountCode->is_active;
         $discountCode->save();
 
-        return redirect()->back()->with('success', 'Estado del código actualizado.');
+        return redirect()->back()->with('success', __('estado_cupon_actualizado', ['code' => $discountCode->code]));
     }
 
 
@@ -75,6 +75,6 @@ public function update(Request $request, DiscountCode $discountCode)
 
     $discountCode->users()->sync($request->users ?? []);
 
-    return redirect()->route('discount_codes.index')->with('success', 'Cupón actualizado.');
+    return redirect()->route('discount_codes.index')->with('success', __('cupon_actualizado', ['code' => $discountCode->code]));
 }
 }

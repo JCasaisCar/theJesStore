@@ -1,21 +1,17 @@
 @extends('layouts.app')
 @section('title', __('sobre_nosotros'))
 @section('content')
-<!-- Cabecera Premium -->
 <div class="relative bg-gradient-to-br from-slate-900 via-blue-900 to-indigo-900 overflow-hidden">
-    <!-- Animated Background Elements -->
     <div class="absolute inset-0 opacity-20">
         <div class="absolute top-20 left-10 w-96 h-96 bg-blue-500 rounded-full mix-blend-multiply filter blur-xl animate-pulse"></div>
         <div class="absolute top-40 right-20 w-80 h-80 bg-cyan-500 rounded-full mix-blend-multiply filter blur-xl animate-pulse animation-delay-2000"></div>
         <div class="absolute bottom-10 left-1/3 w-72 h-72 bg-indigo-500 rounded-full mix-blend-multiply filter blur-xl animate-pulse animation-delay-4000"></div>
     </div>
 
-    <!-- Grid Pattern Overlay -->
-    <div class="absolute inset-0 bg-[url('data:image/svg+xml,%3csvg width="40" height="40" xmlns="http://www.w3.org/2000/svg"%3e%3cdefs%3e%3cpattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse"%3e%3cpath d="m 40 0 l 0 40 m -40 0 l 40 0" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="1"/%3e%3c/pattern%3e%3c/defs%3e%3crect width="100%25" height="100%25" fill="url(%23grid)" /%3e%3c/svg%3e')] opacity-30"></div>
+    <div class="absolute inset-0 bg-[url('data:image/svg+xml,%3csvg width=" 40" height="40" xmlns="http://www.w3.org/2000/svg" %3e%3cdefs%3e%3cpattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse" %3e%3cpath d="m 40 0 l 0 40 m -40 0 l 40 0" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="1" /%3e%3c/pattern%3e%3c/defs%3e%3crect width="100%25" height="100%25" fill="url(%23grid)" /%3e%3c/svg%3e')] opacity-30"></div>
 
     <div class="container mx-auto px-4 py-20 relative z-10">
         <div class="max-w-4xl mx-auto text-center">
-            <!-- Icon -->
             <div class="w-24 h-24 mx-auto bg-gradient-to-br from-blue-500 to-cyan-500 rounded-3xl flex items-center justify-center mb-8 shadow-2xl">
                 <i class="fas fa-users text-white text-3xl"></i>
             </div>
@@ -27,7 +23,6 @@
                 {{ __('sobre_nosotros_descripcion') }}
             </p>
 
-            <!-- Breadcrumb Premium -->
             <div class="flex items-center justify-center text-sm">
                 <a href="{{ route('home') }}" class="text-blue-300 hover:text-white transition-colors duration-300 font-medium flex items-center">
                     <i class="fas fa-home mr-2"></i>{{ __('inicio') }}
@@ -41,7 +36,6 @@
     </div>
 </div>
 
-<!-- Nuestra Historia -->
 <div class="bg-white py-16">
     <div class="container mx-auto px-4">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
@@ -56,14 +50,12 @@
                 <div class="relative z-10 rounded-lg overflow-hidden shadow-xl transform transition hover:scale-105">
                     <img src="{{ asset('img/historia.png') }}" alt="{{ __('nuestra_historia') }}" class="w-full h-auto">
                 </div>
-                <!-- Decoración detrás de la imagen -->
                 <div class="absolute -bottom-4 -right-4 w-3/4 h-3/4 bg-blue-100 rounded-lg -z-10"></div>
             </div>
         </div>
     </div>
 </div>
 
-<!-- Misión, Visión y Valores -->
 <div class="bg-gray-50 py-16">
     <div class="container mx-auto px-4">
         <div class="text-center mb-12">
@@ -71,9 +63,8 @@
             <div class="w-20 h-1 bg-blue-600 mx-auto mb-6"></div>
             <p class="text-gray-600 max-w-2xl mx-auto">{{ __('mvv_descripcion') }}</p>
         </div>
-        
+
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <!-- Misión -->
             <div class="bg-white rounded-xl shadow-md p-6 transform transition hover:scale-105 hover:shadow-lg">
                 <div class="w-16 h-16 mx-auto bg-blue-100 rounded-full flex items-center justify-center mb-4">
                     <i class="fas fa-bullseye text-blue-600 text-2xl"></i>
@@ -81,8 +72,7 @@
                 <h3 class="text-xl font-bold text-center text-gray-800 mb-3">{{ __('nuestra_mision') }}</h3>
                 <p class="text-gray-600 text-center">{{ __('mision_texto') }}</p>
             </div>
-            
-            <!-- Visión -->
+
             <div class="bg-white rounded-xl shadow-md p-6 transform transition hover:scale-105 hover:shadow-lg">
                 <div class="w-16 h-16 mx-auto bg-purple-100 rounded-full flex items-center justify-center mb-4">
                     <i class="fas fa-eye text-purple-600 text-2xl"></i>
@@ -90,8 +80,7 @@
                 <h3 class="text-xl font-bold text-center text-gray-800 mb-3">{{ __('nuestra_vision') }}</h3>
                 <p class="text-gray-600 text-center">{{ __('vision_texto') }}</p>
             </div>
-            
-            <!-- Valores -->
+
             <div class="bg-white rounded-xl shadow-md p-6 transform transition hover:scale-105 hover:shadow-lg">
                 <div class="w-16 h-16 mx-auto bg-green-100 rounded-full flex items-center justify-center mb-4">
                     <i class="fas fa-heart text-green-600 text-2xl"></i>
@@ -103,7 +92,6 @@
     </div>
 </div>
 
-<!-- Nuestro Equipo -->
 <div class="bg-white py-16">
     <div class="container mx-auto px-4">
         <div class="text-center mb-12">
@@ -111,9 +99,8 @@
             <div class="w-20 h-1 bg-blue-600 mx-auto mb-6"></div>
             <p class="text-gray-600 max-w-2xl mx-auto">{{ __('equipo_descripcion') }}</p>
         </div>
-        
+
         <div class="flex justify-center">
-            <!-- Miembro 1 -->
             <div class="bg-white rounded-xl shadow-md overflow-hidden transform transition hover:scale-105 hover:shadow-lg">
                 <div class="relative">
                     <img src="{{ asset('img/miembro1.jpeg') }}" alt="{{ __('nombre_miembro1') }}" class="w-full h-64 object-cover">
@@ -128,8 +115,8 @@
                             <i class="fab fa-linkedin"></i>
                         </a>
                         <a href="https://github.com/jcasaiscar" target="_blank" class="text-blue-600 hover:text-blue-800">
-        <i class="fab fa-github"></i>
-    </a>
+                            <i class="fab fa-github"></i>
+                        </a>
                         <a href="mailto:jesuscasacarrillo@gmail.com" class="text-blue-600 hover:text-blue-800">
                             <i class="far fa-envelope"></i>
                         </a>
@@ -140,7 +127,6 @@
     </div>
 </div>
 
-<!-- Por qué elegirnos -->
 <div class="bg-gradient-to-r from-blue-900 to-blue-700 py-16 text-white">
     <div class="container mx-auto px-4">
         <div class="text-center mb-12">
@@ -148,9 +134,8 @@
             <div class="w-20 h-1 bg-blue-300 mx-auto mb-6"></div>
             <p class="text-gray-200 max-w-2xl mx-auto">{{ __('elegirnos_descripcion') }}</p>
         </div>
-        
+
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-            <!-- Razón 1 -->
             <div class="bg-white bg-opacity-10 rounded-xl p-6 backdrop-filter backdrop-blur-sm transform transition hover:scale-105 border border-white border-opacity-20">
                 <div class="w-16 h-16 mx-auto bg-blue-100 bg-opacity-20 rounded-full flex items-center justify-center mb-4">
                     <i class="fas fa-shield-alt text-blue-300 text-2xl"></i>
@@ -158,8 +143,7 @@
                 <h3 class="text-xl font-bold text-center mb-3">{{ __('garantia_calidad') }}</h3>
                 <p class="text-gray-300 text-center">{{ __('garantia_texto') }}</p>
             </div>
-            
-            <!-- Razón 2 -->
+
             <div class="bg-white bg-opacity-10 rounded-xl p-6 backdrop-filter backdrop-blur-sm transform transition hover:scale-105 border border-white border-opacity-20">
                 <div class="w-16 h-16 mx-auto bg-blue-100 bg-opacity-20 rounded-full flex items-center justify-center mb-4">
                     <i class="fas fa-shipping-fast text-blue-300 text-2xl"></i>
@@ -167,8 +151,7 @@
                 <h3 class="text-xl font-bold text-center mb-3">{{ __('entrega_rapida') }}</h3>
                 <p class="text-gray-300 text-center">{{ __('entrega_texto') }}</p>
             </div>
-            
-            <!-- Razón 3 -->
+
             <div class="bg-white bg-opacity-10 rounded-xl p-6 backdrop-filter backdrop-blur-sm transform transition hover:scale-105 border border-white border-opacity-20">
                 <div class="w-16 h-16 mx-auto bg-blue-100 bg-opacity-20 rounded-full flex items-center justify-center mb-4">
                     <i class="fas fa-headset text-blue-300 text-2xl"></i>
@@ -180,7 +163,6 @@
     </div>
 </div>
 
-<!-- Experiencia del cliente -->
 <div class="bg-white py-16">
     <div class="container mx-auto px-4">
         <div class="text-center mb-12">
@@ -188,9 +170,8 @@
             <div class="w-20 h-1 bg-blue-600 mx-auto mb-6"></div>
             <p class="text-gray-600 max-w-2xl mx-auto">{{ __('opiniones_descripcion') }}</p>
         </div>
-        
+
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <!-- Testimonial 1 -->
             <div class="bg-gray-50 rounded-xl shadow-md p-6 transform transition hover:scale-105 hover:shadow-lg relative">
                 <div class="absolute top-4 right-4 text-5xl text-blue-200 opacity-50">
                     <i class="fas fa-quote-right"></i>
@@ -214,8 +195,7 @@
                     </div>
                 </div>
             </div>
-            
-            <!-- Testimonial 2 -->
+
             <div class="bg-gray-50 rounded-xl shadow-md p-6 transform transition hover:scale-105 hover:shadow-lg relative">
                 <div class="absolute top-4 right-4 text-5xl text-blue-200 opacity-50">
                     <i class="fas fa-quote-right"></i>
@@ -239,8 +219,7 @@
                     </div>
                 </div>
             </div>
-            
-            <!-- Testimonial 3 -->
+
             <div class="bg-gray-50 rounded-xl shadow-md p-6 transform transition hover:scale-105 hover:shadow-lg relative">
                 <div class="absolute top-4 right-4 text-5xl text-blue-200 opacity-50">
                     <i class="fas fa-quote-right"></i>
@@ -268,14 +247,12 @@
     </div>
 </div>
 
-<!-- Contacto CTA -->
 <div class="bg-gray-50 py-16">
     <div class="container mx-auto px-4">
         <div class="bg-gradient-to-r from-blue-900 to-blue-700 rounded-2xl p-8 md:p-12 shadow-xl relative overflow-hidden">
-            <!-- Decoraciones de fondo -->
             <div class="absolute top-0 right-0 w-1/3 h-full bg-blue-400 opacity-10 rounded-full blur-3xl"></div>
             <div class="absolute bottom-0 left-0 w-1/4 h-full bg-purple-500 opacity-10 rounded-full blur-3xl"></div>
-            
+
             <div class="relative z-10 text-center md:text-left md:flex md:items-center md:justify-between">
                 <div class="mb-6 md:mb-0 md:mr-8">
                     <h2 class="text-2xl md:text-3xl font-bold text-white mb-3">{{ __('tienes_preguntas') }}</h2>

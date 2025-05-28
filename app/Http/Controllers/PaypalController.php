@@ -40,6 +40,6 @@ class PaypalController extends Controller
             ]
         ]);
 
-    return redirect($order['links'][1]['href']); // Redirigir a PayPal
+    return redirect($order['links'][1]['href']);
 }
 }

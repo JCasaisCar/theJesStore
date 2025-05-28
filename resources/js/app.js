@@ -1,38 +1,16 @@
-import './bootstrap'; // Importa el archivo bootstrap.js
+import './bootstrap'; 
 
-// Espera a que el DOM esté completamente cargado
-document.addEventListener("DOMContentLoaded", function () {
-    // Realiza una solicitud para obtener las categorías
-    fetch('/categories')
-        .then(response => response.json()) // Convierte la respuesta a JSON
-        .then(data => {
-            let select = document.getElementById("categories_id"); // Obtiene el elemento select
-            select.innerHTML = '<option value="">Selecciona una categoría</option>'; // Añade una opción por defecto
-            data.forEach(category => {
-                let option = document.createElement("option"); // Crea una nueva opción
-                option.value = category.id; // Establece el valor de la opción
-                option.textContent = category.name; // Establece el texto de la opción
-                select.appendChild(option); // Añade la opción al select
-            });
-        })
-        .catch(error => console.error("Error al cargar las categorías:", error)); // Maneja errores
-});
 
-import './reservas.js'; // Importa el archivo reservas.js
 
-import './imagePreview.js'; // Importa el archivo imagePreview.js
+import './imagePreview.js';
 
-import './validateFormWelcome.js'; // Importa el archivo validateFormWelcome.js
 
-import './validateFormEdit.js'; // Importa el archivo validateFormEdit.js
 
-import './validarPassword.js'; // Importa el archivo validarPassword.js
 
-import './unavailableHours.js'; // Importa el archivo unavailableHours.js
 
-import './confirmDelete.js'; // Importa el archivo confirmDelete.js
+import './confirmDelete.js'; 
 
-import './modal.js'; // Importa el archivo que creaste para los modales
+import './modal.js'; 
 
 import './arriba.js';
 
@@ -46,10 +24,21 @@ import './cookies.js';
 
 import './faq.js';
 
+import './orders_users.js';
+
+import './header-nav.js';
+
+import './toast-handler.js';
+
+import './shipping-form.js';
+
+import './discount-codes.js';
+
+import './pay.js';
+
 
 import { toggleStatus } from './toggleStatus.js';
 
-// Activar botones de cambio de estado
 document.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('[data-toggle-status]').forEach(button => {
         button.addEventListener('click', () => {
