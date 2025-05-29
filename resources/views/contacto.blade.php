@@ -301,18 +301,39 @@
     </div>
 
     
-<!-- Modal de mensajes enviados -->
-<div id="messagesModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
-    <div class="bg-white rounded-2xl p-6 max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-xl relative">
-        <button onclick="closeMessagesModal()" class="absolute top-3 right-3 text-gray-500 hover:text-red-500 text-xl">
-            <i class="fas fa-times"></i>
-        </button>
-        <h3 class="text-2xl font-bold text-gray-800 mb-4">
-            {{ __('mensajes_enviados') }}
-        </h3>
-        <div id="messagesContent" class="space-y-4">
+<!-- Modal de mensajes enviados actualizado -->
+<div id="messagesModal" class="fixed inset-0 z-50 hidden bg-black bg-opacity-50 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl shadow-2xl w-full max-w-3xl relative overflow-hidden animate-fadeInScale">
+        <div class="bg-gradient-to-r from-blue-600 to-purple-600 p-6 text-white">
+            <div class="flex justify-between items-center">
+                <h2 class="text-2xl font-black flex items-center gap-3">
+                    <i class="fas fa-history"></i>
+                    {{ __('mensajes_enviados') }}
+                </h2>
+                <button onclick="closeMessagesModal()" class="w-10 h-10 bg-white/20 hover:bg-white/30 rounded-xl flex items-center justify-center transition-all duration-300">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+        </div>
+
+        <div id="messagesContent" class="p-6 max-h-[60vh] overflow-y-auto">
+            <div class="flex items-center justify-center py-8">
+                <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+            </div>
         </div>
     </div>
+</div>
+
+<!-- Bloque con traducciones para JS -->
+<div id="translations"
+     data-json="{{ json_encode([
+        'asunto' => __('asunto'),
+        'mensaje' => __('mensaje'),
+        'respuesta' => __('respuesta'),
+        'respondido_el' => __('respondido_el'),
+        'enviado_el' => __('enviado_el'),
+        'sin_respuesta' => __('sin_respuesta'),
+     ], JSON_HEX_APOS | JSON_HEX_QUOT) }}">
 </div>
 </body>
 @endsection
