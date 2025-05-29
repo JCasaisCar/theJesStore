@@ -1,5 +1,6 @@
 @extends('layouts.app')
 
+@section('title', __('registrarse'))
 @section('content')
 <body id="registerPage">
 

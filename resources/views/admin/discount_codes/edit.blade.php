@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', 'Editar Código de Descuento')
+@section('title', __('editar_codigo_descuento'))
 @section('content')
 
 <body id="discount-codes-edit">

@@ -166,9 +166,95 @@
                 @endforelse
             </div>
 
-            <div class="mt-16 flex justify-center">
-                {{ $products->withQueryString()->links() }}
+            @if($products->hasPages())
+            <div class="mt-20 flex flex-col items-center space-y-6">
+                <div class="text-center">
+                    <p class="text-gray-600 font-medium">
+                        Mostrando {{ $products->firstItem() ?? 0 }} - {{ $products->lastItem() ?? 0 }} 
+                        de {{ $products->total() }} productos
+                    </p>
+                </div>
+
+                <div class="flex items-center justify-center space-x-2">
+                    @if ($products->onFirstPage())
+                        <span class="px-4 py-3 text-gray-400 bg-gray-100 rounded-xl cursor-not-allowed select-none">
+                            <i class="fas fa-angle-double-left"></i>
+                        </span>
+                    @else
+                        <a href="{{ $products->url(1) }}" 
+                           class="px-4 py-3 text-gray-600 bg-white border border-gray-200 rounded-xl hover:bg-gradient-to-r hover:from-purple-500 hover:to-pink-500 hover:text-white hover:border-transparent transition-all duration-300 transform hover:scale-105 hover:shadow-lg">
+                            <i class="fas fa-angle-double-left"></i>
+                        </a>
+                    @endif
+
+                    @if ($products->onFirstPage())
+                        <span class="px-4 py-3 text-gray-400 bg-gray-100 rounded-xl cursor-not-allowed select-none">
+                            <i class="fas fa-angle-left"></i>
+                        </span>
+                    @else
+                        <a href="{{ $products->previousPageUrl() }}" 
+                           class="px-4 py-3 text-gray-600 bg-white border border-gray-200 rounded-xl hover:bg-gradient-to-r hover:from-purple-500 hover:to-pink-500 hover:text-white hover:border-transparent transition-all duration-300 transform hover:scale-105 hover:shadow-lg">
+                            <i class="fas fa-angle-left"></i>
+                        </a>
+                    @endif
+
+                    @foreach ($products->getUrlRange(max(1, $products->currentPage() - 2), min($products->lastPage(), $products->currentPage() + 2)) as $page => $url)
+                        @if ($page == $products->currentPage())
+                            <span class="px-5 py-3 text-white bg-gradient-to-r from-purple-600 to-pink-600 rounded-xl font-bold shadow-lg transform scale-110 border-2 border-purple-300">
+                                {{ $page }}
+                            </span>
+                        @else
+                            <a href="{{ $url }}" 
+                               class="px-5 py-3 text-gray-600 bg-white border border-gray-200 rounded-xl hover:bg-gradient-to-r hover:from-purple-500 hover:to-pink-500 hover:text-white hover:border-transparent transition-all duration-300 transform hover:scale-105 hover:shadow-lg font-medium">
+                                {{ $page }}
+                            </a>
+                        @endif
+                    @endforeach
+
+                    @if($products->currentPage() < $products->lastPage() - 3)
+                        <span class="px-3 py-3 text-gray-400 select-none">...</span>
+                        <a href="{{ $products->url($products->lastPage()) }}" 
+                           class="px-5 py-3 text-gray-600 bg-white border border-gray-200 rounded-xl hover:bg-gradient-to-r hover:from-purple-500 hover:to-pink-500 hover:text-white hover:border-transparent transition-all duration-300 transform hover:scale-105 hover:shadow-lg font-medium">
+                            {{ $products->lastPage() }}
+                        </a>
+                    @endif
+
+                    @if ($products->hasMorePages())
+                        <a href="{{ $products->nextPageUrl() }}" 
+                           class="px-4 py-3 text-gray-600 bg-white border border-gray-200 rounded-xl hover:bg-gradient-to-r hover:from-purple-500 hover:to-pink-500 hover:text-white hover:border-transparent transition-all duration-300 transform hover:scale-105 hover:shadow-lg">
+                            <i class="fas fa-angle-right"></i>
+                        </a>
+                    @else
+                        <span class="px-4 py-3 text-gray-400 bg-gray-100 rounded-xl cursor-not-allowed select-none">
+                            <i class="fas fa-angle-right"></i>
+                        </span>
+                    @endif
+
+                    @if ($products->hasMorePages())
+                        <a href="{{ $products->url($products->lastPage()) }}" 
+                           class="px-4 py-3 text-gray-600 bg-white border border-gray-200 rounded-xl hover:bg-gradient-to-r hover:from-purple-500 hover:to-pink-500 hover:text-white hover:border-transparent transition-all duration-300 transform hover:scale-105 hover:shadow-lg">
+                            <i class="fas fa-angle-double-right"></i>
+                        </a>
+                    @else
+                        <span class="px-4 py-3 text-gray-400 bg-gray-100 rounded-xl cursor-not-allowed select-none">
+                            <i class="fas fa-angle-double-right"></i>
+                        </span>
+                    @endif
+                </div>
+
+                <div class="flex items-center space-x-4">
+                    <span class="text-gray-500 text-sm font-medium">Ir a página:</span>
+                    <select onchange="window.location.href=this.value" 
+                            class="px-3 py-2 bg-white border border-gray-200 rounded-lg focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 transition-all duration-300 text-sm font-medium">
+                        @for($i = 1; $i <= $products->lastPage(); $i++)
+                            <option value="{{ $products->url($i) }}" {{ $i == $products->currentPage() ? 'selected' : '' }}>
+                                {{ $i }}
+                            </option>
+                        @endfor
+                    </select>
+                </div>
             </div>
+            @endif
         </div>
     </div>
 

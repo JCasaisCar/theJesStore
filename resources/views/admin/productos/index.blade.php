@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Gestionar Productos')
+@section('title', __('gestionar_productos'))
 
 @section('content')
 
@@ -80,41 +80,168 @@
                         @endforeach
                     </tbody>
                 </table>
-                <div class="mt-6">
-    {{ $products->links() }}
+                <!-- Paginación mejorada para Gestión de Productos -->
+@if($products->hasPages())
+<div class="mt-12 flex flex-col items-center space-y-6 bg-white rounded-3xl shadow-xl p-8 border border-gray-100">
+    <!-- Información de resultados -->
+    <div class="text-center">
+        <p class="text-gray-600 font-medium">
+            Mostrando {{ $products->firstItem() ?? 0 }} - {{ $products->lastItem() ?? 0 }} 
+            de {{ $products->total() }} productos en inventario
+        </p>
+    </div>
+
+    <!-- Enlaces de paginación -->
+    <div class="flex items-center justify-center space-x-2 flex-wrap">
+        {{-- Botón Primera Página --}}
+        @if ($products->onFirstPage())
+            <span class="px-4 py-3 text-gray-400 bg-gray-100 rounded-xl cursor-not-allowed select-none">
+                <i class="fas fa-angle-double-left"></i>
+            </span>
+        @else
+            <a href="{{ $products->url(1) }}" 
+               class="px-4 py-3 text-gray-600 bg-white border border-gray-200 rounded-xl hover:bg-gradient-to-r hover:from-emerald-500 hover:to-green-500 hover:text-white hover:border-transparent transition-all duration-300 transform hover:scale-105 hover:shadow-lg">
+                <i class="fas fa-angle-double-left"></i>
+            </a>
+        @endif
+
+        {{-- Botón Anterior --}}
+        @if ($products->onFirstPage())
+            <span class="px-4 py-3 text-gray-400 bg-gray-100 rounded-xl cursor-not-allowed select-none">
+                <i class="fas fa-angle-left"></i>
+            </span>
+        @else
+            <a href="{{ $products->previousPageUrl() }}" 
+               class="px-4 py-3 text-gray-600 bg-white border border-gray-200 rounded-xl hover:bg-gradient-to-r hover:from-emerald-500 hover:to-green-500 hover:text-white hover:border-transparent transition-all duration-300 transform hover:scale-105 hover:shadow-lg">
+                <i class="fas fa-angle-left"></i>
+            </a>
+        @endif
+
+        {{-- Enlaces de Páginas --}}
+        @foreach ($products->getUrlRange(max(1, $products->currentPage() - 2), min($products->lastPage(), $products->currentPage() + 2)) as $page => $url)
+            @if ($page == $products->currentPage())
+                <span class="px-5 py-3 text-white bg-gradient-to-r from-emerald-600 to-green-600 rounded-xl font-bold shadow-lg transform scale-110 border-2 border-emerald-300">
+                    {{ $page }}
+                </span>
+            @else
+                <a href="{{ $url }}" 
+                   class="px-5 py-3 text-gray-600 bg-white border border-gray-200 rounded-xl hover:bg-gradient-to-r hover:from-emerald-500 hover:to-green-500 hover:text-white hover:border-transparent transition-all duration-300 transform hover:scale-105 hover:shadow-lg font-medium">
+                    {{ $page }}
+                </a>
+            @endif
+        @endforeach
+
+        {{-- Puntos suspensivos si hay más páginas --}}
+        @if($products->currentPage() < $products->lastPage() - 3)
+            <span class="px-3 py-3 text-gray-400 select-none">...</span>
+            <a href="{{ $products->url($products->lastPage()) }}" 
+               class="px-5 py-3 text-gray-600 bg-white border border-gray-200 rounded-xl hover:bg-gradient-to-r hover:from-emerald-500 hover:to-green-500 hover:text-white hover:border-transparent transition-all duration-300 transform hover:scale-105 hover:shadow-lg font-medium">
+                {{ $products->lastPage() }}
+            </a>
+        @endif
+
+        {{-- Botón Siguiente --}}
+        @if ($products->hasMorePages())
+            <a href="{{ $products->nextPageUrl() }}" 
+               class="px-4 py-3 text-gray-600 bg-white border border-gray-200 rounded-xl hover:bg-gradient-to-r hover:from-emerald-500 hover:to-green-500 hover:text-white hover:border-transparent transition-all duration-300 transform hover:scale-105 hover:shadow-lg">
+                <i class="fas fa-angle-right"></i>
+            </a>
+        @else
+            <span class="px-4 py-3 text-gray-400 bg-gray-100 rounded-xl cursor-not-allowed select-none">
+                <i class="fas fa-angle-right"></i>
+            </span>
+        @endif
+
+        {{-- Botón Última Página --}}
+        @if ($products->hasMorePages())
+            <a href="{{ $products->url($products->lastPage()) }}" 
+               class="px-4 py-3 text-gray-600 bg-white border border-gray-200 rounded-xl hover:bg-gradient-to-r hover:from-emerald-500 hover:to-green-500 hover:text-white hover:border-transparent transition-all duration-300 transform hover:scale-105 hover:shadow-lg">
+                <i class="fas fa-angle-double-right"></i>
+            </a>
+        @else
+            <span class="px-4 py-3 text-gray-400 bg-gray-100 rounded-xl cursor-not-allowed select-none">
+                <i class="fas fa-angle-double-right"></i>
+            </span>
+        @endif
+    </div>
+
+    <!-- Navegación rápida -->
+    <div class="flex items-center space-x-4">
+        <span class="text-gray-500 text-sm font-medium">Ir a página:</span>
+        <select onchange="window.location.href=this.value" 
+                class="px-3 py-2 bg-white border border-gray-200 rounded-lg focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 transition-all duration-300 text-sm font-medium">
+            @for($i = 1; $i <= $products->lastPage(); $i++)
+                <option value="{{ $products->url($i) }}" {{ $i == $products->currentPage() ? 'selected' : '' }}>
+                    {{ $i }}
+                </option>
+            @endfor
+        </select>
+    </div>
+
+    <!-- Estadísticas del inventario -->
+    <div class="flex flex-wrap justify-center gap-4 text-sm">
+        <div class="flex items-center gap-2 bg-gradient-to-r from-emerald-50 to-green-50 px-4 py-2 rounded-xl border border-emerald-200">
+            <div class="w-3 h-3 bg-gradient-to-r from-emerald-500 to-green-500 rounded-full"></div>
+            <span class="text-gray-600">Total productos:</span>
+            <span class="font-bold text-emerald-700">{{ $products->total() }}</span>
+        </div>
+        <div class="flex items-center gap-2 bg-gradient-to-r from-blue-50 to-cyan-50 px-4 py-2 rounded-xl border border-blue-200">
+            <div class="w-3 h-3 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full"></div>
+            <span class="text-gray-600">Páginas:</span>
+            <span class="font-bold text-blue-700">{{ $products->lastPage() }}</span>
+        </div>
+        <div class="flex items-center gap-2 bg-gradient-to-r from-purple-50 to-pink-50 px-4 py-2 rounded-xl border border-purple-200">
+            <div class="w-3 h-3 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full"></div>
+            <span class="text-gray-600">Por página:</span>
+            <span class="font-bold text-purple-700">{{ $products->perPage() }}</span>
+        </div>
+    </div>
+
+    
 </div>
+@else
+<div class="mt-12 bg-white rounded-3xl shadow-xl p-8 border border-gray-100">
+    <div class="text-center">
+        <div class="w-16 h-16 mx-auto bg-gradient-to-br from-emerald-500 to-green-500 rounded-full flex items-center justify-center mb-4 shadow-lg">
+            <i class="fas fa-box-open text-white text-xl"></i>
+        </div>
+        <p class="text-gray-600 font-medium mb-4">Mostrando todos los {{ $products->total() }} productos del inventario</p>
+        <div class="flex justify-center">
+            <button onclick="openCreateModal()" 
+                    class="inline-flex items-center bg-gradient-to-r from-emerald-600 to-green-600 hover:from-emerald-700 hover:to-green-700 text-white font-bold py-3 px-6 rounded-xl transition-all duration-300 transform hover:scale-105 hover:shadow-lg">
+                <i class="fas fa-plus mr-2"></i>
+                {{ __('aniadir_nuevo_producto') }}
+            </button>
+        </div>
+    </div>
+</div>
+@endif
             </div>
         </div>
 
-        <!-- Modal de añadir nuevo producto -->
         <div id="createModal" class="fixed inset-0 z-50 flex items-center justify-center bg-gray-500 bg-opacity-50 overflow-y-auto py-10 px-4 hidden">
             <div class="bg-white rounded-lg w-full max-w-2xl mx-auto max-h-[90vh] overflow-y-auto p-6">
                 <h3 class="text-xl font-semibold mb-4">{{ __('aniadir_nuevo_producto') }}</h3>
 
-                <!-- Mensaje de respuesta -->
                 <div id="responseMessage" class="hidden p-2 mb-4 text-center text-white font-semibold rounded-lg"></div>
 
                 <form id="createProductForm" action="{{ route('admin.productos.store') }}" method="POST" enctype="multipart/form-data">
                     @csrf
-                    <!-- Nombre del producto -->
                     <div class="mb-4">
                         <label for="name" class="block text-sm font-medium text-gray-700">{{ __('nombre') }}</label>
                         <input type="text" name="name" id="name" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm" required>
                     </div>
 
-                    <!-- Descripción del producto -->
                     <div class="mb-4">
                         <label for="description" class="block text-sm font-medium text-gray-700">{{ __('descripcion') }}</label>
                         <textarea name="description" id="description" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm" rows="4" required></textarea>
                     </div>
 
-                    <!-- Precio del producto -->
                     <div class="mb-4">
                         <label for="price" class="block text-sm font-medium text-gray-700">{{ __('precio') }}</label>
                         <input type="number" step="0.01" name="price" id="price" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm" required>
                     </div>
 
-                    <!-- Categoría del producto -->
                     <div class="mb-4">
                         <label for="category" class="block text-sm font-medium text-gray-700">{{ __('categoria') }}</label>
                         <select name="category_id" id="category" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm" required>
@@ -125,14 +252,12 @@
                         </select>
                     </div>
 
-                    <!-- Imagen del producto -->
                     <div class="mb-4">
                         <label for="image" class="block text-sm font-medium text-gray-700">{{ __('imagen') }}</label>
                         <input type="file" name="image" id="image" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm" accept="image/*" onchange="previewNewImage(event)">
                         <div id="newImagePreview" class="mt-2"></div>
                     </div>
 
-                    <!-- Marca del dispositivo -->
                     <div class="mb-4">
                         <label for="brand_id" class="block text-sm font-medium text-gray-700">{{ __('marca') }}</label>
                         <select name="brand_id" id="brand_id" class="block w-full mt-1 border-gray-300 rounded-md shadow-sm">
@@ -144,7 +269,6 @@
                         <input type="text" name="new_brand" id="new_brand" class="mt-2 block w-full border-gray-300 rounded-md shadow-sm" placeholder="O escribe una nueva marca">
                     </div>
 
-                    <!-- Modelo del dispositivo -->
                     <div class="mb-4">
                         <label for="model_id" class="block text-sm font-medium text-gray-700">{{ __('modelo') }}</label>
                         <select name="model_id" id="model_id" class="block w-full mt-1 border-gray-300 rounded-md shadow-sm">
@@ -156,13 +280,11 @@
                         <input type="text" name="new_model" id="new_model" class="mt-2 block w-full border-gray-300 rounded-md shadow-sm" placeholder="O escribe un nuevo modelo">
                     </div>
 
-                    <!-- Stock del producto -->
                     <div class="mb-4">
                         <label for="stock" class="block text-sm font-medium text-gray-700">{{ __('stock') }}</label>
                         <input type="number" name="stock" id="stock" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">
                     </div>
 
-                    <!-- Estado del producto -->
                     <div class="mb-4">
                         <label for="status" class="block text-sm font-medium text-gray-700">{{ __('estado') }}</label>
                         <select name="status" id="status" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm" required>

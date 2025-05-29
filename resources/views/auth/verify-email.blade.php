@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+@section('title', __('verificar_correo'))
+
 @section('content')
 <div class="container mx-auto px-4 py-6">
     <div class="flex justify-center">

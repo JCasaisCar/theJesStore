@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', __('política_cookies'))
+@section('title', __('politica_cookies'))
 @section('content')
 
 <body id="cookiesPage">
@@ -19,7 +19,7 @@
                 </div>
 
                 <h1 class="text-4xl md:text-6xl font-black mb-6 bg-gradient-to-r from-white via-blue-200 to-cyan-200 bg-clip-text text-transparent">
-                    {{ __('política_cookies') }}
+                    {{ __('politica_cookies') }}
                 </h1>
                 <p class="text-xl text-gray-300 mb-8 max-w-2xl mx-auto leading-relaxed">
                     {{ __('información_cookies_uso') }}
@@ -32,7 +32,7 @@
                     <div class="mx-3 text-gray-400">
                         <i class="fas fa-chevron-right text-xs"></i>
                     </div>
-                    <span class="text-white font-medium">{{ __('política_cookies') }}</span>
+                    <span class="text-white font-medium">{{ __('politica_cookies') }}</span>
                 </div>
             </div>
         </div>
@@ -222,7 +222,7 @@
                         <p class="text-gray-800 font-medium mb-1">{{ __('utilizamos_cookies') }}</p>
                         <p class="text-sm text-gray-600">
                             {{ __('cookie_banner_text') }}
-                            <a href="{{ route('cookies') }}" class="text-blue-600 hover:text-blue-800 font-medium transition-colors">{{ __('política_cookies') }}</a>.
+                            <a href="{{ route('cookies') }}" class="text-blue-600 hover:text-blue-800 font-medium transition-colors">{{ __('politica_cookies') }}</a>.
                         </p>
                     </div>
                 </div>

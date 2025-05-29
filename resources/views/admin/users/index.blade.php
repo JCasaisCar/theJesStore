@@ -142,9 +142,119 @@
           </table>
         </div>
 
-        <div class="px-6 py-4 bg-gray-50 border-t border-gray-200">
-          {{ $users->links() }}
+@if($users->hasPages())
+<div class="px-6 py-8 bg-gradient-to-br from-gray-50 via-white to-gray-50 border-t border-gray-200">
+    <div class="flex flex-col items-center space-y-6">
+        <div class="text-center">
+            <p class="text-gray-600 font-medium">
+                Mostrando {{ $users->firstItem() ?? 0 }} - {{ $users->lastItem() ?? 0 }} 
+                de {{ $users->total() }} usuarios registrados
+            </p>
         </div>
+
+        <div class="flex items-center justify-center space-x-2 flex-wrap">
+            @if ($users->onFirstPage())
+                <span class="px-4 py-3 text-gray-400 bg-gray-100 rounded-xl cursor-not-allowed select-none">
+                    <i class="fas fa-angle-double-left"></i>
+                </span>
+            @else
+                <a href="{{ $users->url(1) }}" 
+                   class="px-4 py-3 text-gray-600 bg-white border border-gray-200 rounded-xl hover:bg-gradient-to-r hover:from-emerald-500 hover:to-green-500 hover:text-white hover:border-transparent transition-all duration-300 transform hover:scale-105 hover:shadow-lg">
+                    <i class="fas fa-angle-double-left"></i>
+                </a>
+            @endif
+
+            @if ($users->onFirstPage())
+                <span class="px-4 py-3 text-gray-400 bg-gray-100 rounded-xl cursor-not-allowed select-none">
+                    <i class="fas fa-angle-left"></i>
+                </span>
+            @else
+                <a href="{{ $users->previousPageUrl() }}" 
+                   class="px-4 py-3 text-gray-600 bg-white border border-gray-200 rounded-xl hover:bg-gradient-to-r hover:from-emerald-500 hover:to-green-500 hover:text-white hover:border-transparent transition-all duration-300 transform hover:scale-105 hover:shadow-lg">
+                    <i class="fas fa-angle-left"></i>
+                </a>
+            @endif
+
+            @foreach ($users->getUrlRange(max(1, $users->currentPage() - 2), min($users->lastPage(), $users->currentPage() + 2)) as $page => $url)
+                @if ($page == $users->currentPage())
+                    <span class="px-5 py-3 text-white bg-gradient-to-r from-emerald-600 to-green-600 rounded-xl font-bold shadow-lg transform scale-110 border-2 border-emerald-300">
+                        {{ $page }}
+                    </span>
+                @else
+                    <a href="{{ $url }}" 
+                       class="px-5 py-3 text-gray-600 bg-white border border-gray-200 rounded-xl hover:bg-gradient-to-r hover:from-emerald-500 hover:to-green-500 hover:text-white hover:border-transparent transition-all duration-300 transform hover:scale-105 hover:shadow-lg font-medium">
+                        {{ $page }}
+                    </a>
+                @endif
+            @endforeach
+
+            @if($users->currentPage() < $users->lastPage() - 3)
+                <span class="px-3 py-3 text-gray-400 select-none">...</span>
+                <a href="{{ $users->url($users->lastPage()) }}" 
+                   class="px-5 py-3 text-gray-600 bg-white border border-gray-200 rounded-xl hover:bg-gradient-to-r hover:from-emerald-500 hover:to-green-500 hover:text-white hover:border-transparent transition-all duration-300 transform hover:scale-105 hover:shadow-lg font-medium">
+                    {{ $users->lastPage() }}
+                </a>
+            @endif
+
+            @if ($users->hasMorePages())
+                <a href="{{ $users->nextPageUrl() }}" 
+                   class="px-4 py-3 text-gray-600 bg-white border border-gray-200 rounded-xl hover:bg-gradient-to-r hover:from-emerald-500 hover:to-green-500 hover:text-white hover:border-transparent transition-all duration-300 transform hover:scale-105 hover:shadow-lg">
+                    <i class="fas fa-angle-right"></i>
+                </a>
+            @else
+                <span class="px-4 py-3 text-gray-400 bg-gray-100 rounded-xl cursor-not-allowed select-none">
+                    <i class="fas fa-angle-right"></i>
+                </span>
+            @endif
+
+            @if ($users->hasMorePages())
+                <a href="{{ $users->url($users->lastPage()) }}" 
+                   class="px-4 py-3 text-gray-600 bg-white border border-gray-200 rounded-xl hover:bg-gradient-to-r hover:from-emerald-500 hover:to-green-500 hover:text-white hover:border-transparent transition-all duration-300 transform hover:scale-105 hover:shadow-lg">
+                    <i class="fas fa-angle-double-right"></i>
+                </a>
+            @else
+                <span class="px-4 py-3 text-gray-400 bg-gray-100 rounded-xl cursor-not-allowed select-none">
+                    <i class="fas fa-angle-double-right"></i>
+                </span>
+            @endif
+        </div>
+
+        <div class="flex items-center space-x-4">
+            <span class="text-gray-500 text-sm font-medium">Ir a página:</span>
+            <select onchange="window.location.href=this.value" 
+                    class="px-3 py-2 bg-white border border-gray-200 rounded-lg focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 transition-all duration-300 text-sm font-medium">
+                @for($i = 1; $i <= $users->lastPage(); $i++)
+                    <option value="{{ $users->url($i) }}" {{ $i == $users->currentPage() ? 'selected' : '' }}>
+                        {{ $i }}
+                    </option>
+                @endfor
+            </select>
+        </div>
+
+        <div class="flex flex-wrap justify-center gap-6 text-sm">
+            <div class="flex items-center gap-2 bg-white px-4 py-2 rounded-xl border border-gray-200 shadow-sm">
+                <div class="w-3 h-3 bg-gradient-to-r from-emerald-500 to-green-500 rounded-full"></div>
+                <span class="text-gray-600">Total de usuarios:</span>
+                <span class="font-bold text-gray-900">{{ $users->total() }}</span>
+            </div>
+            <div class="flex items-center gap-2 bg-white px-4 py-2 rounded-xl border border-gray-200 shadow-sm">
+                <div class="w-3 h-3 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full"></div>
+                <span class="text-gray-600">Páginas:</span>
+                <span class="font-bold text-gray-900">{{ $users->lastPage() }}</span>
+            </div>
+        </div>
+    </div>
+</div>
+@else
+<div class="px-6 py-8 bg-gradient-to-br from-gray-50 via-white to-gray-50 border-t border-gray-200">
+    <div class="text-center">
+        <div class="w-16 h-16 mx-auto bg-gradient-to-br from-emerald-500 to-green-500 rounded-full flex items-center justify-center mb-4 shadow-lg">
+            <i class="fas fa-users text-white text-xl"></i>
+        </div>
+        <p class="text-gray-600 font-medium">Mostrando todos los {{ $users->total() }} usuarios</p>
+    </div>
+</div>
+@endif
       </div>
     </div>
   </div>

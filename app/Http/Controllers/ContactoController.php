@@ -40,7 +40,7 @@ class ContactoController extends Controller
 
         Mail::to($contact->email)->send(new ContactUserConfirmation($contact));
 
-        Mail::to('adminthejesstore@yopmail.com')->send(new ContactAdminNotification($contact));
+        Mail::to('thejesstoremail@gmail.com')->send(new ContactAdminNotification($contact));
 
         return back()->with('success', __('contacto.mensaje_enviado'));
     }

@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', 'Crear Código de Descuento')
+@section('title',__('crear_codigo_descuento'))
 @section('content')
 
 <body id="discount-codes-create">

@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', __('política_privacidad'))
+@section('title', __('politica_privacidad'))
 @section('content')
 
 <body id="privacyPage">
@@ -19,7 +19,7 @@
                 </div>
 
                 <h1 class="text-4xl md:text-6xl font-black mb-6 bg-gradient-to-r from-white via-blue-200 to-cyan-200 bg-clip-text text-transparent">
-                    {{ __('política_privacidad') }}
+                    {{ __('politica_privacidad') }}
                 </h1>
                 <p class="text-xl text-gray-300 mb-8 max-w-2xl mx-auto leading-relaxed">
                     {{ __('informacion_datos_personales') }}
@@ -32,7 +32,7 @@
                     <div class="mx-3 text-gray-400">
                         <i class="fas fa-chevron-right text-xs"></i>
                     </div>
-                    <span class="text-white font-medium">{{ __('política_privacidad') }}</span>
+                    <span class="text-white font-medium">{{ __('politica_privacidad') }}</span>
                 </div>
             </div>
         </div>

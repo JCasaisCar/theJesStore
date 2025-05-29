@@ -5,19 +5,12 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Nuevo mensaje de contacto</title>
-  <style>
-    @isset($style) {
-      ! ! $style ! !
-    }
-
-    @endisset
-  </style>
 </head>
 
 <body id="contact-admin-email">
   <div class="email-container">
     <div class="email-header">
-      <img src="{{ asset('img/logo.png') }}" alt="TheJesStore Logo">
+      <img src="https://i.imgur.com/iRS2538.png" alt="TheJesStore Logo">
       <h1>Nuevo mensaje de contacto</h1>
     </div>
 
@@ -33,7 +26,7 @@
       </p>
 
       <p><strong>Mensaje:</strong></p>
-      <blockquote style="border-left: 4px solid #ccc; padding-left: 15px; color: #555;">
+      <blockquote id="blockquote1">
         {{ $contact->mensaje }}
       </blockquote>
 
@@ -48,7 +41,7 @@
       </p>
     </div>
 
-    <div class="email-footer" style="background-color: #f8f8f8; padding: 20px; text-align: center; color: #666; font-size: 14px;">
+    <div class="email-footer">
       &copy; 2025 TheJesStore. Todos los derechos reservados.
     </div>
   </div>

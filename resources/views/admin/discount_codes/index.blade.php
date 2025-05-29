@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', 'Códigos de Descuento')
+@section('title', __('codigos_descuento'))
 @section('content')
 
 <body id="discount-codes-index">
@@ -94,9 +94,133 @@
                             @endforeach
                         </tbody>
                     </table>
-                    <div class="px-4 py-6">
-    {{ $codes->links() }}
+@if($codes->hasPages())
+<div class="px-6 py-8 bg-gradient-to-br from-gray-50 via-white to-gray-50 border-t border-gray-200 rounded-b-2xl">
+    <div class="flex flex-col items-center space-y-6">
+        <div class="text-center">
+            <p class="text-gray-600 font-medium">
+                Mostrando {{ $codes->firstItem() ?? 0 }} - {{ $codes->lastItem() ?? 0 }} 
+                de {{ $codes->total() }} códigos promocionales
+            </p>
+        </div>
+
+        <div class="flex items-center justify-center space-x-2 flex-wrap">
+            @if ($codes->onFirstPage())
+                <span class="px-4 py-3 text-gray-400 bg-gray-100 rounded-xl cursor-not-allowed select-none">
+                    <i class="fas fa-angle-double-left"></i>
+                </span>
+            @else
+                <a href="{{ $codes->url(1) }}" 
+                   class="px-4 py-3 text-gray-600 bg-white border border-gray-200 rounded-xl hover:bg-gradient-to-r hover:from-emerald-500 hover:to-green-500 hover:text-white hover:border-transparent transition-all duration-300 transform hover:scale-105 hover:shadow-lg">
+                    <i class="fas fa-angle-double-left"></i>
+                </a>
+            @endif
+
+            @if ($codes->onFirstPage())
+                <span class="px-4 py-3 text-gray-400 bg-gray-100 rounded-xl cursor-not-allowed select-none">
+                    <i class="fas fa-angle-left"></i>
+                </span>
+            @else
+                <a href="{{ $codes->previousPageUrl() }}" 
+                   class="px-4 py-3 text-gray-600 bg-white border border-gray-200 rounded-xl hover:bg-gradient-to-r hover:from-emerald-500 hover:to-green-500 hover:text-white hover:border-transparent transition-all duration-300 transform hover:scale-105 hover:shadow-lg">
+                    <i class="fas fa-angle-left"></i>
+                </a>
+            @endif
+
+            @foreach ($codes->getUrlRange(max(1, $codes->currentPage() - 2), min($codes->lastPage(), $codes->currentPage() + 2)) as $page => $url)
+                @if ($page == $codes->currentPage())
+                    <span class="px-5 py-3 text-white bg-gradient-to-r from-emerald-600 to-green-600 rounded-xl font-bold shadow-lg transform scale-110 border-2 border-emerald-300">
+                        {{ $page }}
+                    </span>
+                @else
+                    <a href="{{ $url }}" 
+                       class="px-5 py-3 text-gray-600 bg-white border border-gray-200 rounded-xl hover:bg-gradient-to-r hover:from-emerald-500 hover:to-green-500 hover:text-white hover:border-transparent transition-all duration-300 transform hover:scale-105 hover:shadow-lg font-medium">
+                        {{ $page }}
+                    </a>
+                @endif
+            @endforeach
+
+            @if($codes->currentPage() < $codes->lastPage() - 3)
+                <span class="px-3 py-3 text-gray-400 select-none">...</span>
+                <a href="{{ $codes->url($codes->lastPage()) }}" 
+                   class="px-5 py-3 text-gray-600 bg-white border border-gray-200 rounded-xl hover:bg-gradient-to-r hover:from-emerald-500 hover:to-green-500 hover:text-white hover:border-transparent transition-all duration-300 transform hover:scale-105 hover:shadow-lg font-medium">
+                    {{ $codes->lastPage() }}
+                </a>
+            @endif
+
+            @if ($codes->hasMorePages())
+                <a href="{{ $codes->nextPageUrl() }}" 
+                   class="px-4 py-3 text-gray-600 bg-white border border-gray-200 rounded-xl hover:bg-gradient-to-r hover:from-emerald-500 hover:to-green-500 hover:text-white hover:border-transparent transition-all duration-300 transform hover:scale-105 hover:shadow-lg">
+                    <i class="fas fa-angle-right"></i>
+                </a>
+            @else
+                <span class="px-4 py-3 text-gray-400 bg-gray-100 rounded-xl cursor-not-allowed select-none">
+                    <i class="fas fa-angle-right"></i>
+                </span>
+            @endif
+
+            @if ($codes->hasMorePages())
+                <a href="{{ $codes->url($codes->lastPage()) }}" 
+                   class="px-4 py-3 text-gray-600 bg-white border border-gray-200 rounded-xl hover:bg-gradient-to-r hover:from-emerald-500 hover:to-green-500 hover:text-white hover:border-transparent transition-all duration-300 transform hover:scale-105 hover:shadow-lg">
+                    <i class="fas fa-angle-double-right"></i>
+                </a>
+            @else
+                <span class="px-4 py-3 text-gray-400 bg-gray-100 rounded-xl cursor-not-allowed select-none">
+                    <i class="fas fa-angle-double-right"></i>
+                </span>
+            @endif
+        </div>
+
+        <div class="flex items-center space-x-4">
+            <span class="text-gray-500 text-sm font-medium">Ir a página:</span>
+            <select onchange="window.location.href=this.value" 
+                    class="px-3 py-2 bg-white border border-gray-200 rounded-lg focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 transition-all duration-300 text-sm font-medium">
+                @for($i = 1; $i <= $codes->lastPage(); $i++)
+                    <option value="{{ $codes->url($i) }}" {{ $i == $codes->currentPage() ? 'selected' : '' }}>
+                        {{ $i }}
+                    </option>
+                @endfor
+            </select>
+        </div>
+
+        <div class="flex flex-wrap justify-center gap-4 text-sm">
+            <div class="flex items-center gap-2 bg-gradient-to-r from-emerald-50 to-green-50 px-4 py-2 rounded-xl border border-emerald-200 shadow-sm">
+                <div class="w-3 h-3 bg-gradient-to-r from-emerald-500 to-green-500 rounded-full"></div>
+                <span class="text-gray-600">Total códigos:</span>
+                <span class="font-bold text-emerald-700">{{ $codes->total() }}</span>
+            </div>
+            <div class="flex items-center gap-2 bg-gradient-to-r from-green-50 to-emerald-50 px-4 py-2 rounded-xl border border-green-200 shadow-sm">
+                <div class="w-3 h-3 bg-gradient-to-r from-green-500 to-emerald-500 rounded-full"></div>
+                <span class="text-gray-600">Códigos activos:</span>
+                <span class="font-bold text-green-700">{{ $codes->where('is_active', true)->count() }}</span>
+            </div>
+            <div class="flex items-center gap-2 bg-gradient-to-r from-red-50 to-rose-50 px-4 py-2 rounded-xl border border-red-200 shadow-sm">
+                <div class="w-3 h-3 bg-gradient-to-r from-red-500 to-rose-500 rounded-full"></div>
+                <span class="text-gray-600">Códigos inactivos:</span>
+                <span class="font-bold text-red-700">{{ $codes->where('is_active', false)->count() }}</span>
+            </div>
+        </div>
+
+        
+    </div>
 </div>
+@else
+<div class="px-6 py-8 bg-gradient-to-br from-gray-50 via-white to-gray-50 border-t border-gray-200 rounded-b-2xl">
+    <div class="text-center">
+        <div class="w-16 h-16 mx-auto bg-gradient-to-br from-emerald-500 to-green-500 rounded-full flex items-center justify-center mb-4 shadow-lg">
+            <i class="fas fa-tags text-white text-xl"></i>
+        </div>
+        <p class="text-gray-600 font-medium mb-4">Mostrando todos los {{ $codes->total() }} códigos promocionales</p>
+        <div class="flex justify-center">
+            <a href="{{ route('discount_codes.create') }}" 
+               class="inline-flex items-center bg-gradient-to-r from-emerald-600 to-green-600 hover:from-emerald-700 hover:to-green-700 text-white font-bold py-3 px-6 rounded-xl transition-all duration-300 transform hover:scale-105 hover:shadow-lg">
+                <i class="fas fa-plus mr-2"></i>
+                {{ __('nuevo_codigo') }}
+            </a>
+        </div>
+    </div>
+</div>
+@endif
                 </div>
             </div>
         </div>

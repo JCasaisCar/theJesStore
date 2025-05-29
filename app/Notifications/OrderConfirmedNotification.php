@@ -3,7 +3,10 @@
 namespace App\Notifications;
 
 use Illuminate\Notifications\Notification;
-use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Support\Facades\View;
+use Illuminate\Support\Facades\File;
+use Pelago\Emogrifier\CssInliner;
+use App\Mail\CustomOrderConfirmedMail;
 
 class OrderConfirmedNotification extends Notification
 {
@@ -23,15 +26,22 @@ class OrderConfirmedNotification extends Notification
 
     public function toMail($notifiable)
     {
-                    $style = file_get_contents(public_path('css/style.css'));
+        // Render Blade con datos
+        $html = View::make('emails.order-confirmed', [
+            'user' => $notifiable,
+            'order' => $this->order,
+            'invoiceUrl' => $this->invoiceUrl,
+        ])->render();
 
-        return (new MailMessage)
-            ->subject('Confirmación de tu pedido en TheJesStore')
-            ->view('emails.order-confirmed', [
-                'user' => $notifiable,
-                'order' => $this->order,
-                'invoiceUrl' => $this->invoiceUrl,
-            'style' => $style,
-            ]);
+        // Cargar y aplicar CSS inline
+        $cssPath = public_path('css/email/order-confirmed.css');
+        $css = File::exists($cssPath) ? File::get($cssPath) : '';
+        $inlinedHtml = CssInliner::fromHtml($html)->inlineCss($css)->render();
+
+        // Retornar mailable
+        return (new CustomOrderConfirmedMail(
+            '📦 Confirmación de tu pedido - TheJesStore',
+            $inlinedHtml
+        ))->to($notifiable->email);
     }
 }

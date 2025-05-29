@@ -2,79 +2,55 @@
 
 namespace App\Notifications;
 
-use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Notification;
-use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Support\Facades\View;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Mail;
+use Pelago\Emogrifier\CssInliner;
+use App\Mail\CustomVerifyEmailMail;
 use Illuminate\Support\Facades\URL;
 
 class CustomVerifyEmail extends Notification
 {
-    use Queueable;
-
-    /**
-     * @var mixed
-     */
     public $user;
 
-    /**
-     * Create a new notification instance.
-     *
-     * @param  mixed  $user
-     */
     public function __construct($user)
     {
         $this->user = $user;
     }
 
-    /**
-     * Get the notification's delivery channels.
-     *
-     * @param  mixed  $notifiable
-     * @return array
-     */
     public function via($notifiable)
     {
-        return ['mail'];
+        return ['mail']; // Laravel seguirá el flujo normal
     }
 
-    /**
-     * Get the mail representation of the notification.
-     *
-     * @param  mixed  $notifiable
-     * @return \Illuminate\Notifications\Messages\MailMessage
-     */
     public function toMail($notifiable)
-{
-    $url = URL::temporarySignedRoute(
-        'verification.verify', now()->addMinutes(60), [
-            'id' => $this->user->getKey(),
-            'hash' => sha1($this->user->getEmailForVerification()),
-        ]
-    );
+    {
+        // Generar enlace firmado
+        $url = URL::temporarySignedRoute(
+            'verification.verify',
+            now()->addMinutes(60),
+            [
+                'id' => $this->user->getKey(),
+                'hash' => sha1($this->user->getEmailForVerification()),
+            ]
+        );
 
-    $style = file_get_contents(public_path('css/style.css'));
-
-    return (new MailMessage)
-        ->subject('Verifica tu correo electrónico')
-        ->markdown('emails.verify-email', [
+        // Cargar la plantilla Blade
+        $html = View::make('emails.verify-email', [
             'user' => $this->user,
             'verificationUrl' => $url,
-            'style' => $style,
-        ]);
-}
+        ])->render();
 
+        // Cargar el CSS externo y aplicarlo como inline
+        $cssPath = public_path('css/email/verify-email.css');
+        $css = File::exists($cssPath) ? File::get($cssPath) : '';
+        $inlinedHtml = CssInliner::fromHtml($html)->inlineCss($css)->render();
 
-    /**
-     * Get the array representation of the notification.
-     *
-     * @param  mixed  $notifiable
-     * @return array
-     */
-    public function toArray($notifiable)
-    {
-        return [
-            //
-        ];
+        // Retornar directamente el mailable como tú haces
+        return (new CustomVerifyEmailMail(
+            '✅ Confirma tu correo electrónico - TheJesStore',
+            $inlinedHtml
+        ))->to($notifiable->email);
     }
 }

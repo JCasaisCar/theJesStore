@@ -99,11 +99,22 @@
                             <div class="w-20 h-1 bg-gradient-to-r from-blue-600 to-purple-600 mb-6 rounded-full"></div>
                             <p class="text-gray-600 mb-8">{{ __('formulario_descripcion') }}</p>
 
-                            <form action="{{ route('contact.store') }}" method="POST" class="space-y-6">
+                            <div class="mb-8">
+                                <div class="flex justify-between items-center mb-2">
+                                    <span class="text-sm font-medium text-gray-600">{{ __('progreso_formulario') }}</span>
+                                    <span id="progress-text" class="text-sm font-bold text-blue-600">0%</span>
+                                </div>
+                                <div class="w-full bg-gray-200 rounded-full h-2">
+                                    <div id="progress-bar" class="bg-gradient-to-r from-blue-500 to-purple-500 h-2 rounded-full transition-all duration-500"></div>
+                                </div>
+                            </div>
+
+                            <form action="{{ route('contact.store') }}" method="POST" class="space-y-6" id="contactForm">
                                 @csrf
                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                                     <div class="group">
                                         <label for="nombre" class="block text-sm font-bold text-gray-700 mb-2">
+                                            <i class="fas fa-user mr-2 text-gray-500"></i>
                                             {{ __('nombre') }} <span class="text-red-500">*</span>
                                         </label>
                                         <div class="relative">
@@ -112,13 +123,21 @@
                                             </div>
                                             <input type="text" id="nombre" name="nombre"
                                                 value="{{ auth()->user()->name ?? old('nombre') }}"
-                                                class="w-full pl-10 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-0 focus:border-gray-300 bg-gray-100 cursor-not-allowed"
+                                                class="w-full pl-10 pr-12 py-3 border-2 border-gray-200 rounded-xl focus:ring-0 focus:border-gray-300 bg-gray-100 cursor-not-allowed"
                                                 readonly required>
+                                            <div class="absolute inset-y-0 right-0 pr-3 flex items-center">
+                                                <i class="fas fa-check text-green-500"></i>
+                                            </div>
+                                        </div>
+                                        <div class="text-xs text-green-600 mt-1 flex items-center">
+                                            <i class="fas fa-info-circle mr-1"></i>
+                                            {{ __('nombre_verificado') }}
                                         </div>
                                     </div>
 
                                     <div class="group">
                                         <label for="email" class="block text-sm font-bold text-gray-700 mb-2">
+                                            <i class="fas fa-envelope mr-2 text-gray-500"></i>
                                             {{ __('email') }} <span class="text-red-500">*</span>
                                         </label>
                                         <div class="relative">
@@ -127,25 +146,44 @@
                                             </div>
                                             <input type="email" id="email" name="email"
                                                 value="{{ auth()->user()->email ?? old('email') }}"
-                                                class="w-full pl-10 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-0 focus:border-gray-300 bg-gray-100 cursor-not-allowed"
+                                                class="w-full pl-10 pr-12 py-3 border-2 border-gray-200 rounded-xl focus:ring-0 focus:border-gray-300 bg-gray-100 cursor-not-allowed"
                                                 readonly required>
+                                            <div class="absolute inset-y-0 right-0 pr-3 flex items-center">
+                                                <i class="fas fa-check text-green-500"></i>
+                                            </div>
+                                        </div>
+                                        <div class="text-xs text-green-600 mt-1 flex items-center">
+                                            <i class="fas fa-shield-alt mr-1"></i>
+                                            {{ __('email_verificado') }}
                                         </div>
                                     </div>
                                 </div>
 
                                 <div class="group">
-                                    <label for="telefono" class="block text-sm font-bold text-gray-700 mb-2">{{ __('telefono') }}</label>
+                                    <label for="telefono" class="block text-sm font-bold text-gray-700 mb-2">
+                                        <i class="fas fa-phone mr-2 text-gray-500"></i>
+                                        {{ __('telefono') }}
+                                    </label>
                                     <div class="relative">
                                         <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                                             <i class="fas fa-phone text-gray-400 group-focus-within:text-blue-600 transition-colors"></i>
                                         </div>
                                         <input type="tel" id="telefono" name="telefono"
-                                            class="w-full pl-10 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-blue-100 focus:border-blue-600 transition-all duration-300">
+                                            class="w-full pl-10 pr-12 py-3 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-blue-100 focus:border-blue-600 transition-all duration-300"
+                                            placeholder="+34 123 456 789">
+                                        <div class="absolute inset-y-0 right-0 pr-3 flex items-center">
+                                            <i id="telefono-icon" class="fas fa-question text-gray-400"></i>
+                                        </div>
+                                    </div>
+                                    <div id="telefono-message" class="text-xs mt-1 flex items-center hidden">
+                                        <i class="fas fa-info-circle mr-1"></i>
+                                        <span id="telefono-text">{{ __('formato_telefono_ejemplo') }}</span>
                                     </div>
                                 </div>
 
                                 <div class="group">
                                     <label for="asunto" class="block text-sm font-bold text-gray-700 mb-2">
+                                        <i class="fas fa-tag mr-2 text-gray-500"></i>
                                         {{ __('asunto') }} <span class="text-red-500">*</span>
                                     </label>
                                     <div class="relative">
@@ -153,42 +191,70 @@
                                             <i class="fas fa-tag text-gray-400 group-focus-within:text-blue-600 transition-colors"></i>
                                         </div>
                                         <input type="text" id="asunto" name="asunto"
-                                            class="w-full pl-10 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-blue-100 focus:border-blue-600 transition-all duration-300"
-                                            required>
+                                            class="w-full pl-10 pr-12 py-3 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-blue-100 focus:border-blue-600 transition-all duration-300"
+                                            placeholder="{{ __('describe_brevemente_tu_consulta') }}"
+                                            minlength="5" maxlength="100" required>
+                                        <div class="absolute inset-y-0 right-0 pr-3 flex items-center">
+                                            <i id="asunto-icon" class="fas fa-question text-gray-400"></i>
+                                        </div>
+                                    </div>
+                                    <div class="flex justify-between items-center mt-1">
+                                        <div id="asunto-message" class="text-xs flex items-center hidden">
+                                            <i class="fas fa-info-circle mr-1"></i>
+                                            <span id="asunto-text">{{ __('minimo_5_caracteres') }}</span>
+                                        </div>
+                                        <div class="text-xs text-gray-500">
+                                            <span id="asunto-count">0</span>/100
+                                        </div>
                                     </div>
                                 </div>
 
                                 <div class="group">
                                     <label for="mensaje" class="block text-sm font-bold text-gray-700 mb-2">
+                                        <i class="fas fa-comment mr-2 text-gray-500"></i>
                                         {{ __('mensaje') }} <span class="text-red-500">*</span>
                                     </label>
                                     <div class="relative">
-                                        <textarea id="mensaje" name="mensaje" rows="5"
+                                        <textarea id="mensaje" name="mensaje" rows="6"
                                             class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-blue-100 focus:border-blue-600 transition-all duration-300 resize-none"
-                                            required></textarea>
+                                            placeholder="{{ __('describe_detalladamente_tu_consulta') }}"
+                                            minlength="20" maxlength="1000" required></textarea>
+                                        <div class="absolute bottom-3 right-3">
+                                            <i id="mensaje-icon" class="fas fa-question text-gray-400"></i>
+                                        </div>
+                                    </div>
+                                    <div class="flex justify-between items-center mt-1">
+                                        <div id="mensaje-message" class="text-xs flex items-center hidden">
+                                            <i class="fas fa-info-circle mr-1"></i>
+                                            <span id="mensaje-text">{{ __('minimo_20_caracteres') }}</span>
+                                        </div>
+                                        <div class="text-xs text-gray-500">
+                                            <span id="mensaje-count">0</span>/1000
+                                        </div>
                                     </div>
                                 </div>
 
-                                <div class="flex items-start">
-                                    <div class="flex items-center h-5">
-                                        <input id="privacidad" name="privacidad" type="checkbox"
-                                            class="w-5 h-5 text-blue-600 border-2 border-gray-300 rounded focus:ring-4 focus:ring-blue-100 transition-all duration-300"
-                                            required>
-                                    </div>
-                                    <div class="ml-3 text-sm">
-                                        <label for="privacidad" class="font-medium text-gray-700">
-                                            {{ __('acepto_politica') }}
-                                            <a href="{{ route('privacy') }}" class="text-blue-600 hover:text-blue-800 font-bold transition-colors">
-                                                {{ __('politica_privacidad') }}
-                                            </a>
-                                        </label>
-                                    </div>
+                                <div class="flex items-start space-x-3 p-4 bg-gray-50 rounded-xl">
+                                    <input type="checkbox" 
+                                           id="privacidad" 
+                                           name="privacidad" 
+                                           required 
+                                           class="mt-1 w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
+                                    <label for="privacidad" class="text-sm text-gray-700 leading-relaxed">
+                                        <i class="fas fa-shield-alt mr-1 text-gray-500"></i>
+                                        {{ __('acepto_politica') }}
+                                        <a href="{{ route('privacy') }}" class="text-blue-600 hover:text-blue-800 font-bold transition-colors underline">
+                                            {{ __('politica_privacidad') }}
+                                        </a>
+                                    </label>
                                 </div>
 
                                 <div>
-                                    <button type="submit" class="group w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-bold py-4 px-6 rounded-2xl transition-all duration-300 transform hover:scale-105 hover:shadow-2xl flex items-center justify-center gap-3">
-                                        {{ __('enviar_mensaje') }}
-                                        <i class="fas fa-paper-plane group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform duration-300"></i>
+                                    <button type="submit" 
+                                            id="submit-btn"
+                                            class="group w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-bold py-4 px-6 rounded-2xl transition-all duration-300 transform hover:scale-105 hover:shadow-2xl flex items-center justify-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none">
+                                        <span id="submit-text">{{ __('enviar_mensaje') }}</span>
+                                        <i id="submit-icon" class="fas fa-paper-plane group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform duration-300"></i>
                                     </button>
                                 </div>
                             </form>
@@ -232,93 +298,21 @@
                 </div>
             </div>
         </div>
+    </div>
 
-        <div class="bg-white py-16">
-            <div class="container mx-auto px-4">
-                <div class="text-center mb-12">
-                    <h2 class="text-3xl md:text-4xl font-black text-gray-800 mb-4">{{ __('preguntas_frecuentes') }}</h2>
-                    <div class="w-20 h-1 bg-gradient-to-r from-blue-600 to-purple-600 mx-auto mb-6 rounded-full"></div>
-                    <p class="text-lg text-gray-600 max-w-2xl mx-auto">{{ __('faq_descripcion') }}</p>
-                </div>
-
-                <div class="max-w-3xl mx-auto space-y-4">
-                    <div class="bg-gradient-to-r from-gray-50 to-white rounded-2xl shadow-lg overflow-hidden border border-gray-100 transition-all duration-300 hover:shadow-xl">
-                        <button class="flex justify-between items-center w-full p-6 text-left focus:outline-none group" onclick="toggleFAQ(this)">
-                            <span class="font-bold text-gray-800 text-lg group-hover:text-blue-600 transition-colors">{{ __('pregunta_1') }}</span>
-                            <div class="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-500 rounded-xl flex items-center justify-center shadow">
-                                <i class="fas fa-chevron-down text-white transition-transform duration-300"></i>
-                            </div>
-                        </button>
-                        <div class="faq-answer hidden px-6 pb-6">
-                            <p class="text-gray-600 leading-relaxed">{{ __('respuesta_1') }}</p>
-                        </div>
-                    </div>
-
-                    <div class="bg-gradient-to-r from-gray-50 to-white rounded-2xl shadow-lg overflow-hidden border border-gray-100 transition-all duration-300 hover:shadow-xl">
-                        <button class="flex justify-between items-center w-full p-6 text-left focus:outline-none group" onclick="toggleFAQ(this)">
-                            <span class="font-bold text-gray-800 text-lg group-hover:text-blue-600 transition-colors">{{ __('pregunta_2') }}</span>
-                            <div class="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-500 rounded-xl flex items-center justify-center shadow">
-                                <i class="fas fa-chevron-down text-white transition-transform duration-300"></i>
-                            </div>
-                        </button>
-                        <div class="faq-answer hidden px-6 pb-6">
-                            <p class="text-gray-600 leading-relaxed">{{ __('respuesta_2') }}</p>
-                        </div>
-                    </div>
-
-                    <div class="bg-gradient-to-r from-gray-50 to-white rounded-2xl shadow-lg overflow-hidden border border-gray-100 transition-all duration-300 hover:shadow-xl">
-                        <button class="flex justify-between items-center w-full p-6 text-left focus:outline-none group" onclick="toggleFAQ(this)">
-                            <span class="font-bold text-gray-800 text-lg group-hover:text-blue-600 transition-colors">{{ __('pregunta_3') }}</span>
-                            <div class="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-500 rounded-xl flex items-center justify-center shadow">
-                                <i class="fas fa-chevron-down text-white transition-transform duration-300"></i>
-                            </div>
-                        </button>
-                        <div class="faq-answer hidden px-6 pb-6">
-                            <p class="text-gray-600 leading-relaxed">{{ __('respuesta_3') }}</p>
-                        </div>
-                    </div>
-
-                    <div class="text-center mt-10">
-                        <a href="{{ route('faq') }}" class="group inline-flex items-center bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-bold py-3 px-6 rounded-2xl transition-all duration-300 transform hover:scale-105 hover:shadow-xl">
-                            {{ __('ver_todas_faq') }}
-                            <i class="fas fa-arrow-right ml-3 group-hover:translate-x-1 transition-transform duration-300"></i>
-                        </a>
-                    </div>
-                </div>
-            </div>
+    
+<!-- Modal de mensajes enviados -->
+<div id="messagesModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+    <div class="bg-white rounded-2xl p-6 max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-xl relative">
+        <button onclick="closeMessagesModal()" class="absolute top-3 right-3 text-gray-500 hover:text-red-500 text-xl">
+            <i class="fas fa-times"></i>
+        </button>
+        <h3 class="text-2xl font-bold text-gray-800 mb-4">
+            {{ __('mensajes_enviados') }}
+        </h3>
+        <div id="messagesContent" class="space-y-4">
         </div>
-
-        <div id="messagesModal" class="fixed inset-0 z-50 hidden bg-black bg-opacity-50 backdrop-blur-sm flex items-center justify-center p-4">
-            <div class="bg-white rounded-3xl shadow-2xl w-full max-w-3xl relative overflow-hidden animate-fadeInScale">
-                <div class="bg-gradient-to-r from-blue-600 to-purple-600 p-6 text-white">
-                    <div class="flex justify-between items-center">
-                        <h2 class="text-2xl font-black flex items-center gap-3">
-                            <i class="fas fa-history"></i>
-                            {{ __('mensajes_enviados') }}
-                        </h2>
-                        <button onclick="closeMessagesModal()" class="w-10 h-10 bg-white/20 hover:bg-white/30 rounded-xl flex items-center justify-center transition-all duration-300">
-                            <i class="fas fa-times text-xl"></i>
-                        </button>
-                    </div>
-                </div>
-
-                <div id="messagesContent" class="p-6 max-h-[60vh] overflow-y-auto">
-                    <div class="flex items-center justify-center py-8">
-                        <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div id="translations"
-            data-json="{{ json_encode([
-        'asunto' => __('asunto'),
-        'mensaje' => __('mensaje'),
-        'respuesta' => __('respuesta'),
-        'respondido_el' => __('respondido_el'),
-        'enviado_el' => __('enviado_el'),
-        'sin_respuesta' => __('sin_respuesta'),
-     ], JSON_HEX_APOS | JSON_HEX_QUOT) }}">
-        </div>
+    </div>
+</div>
 </body>
 @endsection

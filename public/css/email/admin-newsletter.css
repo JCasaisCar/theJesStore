@@ -1,0 +1,40 @@
+body#admin-newsletter {
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f4;
+  padding: 30px;
+  color: #333;
+}
+
+.container {
+  max-width: 600px;
+  margin: auto;
+  background: white;
+  padding: 30px;
+  border-radius: 6px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.header h1 {
+  font-size: 24px;
+  text-align: center;
+  color: #192a56;
+}
+
+.content {
+  font-size: 16px;
+  line-height: 1.6;
+  margin: 20px 0;
+}
+
+.footer {
+  font-size: 13px;
+  color: #777;
+  text-align: center;
+  margin-top: 30px;
+}
+
+.unsubscribe {
+  color: #e84118;
+  text-decoration: none;
+  font-weight: bold;
+}

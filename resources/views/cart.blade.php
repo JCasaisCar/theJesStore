@@ -114,9 +114,95 @@
                                         </div>
                                     </div>
                                     @endforeach
-                                    <div class="mt-8">
-    {{ $items->withQueryString()->links() }}
+@if($items->hasPages())
+<div class="mt-8 flex flex-col items-center space-y-6 px-4">
+    <div class="text-center">
+        <p class="text-gray-600 font-medium">
+            Mostrando {{ $items->firstItem() ?? 0 }} - {{ $items->lastItem() ?? 0 }} 
+            de {{ $items->total() }} productos en tu carrito
+        </p>
+    </div>
+
+    <div class="flex items-center justify-center space-x-2 flex-wrap">
+        @if ($items->onFirstPage())
+            <span class="px-4 py-3 text-gray-400 bg-gray-100 rounded-xl cursor-not-allowed select-none">
+                <i class="fas fa-angle-double-left"></i>
+            </span>
+        @else
+            <a href="{{ $items->url(1) }}" 
+               class="px-4 py-3 text-gray-600 bg-white border border-gray-200 rounded-xl hover:bg-gradient-to-r hover:from-blue-500 hover:to-cyan-500 hover:text-white hover:border-transparent transition-all duration-300 transform hover:scale-105 hover:shadow-lg">
+                <i class="fas fa-angle-double-left"></i>
+            </a>
+        @endif
+
+        @if ($items->onFirstPage())
+            <span class="px-4 py-3 text-gray-400 bg-gray-100 rounded-xl cursor-not-allowed select-none">
+                <i class="fas fa-angle-left"></i>
+            </span>
+        @else
+            <a href="{{ $items->previousPageUrl() }}" 
+               class="px-4 py-3 text-gray-600 bg-white border border-gray-200 rounded-xl hover:bg-gradient-to-r hover:from-blue-500 hover:to-cyan-500 hover:text-white hover:border-transparent transition-all duration-300 transform hover:scale-105 hover:shadow-lg">
+                <i class="fas fa-angle-left"></i>
+            </a>
+        @endif
+
+        @foreach ($items->getUrlRange(max(1, $items->currentPage() - 2), min($items->lastPage(), $items->currentPage() + 2)) as $page => $url)
+            @if ($page == $items->currentPage())
+                <span class="px-5 py-3 text-white bg-gradient-to-r from-blue-600 to-cyan-600 rounded-xl font-bold shadow-lg transform scale-110 border-2 border-blue-300">
+                    {{ $page }}
+                </span>
+            @else
+                <a href="{{ $url }}" 
+                   class="px-5 py-3 text-gray-600 bg-white border border-gray-200 rounded-xl hover:bg-gradient-to-r hover:from-blue-500 hover:to-cyan-500 hover:text-white hover:border-transparent transition-all duration-300 transform hover:scale-105 hover:shadow-lg font-medium">
+                    {{ $page }}
+                </a>
+            @endif
+        @endforeach
+
+        @if($items->currentPage() < $items->lastPage() - 3)
+            <span class="px-3 py-3 text-gray-400 select-none">...</span>
+            <a href="{{ $items->url($items->lastPage()) }}" 
+               class="px-5 py-3 text-gray-600 bg-white border border-gray-200 rounded-xl hover:bg-gradient-to-r hover:from-blue-500 hover:to-cyan-500 hover:text-white hover:border-transparent transition-all duration-300 transform hover:scale-105 hover:shadow-lg font-medium">
+                {{ $items->lastPage() }}
+            </a>
+        @endif
+
+        @if ($items->hasMorePages())
+            <a href="{{ $items->nextPageUrl() }}" 
+               class="px-4 py-3 text-gray-600 bg-white border border-gray-200 rounded-xl hover:bg-gradient-to-r hover:from-blue-500 hover:to-cyan-500 hover:text-white hover:border-transparent transition-all duration-300 transform hover:scale-105 hover:shadow-lg">
+                <i class="fas fa-angle-right"></i>
+            </a>
+        @else
+            <span class="px-4 py-3 text-gray-400 bg-gray-100 rounded-xl cursor-not-allowed select-none">
+                <i class="fas fa-angle-right"></i>
+            </span>
+        @endif
+
+        @if ($items->hasMorePages())
+            <a href="{{ $items->url($items->lastPage()) }}" 
+               class="px-4 py-3 text-gray-600 bg-white border border-gray-200 rounded-xl hover:bg-gradient-to-r hover:from-blue-500 hover:to-cyan-500 hover:text-white hover:border-transparent transition-all duration-300 transform hover:scale-105 hover:shadow-lg">
+                <i class="fas fa-angle-double-right"></i>
+            </a>
+        @else
+            <span class="px-4 py-3 text-gray-400 bg-gray-100 rounded-xl cursor-not-allowed select-none">
+                <i class="fas fa-angle-double-right"></i>
+            </span>
+        @endif
+    </div>
+
+    <div class="flex items-center space-x-4">
+        <span class="text-gray-500 text-sm font-medium">Ir a página:</span>
+        <select onchange="window.location.href=this.value" 
+                class="px-3 py-2 bg-white border border-gray-200 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all duration-300 text-sm font-medium">
+            @for($i = 1; $i <= $items->lastPage(); $i++)
+                <option value="{{ $items->url($i) }}" {{ $i == $items->currentPage() ? 'selected' : '' }}>
+                    {{ $i }}
+                </option>
+            @endfor
+        </select>
+    </div>
 </div>
+@endif
                                 </div>
                                 <div class="bg-gray-50 p-4 sm:p-6 flex flex-wrap gap-3 justify-between items-center">
                                     <a href="{{ route('tienda') }}" class="inline-flex items-center text-blue-600 hover:text-blue-800 transition">

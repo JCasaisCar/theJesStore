@@ -1,38 +1,30 @@
-@extends('layouts.app') {{-- Extiende la plantilla base --}}
-@section('title', __('lista_de_deseos')) {{-- Título de la página traducido --}}
+@extends('layouts.app')
+@section('title', __('lista_de_deseos')) 
 @section('content')
 
-{{-- Sección superior con fondo decorativo y título de la lista de deseos --}}
 <div class="relative bg-gradient-to-br from-slate-900 via-blue-900 to-indigo-900 overflow-hidden">
     <div class="absolute inset-0 opacity-20">
-        {{-- Círculos animados de colores como fondo decorativo --}}
         <div class="absolute top-20 left-10 w-96 h-96 bg-blue-500 rounded-full mix-blend-multiply filter blur-xl animate-pulse"></div>
         <div class="absolute top-40 right-20 w-80 h-80 bg-cyan-500 rounded-full mix-blend-multiply filter blur-xl animate-pulse animation-delay-2000"></div>
         <div class="absolute bottom-10 left-1/3 w-72 h-72 bg-indigo-500 rounded-full mix-blend-multiply filter blur-xl animate-pulse animation-delay-4000"></div>
     </div>
 
-    {{-- Patrón de fondo en SVG --}}
     <div class="absolute inset-0 bg-[url('data:image/svg+xml,...')] opacity-30"></div>
 
-    {{-- Contenido centrado en pantalla --}}
     <div class="container mx-auto px-4 py-20 relative z-10">
         <div class="max-w-4xl mx-auto text-center">
-            {{-- Ícono corazón con fondo degradado --}}
             <div class="w-24 h-24 mx-auto bg-gradient-to-br from-blue-500 to-cyan-500 rounded-3xl flex items-center justify-center mb-8 shadow-2xl">
                 <i class="fas fa-heart text-white text-3xl"></i>
             </div>
 
-            {{-- Título principal con gradiente --}}
             <h1 class="text-4xl md:text-6xl font-black mb-6 bg-gradient-to-r from-white via-blue-200 to-cyan-200 bg-clip-text text-transparent">
                 {{ __('mi_lista_de') }} <span class="text-blue-300">{{ __('deseos') }}</span>
             </h1>
 
-            {{-- Texto descriptivo --}}
             <p class="text-xl text-gray-300 mb-8 max-w-2xl mx-auto leading-relaxed">
                 {{ __('guarda_tus_productos_favoritos') }}
             </p>
 
-            {{-- Breadcrumbs (inicio > lista de deseos) --}}
             <div class="flex items-center justify-center text-sm">
                 <a href="{{ route('home') }}" class="text-blue-300 hover:text-white transition-colors duration-300 font-medium flex items-center">
                     <i class="fas fa-home mr-2"></i>{{ __('inicio') }}
@@ -46,10 +38,8 @@
     </div>
 </div>
 
-{{-- Sección con productos guardados --}}
 <div class="bg-gradient-to-br from-gray-50 via-white to-gray-50 py-16">
     <div class="container mx-auto px-4">
-        {{-- Encabezado y botón para seguir comprando --}}
         <div class="flex flex-col md:flex-row justify-between items-center mb-10">
             <div>
                 <h2 class="text-3xl font-black text-gray-800 mb-2">{{ __('tus_productos_guardados') }}</h2>
@@ -60,11 +50,9 @@
             </a>
         </div>
 
-        {{-- Lista de productos en la wishlist --}}
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             @forelse($wishlist as $item)
             @php $product = $item->product; @endphp
-            {{-- Tarjeta del producto --}}
             <div class="bg-white rounded-3xl shadow-xl overflow-hidden hover:shadow-2xl transform transition duration-300">
                 <div class="relative">
                     <img src="{{ asset('img/products/' . $product->image) }}" alt="{{ $product->name }}" class="w-full h-52 object-cover">
@@ -84,7 +72,6 @@
                         @endif
                     </p>
 
-                    {{-- Botones: Añadir al carrito o quitar de la lista --}}
                     <div class="mt-4 flex gap-2">
                         @if($product->stock > 0)
                         <form action="{{ route('cart.add') }}" method="POST" class="w-full">
@@ -111,17 +98,101 @@
                 </div>
             </div>
             @empty
-            {{-- Si no hay productos en la lista --}}
             <div class="col-span-3 text-center text-gray-600 text-lg">
                 {{ __('lista_deseos_vacia') }}
             </div>
             @endforelse
-            <div class="mt-12 flex justify-center">
-    {{ $wishlist->withQueryString()->links() }}
+@if($wishlist->hasPages())
+<div class="mt-20 flex flex-col items-center space-y-6">
+    <div class="text-center">
+        <p class="text-gray-600 font-medium">
+            Mostrando {{ $wishlist->firstItem() ?? 0 }} - {{ $wishlist->lastItem() ?? 0 }} 
+            de {{ $wishlist->total() }} productos guardados
+        </p>
+    </div>
+
+    <div class="flex items-center justify-center space-x-2">
+        @if ($wishlist->onFirstPage())
+            <span class="px-4 py-3 text-gray-400 bg-gray-100 rounded-xl cursor-not-allowed select-none">
+                <i class="fas fa-angle-double-left"></i>
+            </span>
+        @else
+            <a href="{{ $wishlist->url(1) }}" 
+               class="px-4 py-3 text-gray-600 bg-white border border-gray-200 rounded-xl hover:bg-gradient-to-r hover:from-blue-500 hover:to-cyan-500 hover:text-white hover:border-transparent transition-all duration-300 transform hover:scale-105 hover:shadow-lg">
+                <i class="fas fa-angle-double-left"></i>
+            </a>
+        @endif
+
+        @if ($wishlist->onFirstPage())
+            <span class="px-4 py-3 text-gray-400 bg-gray-100 rounded-xl cursor-not-allowed select-none">
+                <i class="fas fa-angle-left"></i>
+            </span>
+        @else
+            <a href="{{ $wishlist->previousPageUrl() }}" 
+               class="px-4 py-3 text-gray-600 bg-white border border-gray-200 rounded-xl hover:bg-gradient-to-r hover:from-blue-500 hover:to-cyan-500 hover:text-white hover:border-transparent transition-all duration-300 transform hover:scale-105 hover:shadow-lg">
+                <i class="fas fa-angle-left"></i>
+            </a>
+        @endif
+
+        @foreach ($wishlist->getUrlRange(max(1, $wishlist->currentPage() - 2), min($wishlist->lastPage(), $wishlist->currentPage() + 2)) as $page => $url)
+            @if ($page == $wishlist->currentPage())
+                <span class="px-5 py-3 text-white bg-gradient-to-r from-blue-600 to-cyan-600 rounded-xl font-bold shadow-lg transform scale-110 border-2 border-blue-300">
+                    {{ $page }}
+                </span>
+            @else
+                <a href="{{ $url }}" 
+                   class="px-5 py-3 text-gray-600 bg-white border border-gray-200 rounded-xl hover:bg-gradient-to-r hover:from-blue-500 hover:to-cyan-500 hover:text-white hover:border-transparent transition-all duration-300 transform hover:scale-105 hover:shadow-lg font-medium">
+                    {{ $page }}
+                </a>
+            @endif
+        @endforeach
+
+        @if($wishlist->currentPage() < $wishlist->lastPage() - 3)
+            <span class="px-3 py-3 text-gray-400 select-none">...</span>
+            <a href="{{ $wishlist->url($wishlist->lastPage()) }}" 
+               class="px-5 py-3 text-gray-600 bg-white border border-gray-200 rounded-xl hover:bg-gradient-to-r hover:from-blue-500 hover:to-cyan-500 hover:text-white hover:border-transparent transition-all duration-300 transform hover:scale-105 hover:shadow-lg font-medium">
+                {{ $wishlist->lastPage() }}
+            </a>
+        @endif
+
+        @if ($wishlist->hasMorePages())
+            <a href="{{ $wishlist->nextPageUrl() }}" 
+               class="px-4 py-3 text-gray-600 bg-white border border-gray-200 rounded-xl hover:bg-gradient-to-r hover:from-blue-500 hover:to-cyan-500 hover:text-white hover:border-transparent transition-all duration-300 transform hover:scale-105 hover:shadow-lg">
+                <i class="fas fa-angle-right"></i>
+            </a>
+        @else
+            <span class="px-4 py-3 text-gray-400 bg-gray-100 rounded-xl cursor-not-allowed select-none">
+                <i class="fas fa-angle-right"></i>
+            </span>
+        @endif
+
+        @if ($wishlist->hasMorePages())
+            <a href="{{ $wishlist->url($wishlist->lastPage()) }}" 
+               class="px-4 py-3 text-gray-600 bg-white border border-gray-200 rounded-xl hover:bg-gradient-to-r hover:from-blue-500 hover:to-cyan-500 hover:text-white hover:border-transparent transition-all duration-300 transform hover:scale-105 hover:shadow-lg">
+                <i class="fas fa-angle-double-right"></i>
+            </a>
+        @else
+            <span class="px-4 py-3 text-gray-400 bg-gray-100 rounded-xl cursor-not-allowed select-none">
+                <i class="fas fa-angle-double-right"></i>
+            </span>
+        @endif
+    </div>
+
+    <div class="flex items-center space-x-4">
+        <span class="text-gray-500 text-sm font-medium">Ir a página:</span>
+        <select onchange="window.location.href=this.value" 
+                class="px-3 py-2 bg-white border border-gray-200 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all duration-300 text-sm font-medium">
+            @for($i = 1; $i <= $wishlist->lastPage(); $i++)
+                <option value="{{ $wishlist->url($i) }}" {{ $i == $wishlist->currentPage() ? 'selected' : '' }}>
+                    {{ $i }}
+                </option>
+            @endfor
+        </select>
+    </div>
 </div>
+@endif
         </div>
 
-        {{-- Mensaje adicional cuando la lista está vacía --}}
         @if($wishlist->isEmpty())
         <div class="mt-12 text-center">
             <div class="bg-white rounded-3xl shadow-xl p-10 max-w-lg mx-auto">

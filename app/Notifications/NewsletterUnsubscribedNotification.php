@@ -3,7 +3,10 @@
 namespace App\Notifications;
 
 use Illuminate\Notifications\Notification;
-use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Support\Facades\View;
+use Illuminate\Support\Facades\File;
+use Pelago\Emogrifier\CssInliner;
+use App\Mail\CustomNewsletterUnsubscribedMail;
 
 class NewsletterUnsubscribedNotification extends Notification
 {
@@ -21,13 +24,18 @@ class NewsletterUnsubscribedNotification extends Notification
 
     public function toMail($notifiable)
     {
-                    $style = file_get_contents(public_path('css/style.css'));
+        $html = View::make('emails.newsletter-unsubscribed', [
+            'email' => $this->email,
+        ])->render();
 
-        return (new MailMessage)
-            ->subject('Confirmación de baja de la newsletter')
-            ->view('emails.newsletter-unsubscribed', [
-                'email' => $this->email,
-            'style' => $style,
-            ]);
+        $cssPath = public_path('css/email/newsletter-unsubscribed.css');
+        $css = File::exists($cssPath) ? File::get($cssPath) : '';
+
+        $inlinedHtml = CssInliner::fromHtml($html)->inlineCss($css)->render();
+
+        return (new CustomNewsletterUnsubscribedMail(
+            '📭 Confirmación de baja de la newsletter',
+            $inlinedHtml
+        ))->to($this->email);
     }
 }

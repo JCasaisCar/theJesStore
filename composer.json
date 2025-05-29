@@ -12,6 +12,7 @@
         "laravel/framework": "^11.31",
         "laravel/tinker": "^2.9",
         "paypal/paypal-checkout-sdk": "^1.0",
+        "pelago/emogrifier": "^7.3",
         "stripe/stripe-php": "^17.2",
         "tijsverkoyen/css-to-inline-styles": "^2.3"
     },

@@ -4,13 +4,6 @@
 <head>
   <meta charset="UTF-8">
   <title>{{ $subject }}</title>
-  <style>
-    @isset($style) {
-      ! ! $style ! !
-    }
-
-    @endisset
-  </style>
 </head>
 
 <body id="admin-newsletter">

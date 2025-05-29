@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Mis Pedidos')
+@section('title', __('mis_pedidos'))
 
 @section('content')
 
@@ -250,9 +250,95 @@
                         </div>
                     </div>
                     @endforeach
-                    <div class="mt-10">
-    {{ $orders->withQueryString()->links() }}
+@if($orders->hasPages())
+<div class="mt-20 flex flex-col items-center space-y-6">
+    <div class="text-center">
+        <p class="text-gray-600 font-medium">
+            Mostrando {{ $orders->firstItem() ?? 0 }} - {{ $orders->lastItem() ?? 0 }} 
+            de {{ $orders->total() }} pedidos realizados
+        </p>
+    </div>
+
+    <div class="flex items-center justify-center space-x-2 flex-wrap">
+        @if ($orders->onFirstPage())
+            <span class="px-4 py-3 text-gray-400 bg-gray-100 rounded-xl cursor-not-allowed select-none">
+                <i class="fas fa-angle-double-left"></i>
+            </span>
+        @else
+            <a href="{{ $orders->url(1) }}" 
+               class="px-4 py-3 text-gray-600 bg-white border border-gray-200 rounded-xl hover:bg-gradient-to-r hover:from-blue-500 hover:to-cyan-500 hover:text-white hover:border-transparent transition-all duration-300 transform hover:scale-105 hover:shadow-lg">
+                <i class="fas fa-angle-double-left"></i>
+            </a>
+        @endif
+
+        @if ($orders->onFirstPage())
+            <span class="px-4 py-3 text-gray-400 bg-gray-100 rounded-xl cursor-not-allowed select-none">
+                <i class="fas fa-angle-left"></i>
+            </span>
+        @else
+            <a href="{{ $orders->previousPageUrl() }}" 
+               class="px-4 py-3 text-gray-600 bg-white border border-gray-200 rounded-xl hover:bg-gradient-to-r hover:from-blue-500 hover:to-cyan-500 hover:text-white hover:border-transparent transition-all duration-300 transform hover:scale-105 hover:shadow-lg">
+                <i class="fas fa-angle-left"></i>
+            </a>
+        @endif
+
+        @foreach ($orders->getUrlRange(max(1, $orders->currentPage() - 2), min($orders->lastPage(), $orders->currentPage() + 2)) as $page => $url)
+            @if ($page == $orders->currentPage())
+                <span class="px-5 py-3 text-white bg-gradient-to-r from-blue-600 to-cyan-600 rounded-xl font-bold shadow-lg transform scale-110 border-2 border-blue-300">
+                    {{ $page }}
+                </span>
+            @else
+                <a href="{{ $url }}" 
+                   class="px-5 py-3 text-gray-600 bg-white border border-gray-200 rounded-xl hover:bg-gradient-to-r hover:from-blue-500 hover:to-cyan-500 hover:text-white hover:border-transparent transition-all duration-300 transform hover:scale-105 hover:shadow-lg font-medium">
+                    {{ $page }}
+                </a>
+            @endif
+        @endforeach
+
+        @if($orders->currentPage() < $orders->lastPage() - 3)
+            <span class="px-3 py-3 text-gray-400 select-none">...</span>
+            <a href="{{ $orders->url($orders->lastPage()) }}" 
+               class="px-5 py-3 text-gray-600 bg-white border border-gray-200 rounded-xl hover:bg-gradient-to-r hover:from-blue-500 hover:to-cyan-500 hover:text-white hover:border-transparent transition-all duration-300 transform hover:scale-105 hover:shadow-lg font-medium">
+                {{ $orders->lastPage() }}
+            </a>
+        @endif
+
+        @if ($orders->hasMorePages())
+            <a href="{{ $orders->nextPageUrl() }}" 
+               class="px-4 py-3 text-gray-600 bg-white border border-gray-200 rounded-xl hover:bg-gradient-to-r hover:from-blue-500 hover:to-cyan-500 hover:text-white hover:border-transparent transition-all duration-300 transform hover:scale-105 hover:shadow-lg">
+                <i class="fas fa-angle-right"></i>
+            </a>
+        @else
+            <span class="px-4 py-3 text-gray-400 bg-gray-100 rounded-xl cursor-not-allowed select-none">
+                <i class="fas fa-angle-right"></i>
+            </span>
+        @endif
+
+        @if ($orders->hasMorePages())
+            <a href="{{ $orders->url($orders->lastPage()) }}" 
+               class="px-4 py-3 text-gray-600 bg-white border border-gray-200 rounded-xl hover:bg-gradient-to-r hover:from-blue-500 hover:to-cyan-500 hover:text-white hover:border-transparent transition-all duration-300 transform hover:scale-105 hover:shadow-lg">
+                <i class="fas fa-angle-double-right"></i>
+            </a>
+        @else
+            <span class="px-4 py-3 text-gray-400 bg-gray-100 rounded-xl cursor-not-allowed select-none">
+                <i class="fas fa-angle-double-right"></i>
+            </span>
+        @endif
+    </div>
+
+    <div class="flex items-center space-x-4">
+        <span class="text-gray-500 text-sm font-medium">Ir a página:</span>
+        <select onchange="window.location.href=this.value" 
+                class="px-3 py-2 bg-white border border-gray-200 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all duration-300 text-sm font-medium">
+            @for($i = 1; $i <= $orders->lastPage(); $i++)
+                <option value="{{ $orders->url($i) }}" {{ $i == $orders->currentPage() ? 'selected' : '' }}>
+                    {{ $i }}
+                </option>
+            @endfor
+        </select>
+    </div>
 </div>
+@endif
                 </div>
                 @endif
             </div>

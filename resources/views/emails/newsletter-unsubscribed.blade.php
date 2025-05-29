@@ -4,13 +4,6 @@
 <head>
   <meta charset="UTF-8">
   <title>Confirmación de baja</title>
-  <style>
-    @isset($style) {
-      ! ! $style ! !
-    }
-
-    @endisset
-  </style>
 </head>
 
 <body id="newsletter-unsubscribed">

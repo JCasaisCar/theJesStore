@@ -8,6 +8,8 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use App\Models\ShippingAddress;
 use App\Notifications\CustomVerifyEmail;
+use App\Notifications\CustomResetPassword;
+
 
 
 
@@ -62,5 +64,14 @@ class User extends Authenticatable implements MustVerifyEmail
 public function wishlist()
 {
     return $this->hasMany(Wishlist::class); // o belongsToMany si es tabla intermedia
+}
+
+
+
+
+
+public function sendPasswordResetNotification($token)
+{
+    $this->notify(new CustomResetPassword($token, $this->email));
 }
 }

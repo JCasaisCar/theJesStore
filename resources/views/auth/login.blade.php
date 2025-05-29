@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+@section('title', __('iniciar_sesion'))
+
 @section('content')
 <body id="loginPage">
 

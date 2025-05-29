@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', 'Enviar Newsletter')
+@section('title', __('enviar_newsletter'))
 
 @section('content')
 

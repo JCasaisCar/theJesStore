@@ -5,19 +5,12 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Bienvenido a TheJesStore</title>
-  <style>
-    @isset($style) {
-      ! ! $style ! !
-    }
-
-    @endisset
-  </style>
 </head>
 
 <body id="verify-email">
   <div class="email-container">
     <div class="email-header">
-      <img src="{{ asset('img/logo.png') }}" alt="TheJesStore Logo">
+      <img src="https://i.imgur.com/iRS2538.png" alt="TheJesStore Logo">
       <h1>¡Bienvenido a TheJesStore!</h1>
     </div>
 
@@ -46,15 +39,15 @@
 
       <div class="product-showcase">
         <div class="product-item">
-          <img src="{{ asset('img/products/galaxy_s23_ultra.jpg') }}" alt="Smartphone">
+          <img src="https://i.imgur.com/qYK9bk3.jpeg" alt="Smartphone">
           <div class="product-name">Smartphones Premium</div>
         </div>
         <div class="product-item">
-          <img src="{{ asset('img/products/ipad_pro_m2.jpg') }}" alt="Tablet">
+          <img src="https://i.imgur.com/GbJfjtN.jpeg" alt="Tablet">
           <div class="product-name">Tablets de Última Generación</div>
         </div>
         <div class="product-item">
-          <img src="{{ asset('img/products/funda_magsafe_transparente_iphone_14_pro_max.jpeg') }}" alt="Accesorios">
+          <img src="https://i.imgur.com/b4kBXJK.jpeg" alt="Accesorios">
           <div class="product-name">Accesorios Exclusivos</div>
         </div>
       </div>
@@ -62,7 +55,6 @@
       <p>Como miembro de TheJesStore disfrutarás de:</p>
       <ul>
         <li>Acceso a los últimos lanzamientos tecnológicos</li>
-        <li>Envío gratuito en compras superiores a 50€</li>
         <li>Garantía extendida en todos nuestros productos</li>
         <li>Ofertas exclusivas para miembros registrados</li>
       </ul>
