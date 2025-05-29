@@ -42,6 +42,8 @@ import './register.js';
 
 import './reset-password.js';
 
+import './address.js';
+
 import { toggleStatus } from './toggleStatus.js';
 
 document.addEventListener('DOMContentLoaded', () => {

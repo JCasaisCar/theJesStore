@@ -813,6 +813,8 @@
   "describe_detalladamente_tu_consulta": "Describe detalladamente tu consulta...",
   "minimo_20_caracteres": "Mínimo 20 caracteres requeridos",
   "mensaje_valido": "Mensaje válido",
-    "enviando_mensaje": "Enviando mensaje..."
+    "enviando_mensaje": "Enviando mensaje...",
+    "sin_respuesta": "Sin respuesta",
+    "respondido": "Respondido"
   
   }

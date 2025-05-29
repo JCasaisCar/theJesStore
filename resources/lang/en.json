@@ -783,6 +783,8 @@
   "describe_detalladamente_tu_consulta": "Describe your query in detail...",
   "minimo_20_caracteres": "Minimum 20 characters required",
   "mensaje_valido": "Valid message",
-  "enviando_mensaje": "Sending message..."
+  "enviando_mensaje": "Sending message...",
+  "sin_respuesta": "No response",
+  "respondido": "Replied"  
 
 }

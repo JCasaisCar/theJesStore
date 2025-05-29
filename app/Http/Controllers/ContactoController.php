@@ -69,12 +69,12 @@ class ContactoController extends Controller
         return redirect()->back()->with('success', __('respuesta_enviada_correctamente'));
     }
 
-    public function userMessages()
-    {
-        $messages = ContactMessage::where('user_id', Auth::check() ? Auth::id() : null)
-            ->latest()
-            ->get();
+    public function userMessages(Request $request)
+{
+    $messages = ContactMessage::where('user_id', Auth::id())
+        ->latest()
+        ->paginate(3);
 
-        return response()->json($messages);
-    }
+    return response()->json($messages);
+}
 }

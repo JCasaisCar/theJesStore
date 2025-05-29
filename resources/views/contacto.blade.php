@@ -333,6 +333,8 @@
         'respondido_el' => __('respondido_el'),
         'enviado_el' => __('enviado_el'),
         'sin_respuesta' => __('sin_respuesta'),
+        'respondido' => __('respondido'),
+        'pendiente' => __('pendiente'),
      ], JSON_HEX_APOS | JSON_HEX_QUOT) }}">
 </div>
 </body>
