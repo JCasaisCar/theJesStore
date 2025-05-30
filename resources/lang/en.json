@@ -774,7 +774,7 @@
       "progreso_formulario": "Form progress",
   "nombre_verificado": "Name verified",
   "email_verificado": "Email verified",
-  "formato_telefono_ejemplo": "Example: +34 612 345 678",
+  "formato_telefono_ejemplo": "Example: 612 345 678",
   "telefono_valido": "Valid phone number",
   "telefono_formato_invalido": "Invalid phone format",
   "describe_brevemente_tu_consulta": "Briefly describe your query...",
@@ -785,6 +785,7 @@
   "mensaje_valido": "Valid message",
   "enviando_mensaje": "Sending message...",
   "sin_respuesta": "No response",
-  "respondido": "Replied"  
+  "respondido": "Replied",
+  "cart.cupon_aplicado": "Cupón aplicado correctamente"  
 
 }

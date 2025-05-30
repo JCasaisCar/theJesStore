@@ -804,7 +804,7 @@
     "progreso_formulario": "Progreso del formulario",
   "nombre_verificado": "Nombre verificado",
   "email_verificado": "Correo electrónico verificado",
-  "formato_telefono_ejemplo": "Ejemplo: +34 612 345 678",
+  "formato_telefono_ejemplo": "Ejemplo: 612 345 678",
   "telefono_valido": "Teléfono válido",
   "telefono_formato_invalido": "Formato de teléfono inválido",
   "describe_brevemente_tu_consulta": "Describe brevemente tu consulta...",
@@ -815,6 +815,7 @@
   "mensaje_valido": "Mensaje válido",
     "enviando_mensaje": "Enviando mensaje...",
     "sin_respuesta": "Sin respuesta",
-    "respondido": "Respondido"
+    "respondido": "Respondido",
+    "cart.cupon_aplicado": "Cupón aplicado correctamente"
   
   }
